@@ -32,7 +32,7 @@ const CalcRoot = ({ login }) => {
   let inputClass = "rounded-xl p-2 my-5";
   return (
     <div>
-      <div className="w-full flex">
+      <div className="w-full flex h-screen">
         <form
           className="w-[20%] m-auto flex flex-col text-cyan-400 p-7 rounded-3xl bg-slate-700 "
           onSubmit={onSubmit}
