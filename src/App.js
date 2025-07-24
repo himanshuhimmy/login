@@ -1,22 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { Outlet } from "react-router-dom";
+import "./App.css";
+import FetchData from "./components/Fetch/FetchData";
+import Test from "./components/Fetch/Test";
+import LoginForm from "./components/LoginForm";
+import CounterTime from "./components/UseEffect-Timer/CounterTime";
+import DigitalClock from "./components/UseEffect-Timer/DigitalClock";
+import LapTimer from "./components/UseEffect-Timer/Lap-timer";
+import TimerSec from "./components/UseEffect-Timer/Timer-sec";
+import ChessRoot from "./components/Chess/ChessRoot";
+import TimerTow from "./components/UseEffect-Timer/TimerTow";
+import RootForm from "./components/MultiStepForm/RootForm";
+import Content from "./components/DilogBox/Content";
+
+import ProjectRoot from "./components/MiniProject-BudgetCal/ProjectRoot";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header className="">
+        <ProjectRoot />
+        {/* <Content /> */}
+        {/* <RootForm /> */}
+        {/* <ChessRoot /> */}
+        {/* <TimerSec /> */}
+        {/* <TimerTow /> */}
+        {/* <DigitalClock /> */}
+        {/* <LapTimer /> */}
+        {/* <CounterTime /> */}
+        {/* <FetchData /> */}
+        {/* <Test /> */}
+        {/* <LoginForm /> */}
       </header>
     </div>
   );
