@@ -26,12 +26,12 @@ const DataInput = ({ setTotalAmount }) => {
   function SelectValue(event) {
     let source = event.target.value;
     source === `income` ? setSelectedValues(true) : setSelectedValues(false);
-    console.log(source);
+    // console.log(source);
   }
 
   function onSubmitForm(event) {
     event.preventDefault();
-
+    console.log(selectedValues);
     selectedValues
       ? setIncomeState((prev) => [
           ...prev,
@@ -49,20 +49,20 @@ const DataInput = ({ setTotalAmount }) => {
         ]);
 
     incomeState.map((el) => {
-      setTotalAmount((prev) => ({
-        ...prev,
-        income: parseInt(prev.income) + parseInt(el.IncomeNew),
-      }));
+      selectedValues &&
+        setTotalAmount((prev) => ({
+          ...prev,
+          income: parseInt(prev.income) + parseInt(el.IncomeNew),
+        }));
     });
 
     expenceState.map((el) => {
-      setTotalAmount((prev) => ({
-        ...prev,
-        expense: parseInt(prev.expense) + parseInt(el.ExpenseNew),
-      }));
+      !selectedValues &&
+        setTotalAmount((prev) => ({
+          ...prev,
+          expense: parseInt(prev.expense) + parseInt(el.ExpenseNew),
+        }));
     });
-    // console.log(incomeState);
-    // console.log(expenceState);
   }
 
   return (
