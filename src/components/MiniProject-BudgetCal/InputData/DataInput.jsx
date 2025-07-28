@@ -53,15 +53,28 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
           },
         ]);
 
-    incomeState.map((el) => {
-      incomeTotal += parseInt(el.IncomeNew);
-    });
+    incomeState
+      .filter((el) => monthRef.current.value != el.month)
+      .map((el) => (incomeTotal += parseInt(el.IncomeNew)));
+
     setTotalAmount((prev) => ({ ...prev, income: incomeTotal }));
 
-    expenceState.map((el) => {
-      expenceTotal += parseInt(el.ExpenseNew);
-    });
+    expenceState
+      .filter((el) => monthRef.current.value != el.month)
+      .map((el) => {
+        expenceTotal += parseInt(el.ExpenseNew);
+      });
     setTotalAmount((prev) => ({ ...prev, expense: expenceTotal }));
+
+    // incomeState.map((el) => {
+    //   incomeTotal += parseInt(el.IncomeNew);
+    // });
+    // setTotalAmount((prev) => ({ ...prev, income: incomeTotal }));
+
+    // expenceState.map((el) => {
+    //   expenceTotal += parseInt(el.ExpenseNew);
+    // });
+    // setTotalAmount((prev) => ({ ...prev, expense: expenceTotal }));
   }
 
   return (
