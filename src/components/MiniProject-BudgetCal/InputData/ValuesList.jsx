@@ -13,6 +13,7 @@ const ValuesList = ({ income, expence }) => {
                 className="flex justify-between text-green-400 font-medium text-2xl mb-3"
               >
                 <p>{el.enteredDec}</p>
+                <p>{el.month}</p>
                 <p>+ {el.IncomeNew}</p>
               </div>
             );
@@ -27,6 +28,7 @@ const ValuesList = ({ income, expence }) => {
                 className="flex justify-between text-red-400 font-medium text-2xl mb-3"
               >
                 <p>{el.enteredDec}</p>
+                <p>{el.month}</p>
                 <p>- {el.ExpenseNew}</p>
               </div>
             );
