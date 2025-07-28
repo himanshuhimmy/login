@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import ValuesList from "./ValuesList";
 
-const DataInput = ({ expenceTotal, incomeTotal }) => {
+const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
   let inputClass = "rounded-xl p-2 m-5";
 
   let inputDescription = useRef();
@@ -55,12 +55,13 @@ const DataInput = ({ expenceTotal, incomeTotal }) => {
 
     incomeState.map((el) => {
       incomeTotal += parseInt(el.IncomeNew);
-      console.log(incomeTotal);
     });
+    setTotalAmount((prev) => ({ ...prev, income: incomeTotal }));
 
     expenceState.map((el) => {
       expenceTotal += parseInt(el.ExpenseNew);
     });
+    setTotalAmount((prev) => ({ ...prev, expense: expenceTotal }));
   }
 
   return (

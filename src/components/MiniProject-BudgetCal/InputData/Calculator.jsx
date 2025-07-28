@@ -27,7 +27,7 @@ const Calculator = () => {
         <DataInput
           incomeTotal={incomeTotal}
           expenceTotal={expenceTotal}
-          // setTotalAmount={setTotalAmount}
+          setTotalAmount={setTotalAmount}
         />
       </div>
     </div>
