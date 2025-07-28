@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ValuesList from "./ValuesList";
 
-const DataInput = ({ setTotalAmount }) => {
+const DataInput = ({ expenceTotal, incomeTotal }) => {
   let inputClass = "rounded-xl p-2 m-5";
 
   let inputDescription = useRef();
@@ -10,6 +10,7 @@ const DataInput = ({ setTotalAmount }) => {
   let [incomeState, setIncomeState] = useState([
     {
       enteredDec: ``,
+      month: ``,
       IncomeNew: 0,
     },
   ]);
@@ -17,26 +18,29 @@ const DataInput = ({ setTotalAmount }) => {
   let [expenceState, setExpenceState] = useState([
     {
       enteredDec: ``,
+      month: ``,
       ExpenseNew: 0,
     },
   ]);
+
+  let monthRef = useRef();
 
   let [selectedValues, setSelectedValues] = useState(false);
 
   function SelectValue(event) {
     let source = event.target.value;
     source === `income` ? setSelectedValues(true) : setSelectedValues(false);
-    // console.log(source);
   }
 
   function onSubmitForm(event) {
     event.preventDefault();
-    console.log(selectedValues);
+
     selectedValues
       ? setIncomeState((prev) => [
           ...prev,
           {
             enteredDec: inputDescription.current.value,
+            month: monthRef.current.value,
             IncomeNew: inputvalues.current.value,
           },
         ])
@@ -44,24 +48,18 @@ const DataInput = ({ setTotalAmount }) => {
           ...prevData,
           {
             enteredDec: inputDescription.current.value,
+            month: monthRef.current.value,
             ExpenseNew: inputvalues.current.value,
           },
         ]);
 
     incomeState.map((el) => {
-      selectedValues &&
-        setTotalAmount((prev) => ({
-          ...prev,
-          income: parseInt(prev.income) + parseInt(el.IncomeNew),
-        }));
+      incomeTotal += parseInt(el.IncomeNew);
+      console.log(incomeTotal);
     });
 
     expenceState.map((el) => {
-      !selectedValues &&
-        setTotalAmount((prev) => ({
-          ...prev,
-          expense: parseInt(prev.expense) + parseInt(el.ExpenseNew),
-        }));
+      expenceTotal += parseInt(el.ExpenseNew);
     });
   }
 
@@ -77,7 +75,7 @@ const DataInput = ({ setTotalAmount }) => {
         <div className="w-[60%]">
           <input
             ref={inputDescription}
-            className={`w-[40%] ${inputClass}`}
+            className={`w-[25%] ${inputClass}`}
             required
             placeholder="Description"
             type="text"
@@ -85,11 +83,19 @@ const DataInput = ({ setTotalAmount }) => {
 
           <input
             ref={inputvalues}
-            className={`w-[40%] ${inputClass}`}
+            className={`w-[25%] ${inputClass}`}
             required
             placeholder="value"
             type="number"
             minLength={1}
+          />
+
+          <input
+            ref={monthRef}
+            className={`w-[25%] ${inputClass}`}
+            required
+            placeholder="Enter Month"
+            type="month"
           />
         </div>
         <div className="w-[15%] flex justify-center">

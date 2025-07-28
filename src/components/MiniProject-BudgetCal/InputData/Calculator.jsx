@@ -3,7 +3,11 @@ import DataInput from "./DataInput";
 
 const Calculator = () => {
   let [totalAmount, setTotalAmount] = useState({ income: 0, expense: 0 });
-  console.log(totalAmount);
+  // console.log(totalAmount);
+
+  let incomeTotal = 0;
+  let expenceTotal = 0;
+
   return (
     <div className="w-[80%] p-6">
       <h1 className="font-semibold  text-5xl mb-4">Available Budget</h1>
@@ -20,7 +24,11 @@ const Calculator = () => {
         </h3>
       </div>
       <div>
-        <DataInput setTotalAmount={setTotalAmount} />
+        <DataInput
+          incomeTotal={incomeTotal}
+          expenceTotal={expenceTotal}
+          // setTotalAmount={setTotalAmount}
+        />
       </div>
     </div>
   );
