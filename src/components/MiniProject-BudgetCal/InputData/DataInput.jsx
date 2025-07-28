@@ -58,7 +58,7 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
       .map((el) => (incomeTotal += parseInt(el.IncomeNew)));
 
     setTotalAmount((prev) => ({ ...prev, income: incomeTotal }));
-
+    console.log(incomeTotal);
     expenceState
       .filter((el) => monthRef.current.value === el.month)
       .map((el) => {
