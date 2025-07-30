@@ -23,6 +23,8 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
     },
   ]);
 
+  let [tempExp, setTempExp] = useState([]);
+  let [tempInc, setTempInc] = useState([]);
   let monthRef = useRef();
 
   let [selectedValues, setSelectedValues] = useState(false);
@@ -56,9 +58,9 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
     incomeState
       .filter((el) => monthRef.current.value === el.month)
       .map((el) => (incomeTotal += parseInt(el.IncomeNew)));
-
     setTotalAmount((prev) => ({ ...prev, income: incomeTotal }));
     console.log(incomeTotal);
+
     expenceState
       .filter((el) => monthRef.current.value === el.month)
       .map((el) => {
@@ -66,15 +68,23 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
       });
     setTotalAmount((prev) => ({ ...prev, expense: expenceTotal }));
 
-    // incomeState.map((el) => {
-    //   incomeTotal += parseInt(el.IncomeNew);
-    // });
-    // setTotalAmount((prev) => ({ ...prev, income: incomeTotal }));
+    let filteredIncome = incomeState
+      .filter((el) => monthRef.current.value === el.month)
+      .map((el) => ({
+        enteredDec: el.enteredDec,
+        ExpenseNew: el.ExpenseNew,
+        month: el.month,
+      }));
+    setTempInc(filteredIncome);
 
-    // expenceState.map((el) => {
-    //   expenceTotal += parseInt(el.ExpenseNew);
-    // });
-    // setTotalAmount((prev) => ({ ...prev, expense: expenceTotal }));
+    let filteredExpence = expenceState
+      .filter((el) => monthRef.current.value === el.month)
+      .map((el) => ({
+        enteredDec: el.enteredDec,
+        ExpenseNew: el.ExpenseNew,
+        month: el.month,
+      }));
+    setTempExp(filteredExpence);
   }
 
   return (
@@ -117,8 +127,10 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
         </div>
       </form>
       <ValuesList
-        expence={expenceState}
-        income={incomeState}
+        // expence={expenceState}
+        expence={tempExp}
+        // income={incomeState}
+        income={tempInc}
         value={selectedValues}
       />
       ;
