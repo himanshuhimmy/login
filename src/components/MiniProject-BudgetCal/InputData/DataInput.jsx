@@ -7,6 +7,9 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
   let inputDescription = useRef();
   let inputvalues = useRef();
   let reset = useRef();
+
+  let [monthDisplay, setMonthDisplay] = useState(``);
+
   let [incomeState, setIncomeState] = useState(() => {
     const saved = localStorage.getItem("incomeState");
     return saved
@@ -114,6 +117,15 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
       }));
     setTempExp(filteredExpence);
 
+    let readableMonth = new Date(`${monthRef.current.value}-01`).toLocaleString(
+      "default",
+      {
+        month: "long",
+        year: "numeric",
+      }
+    );
+    setMonthDisplay(readableMonth);
+
     // reset.current.reset();
     // inputvalues.current.value = "";
     // inputDescription.current.value = "";
@@ -159,13 +171,16 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
           <button className=" bg-teal-400 rounded-xl p-4  m-2">Confirm</button>
         </div>
       </form>
-      <ValuesList
-        // expence={expenceState}
-        expence={tempExp}
-        // income={incomeState}
-        income={tempInc}
-        value={selectedValues}
-      />
+      <div>
+        <div className="font-semibold text-2xl  m-2">{monthDisplay}</div>
+        <ValuesList
+          // expence={expenceState}
+          expence={tempExp}
+          // income={incomeState}
+          income={tempInc}
+          value={selectedValues}
+        />
+      </div>
       ;
     </div>
   );
