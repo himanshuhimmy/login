@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DataInput from "./DataInput";
 
 const Calculator = () => {
-  let [totalAmount, setTotalAmount] = useState({ income: 0, expense: 0 });
-  // console.log(totalAmount);
+  let [totalAmount, setTotalAmount] = useState(() => {
+    let saved = localStorage.getItem(`totalAmount`);
+    return saved ? JSON.parse(saved) : { income: 0, expense: 0 };
+  });
+
+  useEffect(() => {
+    localStorage.setItem(`totalAmount`, JSON.stringify(totalAmount));
+  }, [totalAmount]);
 
   let incomeTotal = 0;
   let expenceTotal = 0;

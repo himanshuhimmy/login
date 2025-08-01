@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ValuesList from "./ValuesList";
 
 const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
@@ -7,21 +7,39 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
   let inputDescription = useRef();
   let inputvalues = useRef();
   let reset = useRef();
-  let [incomeState, setIncomeState] = useState([
-    {
-      enteredDec: ``,
-      month: ``,
-      IncomeNew: 0,
-    },
-  ]);
+  let [incomeState, setIncomeState] = useState(() => {
+    const saved = localStorage.getItem("incomeState");
+    return saved
+      ? JSON.parse(saved)
+      : [
+          {
+            enteredDec: "",
+            month: "",
+            IncomeNew: 0,
+          },
+        ];
+  });
 
-  let [expenceState, setExpenceState] = useState([
-    {
-      enteredDec: ``,
-      month: ``,
-      ExpenseNew: 0,
-    },
-  ]);
+  let [expenceState, setExpenceState] = useState(() => {
+    const saved = localStorage.getItem("expenceState");
+    return saved
+      ? JSON.parse(saved)
+      : [
+          {
+            enteredDec: "",
+            month: "",
+            ExpenseNew: 0,
+          },
+        ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("incomeState", JSON.stringify(incomeState));
+  }, [incomeState]);
+
+  useEffect(() => {
+    localStorage.setItem("expenceState", JSON.stringify(expenceState));
+  }, [expenceState]);
 
   let [tempExp, setTempExp] = useState([]);
   let [tempInc, setTempInc] = useState([]);
