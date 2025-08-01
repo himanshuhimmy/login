@@ -6,7 +6,7 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
 
   let inputDescription = useRef();
   let inputvalues = useRef();
-
+  let reset = useRef();
   let [incomeState, setIncomeState] = useState([
     {
       enteredDec: ``,
@@ -28,6 +28,7 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
   let monthRef = useRef();
 
   let [selectedValues, setSelectedValues] = useState(false);
+  console.log(selectedValues);
 
   function SelectValue(event) {
     let source = event.target.value;
@@ -58,7 +59,12 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
     incomeState
       .filter((el) => monthRef.current.value === el.month)
       .map((el) => (incomeTotal += parseInt(el.IncomeNew)));
-    setTotalAmount((prev) => ({ ...prev, income: incomeTotal }));
+
+    selectedValues &&
+      setTotalAmount((prev) => ({
+        ...prev,
+        income: incomeTotal + parseInt(inputvalues.current.value),
+      }));
     console.log(incomeTotal);
 
     expenceState
@@ -66,13 +72,17 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
       .map((el) => {
         expenceTotal += parseInt(el.ExpenseNew);
       });
-    setTotalAmount((prev) => ({ ...prev, expense: expenceTotal }));
+    !selectedValues &&
+      setTotalAmount((prev) => ({
+        ...prev,
+        expense: expenceTotal + parseInt(inputvalues.current.value),
+      }));
 
     let filteredIncome = incomeState
       .filter((el) => monthRef.current.value === el.month)
       .map((el) => ({
         enteredDec: el.enteredDec,
-        ExpenseNew: el.ExpenseNew,
+        IncomeNew: el.IncomeNew,
         month: el.month,
       }));
     setTempInc(filteredIncome);
@@ -85,11 +95,16 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
         month: el.month,
       }));
     setTempExp(filteredExpence);
+
+    // reset.current.reset();
+    // inputvalues.current.value = "";
+    // inputDescription.current.value = "";
+    // monthRef.current.value = "";
   }
 
   return (
     <div className="w-full ">
-      <form onSubmit={onSubmitForm} className="flex text-black">
+      <form ref={reset} onSubmit={onSubmitForm} className="flex text-black">
         <div className="w-[15%] flex justify-center">
           <select className="p-3" onChange={SelectValue} name="DataInput" id="">
             <option value="expense"> - </option>
