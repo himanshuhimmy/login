@@ -1,55 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import ValuesList from "./ValuesList";
 
-const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
+const DataInput = ({
+  setIncomeState,
+  setExpenceState,
+  monthValue,
+  filteredExpence,
+  filteredIncome,
+}) => {
   let inputClass = "rounded-xl p-2 m-5";
 
   let inputDescription = useRef();
   let inputvalues = useRef();
   let reset = useRef();
 
-  let [monthDisplay, setMonthDisplay] = useState(``);
-
-  let [incomeState, setIncomeState] = useState(() => {
-    const saved = localStorage.getItem("incomeState");
-    return saved
-      ? JSON.parse(saved)
-      : [
-          {
-            enteredDec: "",
-            month: "",
-            IncomeNew: 0,
-          },
-        ];
-  });
-
-  let [expenceState, setExpenceState] = useState(() => {
-    const saved = localStorage.getItem("expenceState");
-    return saved
-      ? JSON.parse(saved)
-      : [
-          {
-            enteredDec: "",
-            month: "",
-            ExpenseNew: 0,
-          },
-        ];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("incomeState", JSON.stringify(incomeState));
-  }, [incomeState]);
-
-  useEffect(() => {
-    localStorage.setItem("expenceState", JSON.stringify(expenceState));
-  }, [expenceState]);
-
-  let [tempExp, setTempExp] = useState([]);
-  let [tempInc, setTempInc] = useState([]);
-  let monthRef = useRef();
-
   let [selectedValues, setSelectedValues] = useState(false);
-  console.log(selectedValues);
 
   function SelectValue(event) {
     let source = event.target.value;
@@ -59,77 +24,27 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
   function onSubmitForm(event) {
     event.preventDefault();
 
+    const inputValue = inputvalues.current.value;
+    const decValue = inputDescription.current.value;
     selectedValues
       ? setIncomeState((prev) => [
           ...prev,
           {
-            enteredDec: inputDescription.current.value,
-            month: monthRef.current.value,
-            IncomeNew: inputvalues.current.value,
+            enteredDec: decValue,
+            month: monthValue,
+            IncomeNew: inputValue,
           },
         ])
       : setExpenceState((prevData) => [
           ...prevData,
           {
-            enteredDec: inputDescription.current.value,
-            month: monthRef.current.value,
-            ExpenseNew: inputvalues.current.value,
+            enteredDec: decValue,
+            month: monthValue,
+            ExpenseNew: inputValue,
           },
         ]);
 
-    incomeState
-      .filter((el) => monthRef.current.value === el.month)
-      .map((el) => (incomeTotal += parseInt(el.IncomeNew)));
-
-    selectedValues &&
-      setTotalAmount((prev) => ({
-        ...prev,
-        income: incomeTotal + parseInt(inputvalues.current.value),
-      }));
-    console.log(incomeTotal);
-
-    expenceState
-      .filter((el) => monthRef.current.value === el.month)
-      .map((el) => {
-        expenceTotal += parseInt(el.ExpenseNew);
-      });
-    !selectedValues &&
-      setTotalAmount((prev) => ({
-        ...prev,
-        expense: expenceTotal + parseInt(inputvalues.current.value),
-      }));
-
-    let filteredIncome = incomeState
-      .filter((el) => monthRef.current.value === el.month)
-      .map((el) => ({
-        enteredDec: el.enteredDec,
-        IncomeNew: el.IncomeNew,
-        month: el.month,
-      }));
-    setTempInc(filteredIncome);
-
-    let filteredExpence = expenceState
-      .filter((el) => monthRef.current.value === el.month)
-      .map((el) => ({
-        enteredDec: el.enteredDec,
-        ExpenseNew: el.ExpenseNew,
-        month: el.month,
-      }));
-    setTempExp(filteredExpence);
-
-    let readableMonth = new Date(`${monthRef.current.value}-01`).toLocaleString(
-      "default",
-      {
-        month: "long",
-        year: "numeric",
-      }
-    );
-    setMonthDisplay(readableMonth);
-
-    // reset.current.reset();
-    // inputvalues.current.value = "";
-    // inputDescription.current.value = "";
-    // monthRef.current.value = "";
+    reset.current.reset();
   }
 
   return (
@@ -158,26 +73,15 @@ const DataInput = ({ expenceTotal, incomeTotal, setTotalAmount }) => {
             type="number"
             minLength={1}
           />
-
-          <input
-            ref={monthRef}
-            className={`w-[25%] ${inputClass}`}
-            required
-            placeholder="Enter Month"
-            type="month"
-          />
         </div>
         <div className="w-[15%] flex justify-center">
           <button className=" bg-teal-400 rounded-xl p-4  m-2">Confirm</button>
         </div>
       </form>
       <div>
-        <div className="font-semibold text-2xl  m-2">{monthDisplay}</div>
         <ValuesList
-          // expence={expenceState}
-          expence={tempExp}
-          // income={incomeState}
-          income={tempInc}
+          expence={filteredExpence}
+          income={filteredIncome}
           value={selectedValues}
         />
       </div>

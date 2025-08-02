@@ -1,39 +1,102 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DataInput from "./DataInput";
 
 const Calculator = () => {
-  let [totalAmount, setTotalAmount] = useState(() => {
-    let saved = localStorage.getItem(`totalAmount`);
-    return saved ? JSON.parse(saved) : { income: 0, expense: 0 };
+  let [monthValue, setmonthValue] = useState();
+  let [incomeState, setIncomeState] = useState(() => {
+    const saved = localStorage.getItem("incomeState");
+    return saved
+      ? JSON.parse(saved)
+      : [
+          {
+            enteredDec: "",
+            month: "",
+            IncomeNew: 0,
+          },
+        ];
   });
 
-  useEffect(() => {
-    localStorage.setItem(`totalAmount`, JSON.stringify(totalAmount));
-  }, [totalAmount]);
+  let [expenceState, setExpenceState] = useState(() => {
+    const saved = localStorage.getItem("expenceState");
+    return saved
+      ? JSON.parse(saved)
+      : [
+          {
+            enteredDec: "",
+            month: "",
+            ExpenseNew: 0,
+          },
+        ];
+  });
 
-  let incomeTotal = 0;
-  let expenceTotal = 0;
+  let inputClass = "rounded-xl p-2 m-5";
+
+  useEffect(() => {
+    localStorage.setItem("incomeState", JSON.stringify(incomeState));
+  }, [incomeState]);
+
+  useEffect(() => {
+    localStorage.setItem("expenceState", JSON.stringify(expenceState));
+  }, [expenceState]);
+
+  let filteredIncome = incomeState
+    .filter((el) => monthValue?.current?.value === el.month)
+    .map((el) => ({
+      enteredDec: el.enteredDec,
+      IncomeNew: el.IncomeNew,
+      month: el.month,
+    }));
+
+  let IncomeMonth = filteredIncome.reduce(
+    (total, num) => total + Number(num.IncomeNew),
+    0
+  );
+
+  let filteredExpence = expenceState
+    .filter((el) => monthValue?.current?.value === el.month)
+    .map((el) => ({
+      enteredDec: el.enteredDec,
+      ExpenseNew: el.ExpenseNew,
+      month: el.month,
+    }));
+
+  let ExpenceMonth = filteredExpence.reduce(
+    (total, num) => total + num.ExpenseNew,
+    0
+  );
 
   return (
     <div className="w-[80%] p-6">
       <h1 className="font-semibold  text-5xl mb-4">Available Budget</h1>
       <h2 className="font-semibold text-4xl mb-6">
-        {totalAmount.income - totalAmount.expense}
+        {/* {totalAmount.income - totalAmount.expense} */}
       </h2>
 
       <div className="w-full">
         <h3 className="bg-teal-600 p-5 font-bold w-[40%] m-auto mb-5">
-          Income {totalAmount.income}
+          Income {IncomeMonth}
         </h3>
         <h3 className="bg-red-600 p-5 font-bold w-[40%] m-auto mb-5">
-          Expense {totalAmount.expense}
+          Expense {ExpenceMonth}
         </h3>
       </div>
+
+      <input
+        value={monthValue}
+        onChange={(e) => setmonthValue(e.target.value)}
+        className={`w-[25%] ${inputClass}`}
+        required
+        placeholder="Enter Month"
+        type="month"
+      />
+
       <div>
         <DataInput
-          incomeTotal={incomeTotal}
-          expenceTotal={expenceTotal}
-          setTotalAmount={setTotalAmount}
+          setExpenceState={setExpenceState}
+          setIncomeState={setIncomeState}
+          monthValue={monthValue}
+          filteredIncome={filteredIncome}
+          filteredExpence={filteredExpence}
         />
       </div>
     </div>
