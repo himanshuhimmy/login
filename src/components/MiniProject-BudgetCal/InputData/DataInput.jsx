@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ValuesList from "./ValuesList";
 
 const DataInput = ({
@@ -45,6 +45,7 @@ const DataInput = ({
         ]);
 
     reset.current.reset();
+    setSelectedValues(false);
   }
 
   return (

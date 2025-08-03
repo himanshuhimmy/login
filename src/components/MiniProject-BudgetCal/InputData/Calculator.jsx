@@ -40,36 +40,36 @@ const Calculator = () => {
   }, [expenceState]);
 
   let filteredIncome = incomeState
-    .filter((el) => monthValue?.current?.value === el.month)
+    .filter((el) => monthValue === el.month)
     .map((el) => ({
       enteredDec: el.enteredDec,
       IncomeNew: el.IncomeNew,
       month: el.month,
     }));
-
-  let IncomeMonth = filteredIncome.reduce(
-    (total, num) => total + Number(num.IncomeNew),
-    0
-  );
+  console.log(filteredIncome);
+  let IncomeMonth = filteredIncome.reduce((total, num) => {
+    total += parseInt(num.IncomeNew);
+    return total;
+  }, 0);
 
   let filteredExpence = expenceState
-    .filter((el) => monthValue?.current?.value === el.month)
+    .filter((el) => monthValue === el.month)
     .map((el) => ({
       enteredDec: el.enteredDec,
       ExpenseNew: el.ExpenseNew,
       month: el.month,
     }));
 
-  let ExpenceMonth = filteredExpence.reduce(
-    (total, num) => total + num.ExpenseNew,
-    0
-  );
+  let ExpenceMonth = filteredExpence.reduce((total, num) => {
+    total += parseInt(num.ExpenseNew);
+    return total;
+  }, 0);
 
   return (
     <div className="w-[80%] p-6">
       <h1 className="font-semibold  text-5xl mb-4">Available Budget</h1>
       <h2 className="font-semibold text-4xl mb-6">
-        {/* {totalAmount.income - totalAmount.expense} */}
+        {IncomeMonth - ExpenceMonth}
       </h2>
 
       <div className="w-full">
