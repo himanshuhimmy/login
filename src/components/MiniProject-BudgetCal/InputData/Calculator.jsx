@@ -46,7 +46,7 @@ const Calculator = () => {
       IncomeNew: el.IncomeNew,
       month: el.month,
     }));
-  console.log(filteredIncome);
+
   let IncomeMonth = filteredIncome.reduce((total, num) => {
     total += parseInt(num.IncomeNew);
     return total;
@@ -64,6 +64,17 @@ const Calculator = () => {
     total += parseInt(num.ExpenseNew);
     return total;
   }, 0);
+
+  function AlterIncome(id) {
+    incomeState.filter((el) => {
+      id !== el.id;
+    });
+  }
+  function AlterExpence(id) {
+    expenceState.filter((el) => {
+      id !== el.id;
+    });
+  }
 
   return (
     <div className="w-[80%] p-6">
@@ -92,6 +103,8 @@ const Calculator = () => {
 
       <div>
         <DataInput
+          removeincome={AlterIncome}
+          removeexpence={AlterExpence}
           setExpenceState={setExpenceState}
           setIncomeState={setIncomeState}
           monthValue={monthValue}

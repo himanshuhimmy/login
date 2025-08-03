@@ -7,6 +7,8 @@ const DataInput = ({
   monthValue,
   filteredExpence,
   filteredIncome,
+  removeincome,
+  removeexpence,
 }) => {
   let inputClass = "rounded-xl p-2 m-5";
 
@@ -33,6 +35,7 @@ const DataInput = ({
             enteredDec: decValue,
             month: monthValue,
             IncomeNew: inputValue,
+            id: 0,
           },
         ])
       : setExpenceState((prevData) => [
@@ -81,6 +84,8 @@ const DataInput = ({
       </form>
       <div>
         <ValuesList
+          removeexpence={removeexpence}
+          removeincome={removeincome}
           expence={filteredExpence}
           income={filteredIncome}
           value={selectedValues}
