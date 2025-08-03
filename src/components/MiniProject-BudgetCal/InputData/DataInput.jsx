@@ -35,7 +35,7 @@ const DataInput = ({
             enteredDec: decValue,
             month: monthValue,
             IncomeNew: inputValue,
-            id: 0,
+            id: new Date().getTime(),
           },
         ])
       : setExpenceState((prevData) => [
@@ -44,6 +44,7 @@ const DataInput = ({
             enteredDec: decValue,
             month: monthValue,
             ExpenseNew: inputValue,
+            id: new Date().getTime(),
           },
         ]);
 

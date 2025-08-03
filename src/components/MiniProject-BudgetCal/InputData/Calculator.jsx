@@ -12,6 +12,7 @@ const Calculator = () => {
             enteredDec: "",
             month: "",
             IncomeNew: 0,
+            id: 0,
           },
         ];
   });
@@ -25,6 +26,7 @@ const Calculator = () => {
             enteredDec: "",
             month: "",
             ExpenseNew: 0,
+            id: 0,
           },
         ];
   });
@@ -45,6 +47,7 @@ const Calculator = () => {
       enteredDec: el.enteredDec,
       IncomeNew: el.IncomeNew,
       month: el.month,
+      id: el.id,
     }));
 
   let IncomeMonth = filteredIncome.reduce((total, num) => {
@@ -58,6 +61,7 @@ const Calculator = () => {
       enteredDec: el.enteredDec,
       ExpenseNew: el.ExpenseNew,
       month: el.month,
+      id: el.id,
     }));
 
   let ExpenceMonth = filteredExpence.reduce((total, num) => {
@@ -66,14 +70,14 @@ const Calculator = () => {
   }, 0);
 
   function AlterIncome(id) {
-    incomeState.filter((el) => {
-      id !== el.id;
-    });
+    console.log(id);
+    setIncomeState((prev) => prev.filter((el) => el.id !== id));
   }
+  console.log(filteredIncome);
+
   function AlterExpence(id) {
-    expenceState.filter((el) => {
-      id !== el.id;
-    });
+    console.log(id);
+    setExpenceState((prev) => prev.filter((el) => el.id !== id));
   }
 
   return (

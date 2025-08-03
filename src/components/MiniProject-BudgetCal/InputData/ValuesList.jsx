@@ -14,7 +14,7 @@ const ValuesList = ({ income, expence, removeincome, removeexpence }) => {
                 <p>{el.month}</p>
                 <p>+ {el.IncomeNew}</p>
                 <button
-                  onClick={() => removeincome()}
+                  onClick={() => removeincome(el.id)}
                   className="bg-slate-400 p-3 rounded-xl mr-4 text-white"
                 >
                   Remove
@@ -35,7 +35,7 @@ const ValuesList = ({ income, expence, removeincome, removeexpence }) => {
                 <p>{el.month}</p>
                 <p>- {el.ExpenseNew}</p>
                 <button
-                  onClick={() => removeexpence()}
+                  onClick={() => removeexpence(el.id)}
                   className="bg-slate-400 p-3 rounded-xl mr-4 text-white"
                 >
                   Remove
