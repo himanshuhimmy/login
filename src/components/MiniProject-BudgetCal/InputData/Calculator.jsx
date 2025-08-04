@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import DataInput from "./DataInput";
+import Months from "../MonthsToMonths/Months";
 
 const Calculator = () => {
   let [monthValue, setmonthValue] = useState();
@@ -69,15 +70,36 @@ const Calculator = () => {
     return total;
   }, 0);
 
-  function AlterIncome(id) {
-    console.log(id);
-    setIncomeState((prev) => prev.filter((el) => el.id !== id));
+  function getLast6Months(monthValue) {
+    if (!monthValue) return [];
+    const [year, month] = monthValue.split("-").map(Number);
+    const months = [];
+    for (let i = 0; i < 6; i++) {
+      const d = new Date(year, month - 1 - i, 1);
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      months.push(`${y}-${m}`);
+    }
+    return months;
   }
-  console.log(filteredIncome);
 
-  function AlterExpence(id) {
-    console.log(id);
-    setExpenceState((prev) => prev.filter((el) => el.id !== id));
+  function AlterIncome() {
+    const last6Months = getLast6Months(monthValue);
+    const filtered = incomeState.filter((el) => last6Months.includes(el.month));
+    if (filtered.length === 0) return 0;
+    const sum = filtered.reduce((acc, el) => acc + parseInt(el.IncomeNew), 0);
+    console.log(sum);
+    return Math.round(sum / filtered.length);
+  }
+
+  function AlterExpence() {
+    const last6Months = getLast6Months(monthValue);
+    const filtered = expenceState.filter((el) =>
+      last6Months.includes(el.month)
+    );
+    if (filtered.length === 0) return 0;
+    const sum = filtered.reduce((acc, el) => acc + parseInt(el.ExpenseNew), 0);
+    return Math.round(sum / filtered.length);
   }
 
   return (
@@ -105,7 +127,18 @@ const Calculator = () => {
         type="month"
       />
 
+      <div className="p-3 w-[15%] bg-zinc-500 rounded-3xl absolute right-[2%] top-[10%]">
+        <h1 className="text-3xl font-semibold mb-4">Avrage of last 6 months</h1>
+        <p className="text-green-400 text-xl font-semibold mb-2">
+          Income {AlterIncome()}
+        </p>
+        <p className=" text-red-400 text-xl font-semibold">
+          Expence {AlterExpence()}
+        </p>
+      </div>
+
       <div>
+        {/* <Months /> */}
         <DataInput
           removeincome={AlterIncome}
           removeexpence={AlterExpence}
