@@ -32,6 +32,8 @@ const Calculator = () => {
         ];
   });
 
+  let [month, setMonth] = useState({ from: ``, to: `` });
+
   let inputClass = "rounded-xl p-2 m-5";
 
   useEffect(() => {
@@ -83,13 +85,26 @@ const Calculator = () => {
     return months;
   }
 
+  function EndtoEndMonth() {
+    incomeState.map((el) => {
+      if (month.from.includes(el.month) && month.to.includes(el.month)) {
+      }
+    });
+  }
+
   function AlterIncome() {
     const last6Months = getLast6Months(monthValue);
     const filtered = incomeState.filter((el) => last6Months.includes(el.month));
     if (filtered.length === 0) return 0;
     const sum = filtered.reduce((acc, el) => acc + parseInt(el.IncomeNew), 0);
     console.log(sum);
-    return Math.round(sum / filtered.length);
+    return sum === 0
+      ? "₹0"
+      : Math.round(sum / filtered.length).toLocaleString("en-IN", {
+          style: "currency",
+          currency: "INR",
+          maximumFractionDigits: 0,
+        });
   }
 
   function AlterExpence() {
@@ -99,7 +114,13 @@ const Calculator = () => {
     );
     if (filtered.length === 0) return 0;
     const sum = filtered.reduce((acc, el) => acc + parseInt(el.ExpenseNew), 0);
-    return Math.round(sum / filtered.length);
+    return sum === 0
+      ? "₹0"
+      : Math.round(sum / filtered.length).toLocaleString("en-IN", {
+          style: "currency",
+          currency: "INR",
+          maximumFractionDigits: 0,
+        });
   }
 
   return (
@@ -138,7 +159,7 @@ const Calculator = () => {
       </div>
 
       <div>
-        {/* <Months /> */}
+        <Months setMonth={setMonth} />
         <DataInput
           removeincome={AlterIncome}
           removeexpence={AlterExpence}

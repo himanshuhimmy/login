@@ -11,27 +11,30 @@ import ChessRoot from "./components/Chess/ChessRoot";
 import TimerTow from "./components/UseEffect-Timer/TimerTow";
 import RootForm from "./components/MultiStepForm/RootForm";
 import Content from "./components/DilogBox/Content";
-
 import ProjectRoot from "./components/MiniProject-BudgetCal/ProjectRoot";
+
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="">
-        <ProjectRoot />
-        {/* <Content /> */}
-        {/* <RootForm /> */}
-        {/* <ChessRoot /> */}
-        {/* <TimerSec /> */}
-        {/* <TimerTow /> */}
-        {/* <DigitalClock /> */}
-        {/* <LapTimer /> */}
-        {/* <CounterTime /> */}
-        {/* <FetchData /> */}
-        {/* <Test /> */}
-        {/* <LoginForm /> */}
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <header className="">
+          <ProjectRoot />
+          {/* <Content /> */}
+          {/* <RootForm /> */}
+          {/* <ChessRoot /> */}
+          {/* <TimerSec /> */}
+          {/* <TimerTow /> */}
+          {/* <DigitalClock /> */}
+          {/* <LapTimer /> */}
+          {/* <CounterTime /> */}
+          {/* <FetchData /> */}
+          {/* <Test /> */}
+          {/* <LoginForm /> */}
+        </header>
+      </div>
+    </BrowserRouter>
   );
 }
 
