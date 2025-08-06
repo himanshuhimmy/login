@@ -28,7 +28,7 @@ const ProjectRoot = () => {
           <div className="w-full flex">
             <SideNav />
             <Outlet />
-            {/* <Calculator /> */}
+            <Calculator />
           </div>
         </div>
       )}

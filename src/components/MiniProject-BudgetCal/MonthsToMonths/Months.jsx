@@ -1,6 +1,8 @@
 import { useRef } from "react";
 
-const Months = ({ setMonth }) => {
+import ValuesList from "../InputData/ValuesList";
+
+const Months = ({ setMonth, income, expence, removeincome, removeexpence }) => {
   let fromref = useRef();
   let toref = useRef();
 
@@ -24,6 +26,12 @@ const Months = ({ setMonth }) => {
         </div>
         <button>Show</button>
       </form>
+      <ValuesList
+        removeincome={removeincome}
+        removeexpence={removeexpence}
+        income={income}
+        expence={expence}
+      />
     </div>
   );
 };

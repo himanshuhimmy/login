@@ -81,16 +81,49 @@ const Calculator = () => {
       const y = d.getFullYear();
       const m = String(d.getMonth() + 1).padStart(2, "0");
       months.push(`${y}-${m}`);
+      console.log(months);
     }
     return months;
   }
 
-  function EndtoEndMonth() {
-    incomeState.map((el) => {
-      if (month.from.includes(el.month) && month.to.includes(el.month)) {
-      }
-    });
+  function monthsRange(from, to) {
+    if (!from || !to) {
+      return [];
+    }
+
+    let result = [];
+    let [fromYear, fromMonth] = from.split("-").map(Number);
+    let [toYear, toMonth] = to.split("-").map(Number);
+
+    let current = new Date(fromYear, fromMonth - 1, 1);
+    let end = new Date(toYear, toMonth - 1, 1);
+
+    while (current <= end) {
+      const y = current.getFullYear();
+      const m = String(current.getMonth() + 1).padStart(2, "0");
+      result.push(`${y}-${m}`);
+      current.setMonth(current.getMonth() + 1);
+    }
+    return result;
   }
+
+  function EndtoEndMonthIncome() {
+    const monthsInRange = monthsRange(month.from, month.to);
+    const filtered = incomeState.filter((el) =>
+      monthsInRange.includes(el.month)
+    );
+    return filtered;
+  }
+  let incomeRange = EndtoEndMonthIncome();
+
+  function EndtoEndMonthExpence() {
+    const monthsInRange = monthsRange(month.from, month.to);
+    let filtered = expenceState.filter((el) =>
+      monthsInRange.includes(el.month)
+    );
+    return filtered;
+  }
+  let expenceRange = EndtoEndMonthExpence();
 
   function AlterIncome() {
     const last6Months = getLast6Months(monthValue);
@@ -159,7 +192,14 @@ const Calculator = () => {
       </div>
 
       <div>
-        <Months setMonth={setMonth} />
+        <Months
+          setMonth={setMonth}
+          income={incomeRange}
+          expence={expenceRange}
+          removeincome={AlterIncome}
+          removeexpence={AlterExpence}
+        />
+
         <DataInput
           removeincome={AlterIncome}
           removeexpence={AlterExpence}
