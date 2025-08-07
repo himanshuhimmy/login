@@ -156,6 +156,14 @@ const Calculator = () => {
         });
   }
 
+  function RemoveIncome(id) {
+    setIncomeState((prev) => prev.filter((el) => el.id !== id));
+  }
+
+  function RemoveExpence(id) {
+    setExpenceState((prev) => prev.filter((el) => el.id !== id));
+  }
+
   return (
     <div className="w-[80%] p-6">
       <h1 className="font-semibold  text-5xl mb-4">Available Budget</h1>
@@ -192,17 +200,19 @@ const Calculator = () => {
       </div>
 
       <div>
-        <Months
-          setMonth={setMonth}
-          income={incomeRange}
-          expence={expenceRange}
-          removeincome={AlterIncome}
-          removeexpence={AlterExpence}
-        />
+        {
+          <Months
+            setMonth={setMonth}
+            income={incomeRange}
+            expence={expenceRange}
+            removeincome={RemoveIncome}
+            removeexpence={RemoveExpence}
+          />
+        }
 
         <DataInput
-          removeincome={AlterIncome}
-          removeexpence={AlterExpence}
+          removeincome={RemoveIncome}
+          removeexpence={RemoveExpence}
           setExpenceState={setExpenceState}
           setIncomeState={setIncomeState}
           monthValue={monthValue}
