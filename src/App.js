@@ -18,25 +18,24 @@ import RouterRoot from "./components/MiniProject-BudgetCal/routerSet/RouterRoot"
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <header className="">
-          <ProjectRoot />
-          {/* <RouterRoot /> */}
-          {/* <Content /> */}
-          {/* <RootForm /> */}
-          {/* <ChessRoot /> */}
-          {/* <TimerSec /> */}
-          {/* <TimerTow /> */}
-          {/* <DigitalClock /> */}
-          {/* <LapTimer /> */}
-          {/* <CounterTime /> */}
-          {/* <FetchData /> */}
-          {/* <Test /> */}
-          {/* <LoginForm /> */}
-        </header>
-      </div>
-    </BrowserRouter>
+    <div className="App">
+      <header className="">
+        <ProjectRoot />
+
+        {/* <RouterRoot /> */}
+        {/* <Content /> */}
+        {/* <RootForm /> */}
+        {/* <ChessRoot /> */}
+        {/* <TimerSec /> */}
+        {/* <TimerTow /> */}
+        {/* <DigitalClock /> */}
+        {/* <LapTimer /> */}
+        {/* <CounterTime /> */}
+        {/* <FetchData /> */}
+        {/* <Test /> */}
+        {/* <LoginForm /> */}
+      </header>
+    </div>
   );
 }
 

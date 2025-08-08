@@ -3,10 +3,25 @@ import CalcRoot from "./CalcRoot";
 import HeadBar from "./HeadBar";
 import SideNav from "./Sidebar/SideNav";
 import Calculator from "./InputData/Calculator";
-import { NavLink, Outlet } from "react-router-dom";
+import { stateContext } from "./Store-context/ProjectContext";
 
 const ProjectRoot = () => {
   let [login, setLogin] = useState(true);
+  let [toggle, setToggle] = useState({
+    calculator: true,
+    month: false,
+  });
+
+  function ForCalculator() {
+    setToggle({ calculator: true, month: false });
+  }
+
+  function ForMonth() {
+    setToggle({ calculator: false, month: true });
+  }
+
+  let ctxValue = toggle;
+  console.log(toggle);
 
   return (
     <div>
@@ -18,18 +33,25 @@ const ProjectRoot = () => {
             <HeadBar login={setLogin} />
           </div>
           <div className="flex justify-center text-4xl">
-            <NavLink className={`p-3 mx-4`} to={`/calculator`}>
-              Calculator
-            </NavLink>
-            <NavLink className={`p-3 mx-4`} to={`/months`}>
-              Months
-            </NavLink>
+            <h1
+              onClick={ForCalculator}
+              className={`p-3 mx-4`}
+              to={`/calculator`}
+            >
+              <button>Calculator</button>
+            </h1>
+            <h1 onClick={ForMonth} className={`p-3 mx-4`} to={`/months`}>
+              <button>Months</button>
+            </h1>
           </div>
-          <div className="w-full flex">
-            <SideNav />
-            <Outlet />
-            <Calculator />
-          </div>
+
+          <stateContext value={ctxValue}>
+            <div className="w-full flex">
+              <SideNav />
+              {/* <Outlet /> */}
+              <Calculator />
+            </div>
+          </stateContext>
         </div>
       )}
     </div>

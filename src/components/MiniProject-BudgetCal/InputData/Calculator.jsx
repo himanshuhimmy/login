@@ -1,8 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import DataInput from "./DataInput";
 import Months from "../MonthsToMonths/Months";
+import { stateContext } from "../Store-context/ProjectContext";
 
 const Calculator = () => {
+  let context = useContext(stateContext);
+  console.log(`${context.toggle.calculator}  ${context.toggle.month} Context`);
   let [monthValue, setmonthValue] = useState();
   let [incomeState, setIncomeState] = useState(() => {
     const saved = localStorage.getItem("incomeState");
@@ -166,41 +169,47 @@ const Calculator = () => {
 
   return (
     <div className="w-[80%] p-6">
-      <h1 className="font-semibold  text-5xl mb-4">Available Budget</h1>
-      <h2 className="font-semibold text-4xl mb-6">
-        {IncomeMonth - ExpenceMonth}
-      </h2>
+      {context.calculator && (
+        <div className="text-center">
+          <h1 className="font-semibold   text-5xl mb-4">Available Budget</h1>
+          <h2 className="font-semibold text-4xl mb-6">
+            {IncomeMonth - ExpenceMonth}
+          </h2>
 
-      <div className="w-full">
-        <h3 className="bg-teal-600 p-5 font-bold w-[40%] m-auto mb-5">
-          Income {IncomeMonth}
-        </h3>
-        <h3 className="bg-red-600 p-5 font-bold w-[40%] m-auto mb-5">
-          Expense {ExpenceMonth}
-        </h3>
-      </div>
+          <div className="w-full">
+            <h3 className="bg-teal-600 p-5 font-bold w-[40%] m-auto mb-5">
+              Income {IncomeMonth}
+            </h3>
+            <h3 className="bg-red-600 p-5 font-bold w-[40%] m-auto mb-5">
+              Expense {ExpenceMonth}
+            </h3>
+          </div>
 
-      <input
-        value={monthValue}
-        onChange={(e) => setmonthValue(e.target.value)}
-        className={`w-[25%] ${inputClass}`}
-        required
-        placeholder="Enter Month"
-        type="month"
-      />
+          <input
+            value={monthValue}
+            onChange={(e) => setmonthValue(e.target.value)}
+            className={`w-[25%] ${inputClass}`}
+            required
+            placeholder="Enter Month"
+            type="month"
+          />
 
-      <div className="p-3 w-[15%] bg-zinc-500 rounded-3xl absolute right-[2%] top-[10%]">
-        <h1 className="text-3xl font-semibold mb-4">Avrage of last 6 months</h1>
-        <p className="text-green-400 text-xl font-semibold mb-2">
-          Income {AlterIncome()}
-        </p>
-        <p className=" text-red-400 text-xl font-semibold">
-          Expence {AlterExpence()}
-        </p>
-      </div>
+          <div className="p-3 w-[15%] bg-zinc-500 rounded-3xl absolute right-[2%] top-[10%]">
+            <h1 className="text-3xl font-semibold mb-4">
+              Avrage of last 6 months
+            </h1>
+            <p className="text-green-400 text-xl font-semibold mb-2">
+              Income {AlterIncome()}
+            </p>
+            <p className=" text-red-400 text-xl font-semibold">
+              Expence {AlterExpence()}
+            </p>
+          </div>
+        </div>
+      )}
 
       <div>
-        {
+        {context.month && (
           <Months
             setMonth={setMonth}
             income={incomeRange}
@@ -208,7 +217,7 @@ const Calculator = () => {
             removeincome={RemoveIncome}
             removeexpence={RemoveExpence}
           />
-        }
+        )}
 
         <DataInput
           removeincome={RemoveIncome}
