@@ -1,12 +1,22 @@
-const ValuesList = ({ income, expence, removeincome, removeexpence }) => {
+import { useContext } from "react";
+import { stateContext } from "../Store-context/ProjectContext";
+const ValuesList = (
+  {
+    // income,
+    // expence,
+    //  removeincome, removeexpence
+  }
+) => {
+  let context = useContext(stateContext);
+
   return (
     <div className="w-full  mt-3 bg-yellow-100 h-svh rounded-t-2xl">
       <div className="w-full px-10 flex justify-between mt-7 ">
         <div className="w-[50%] p-7">
           <h1 className="text-5xl text-green-700 font-semibold">Income</h1>
-          {income === undefined
+          {context.incomeRange === undefined
             ? ``
-            : income.map((el, id) => {
+            : context.incomeRange.map((el, id) => {
                 return (
                   <div
                     key={id}
@@ -16,7 +26,7 @@ const ValuesList = ({ income, expence, removeincome, removeexpence }) => {
                     <p>{el.month}</p>
                     <p>+ {el.IncomeNew}</p>
                     <button
-                      onClick={() => removeincome(el.id)}
+                      onClick={() => context.RemoveIncome(el.id)}
                       className="bg-slate-400 p-3 rounded-xl mr-4 text-white"
                     >
                       Remove
@@ -27,9 +37,9 @@ const ValuesList = ({ income, expence, removeincome, removeexpence }) => {
         </div>
         <div className="w-[50%] p-7">
           <h1 className="text-5xl text-red-700 font-semibold">Expenses</h1>
-          {expence === undefined
+          {context.expenceRange === undefined
             ? ``
-            : expence.map((el, id) => {
+            : context.expenceRange.map((el, id) => {
                 return (
                   <div
                     key={id}
@@ -39,7 +49,7 @@ const ValuesList = ({ income, expence, removeincome, removeexpence }) => {
                     <p>{el.month}</p>
                     <p>- {el.ExpenseNew}</p>
                     <button
-                      onClick={() => removeexpence(el.id)}
+                      onClick={() => context.RemoveExpence(el.id)}
                       className="bg-slate-400 p-3 rounded-xl mr-4 text-white"
                     >
                       Remove

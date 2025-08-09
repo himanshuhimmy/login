@@ -32,10 +32,10 @@ const Months = ({ setMonth, income, expence, removeincome, removeexpence }) => {
         </div>
       </form>
       <ValuesList
-        removeincome={removeincome}
-        removeexpence={removeexpence}
-        income={income}
-        expence={expence}
+      // removeincome={removeincome}
+      // removeexpence={removeexpence}
+      // income={income}
+      // expence={expence}
       />
     </div>
   );
