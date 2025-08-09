@@ -1,8 +1,11 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 
 import ValuesList from "../InputData/ValuesList";
+import { stateContext } from "../Store-context/ProjectContext";
 
 const Months = ({ setMonth, income, expence, removeincome, removeexpence }) => {
+  let context = useContext(stateContext);
+
   let fromref = useRef();
   let toref = useRef();
 

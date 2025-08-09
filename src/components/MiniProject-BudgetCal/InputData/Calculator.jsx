@@ -5,7 +5,7 @@ import { stateContext } from "../Store-context/ProjectContext";
 
 const Calculator = () => {
   let context = useContext(stateContext);
-  console.log(`${context.toggle.calculator}  ${context.toggle.month} Context`);
+
   let [monthValue, setmonthValue] = useState();
   let [incomeState, setIncomeState] = useState(() => {
     const saved = localStorage.getItem("incomeState");

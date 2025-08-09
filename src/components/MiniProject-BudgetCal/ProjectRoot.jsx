@@ -45,13 +45,13 @@ const ProjectRoot = () => {
             </h1>
           </div>
 
-          <stateContext value={ctxValue}>
+          <stateContext.Provider value={ctxValue}>
             <div className="w-full flex">
               <SideNav />
               {/* <Outlet /> */}
               <Calculator />
             </div>
-          </stateContext>
+          </stateContext.Provider>
         </div>
       )}
     </div>
