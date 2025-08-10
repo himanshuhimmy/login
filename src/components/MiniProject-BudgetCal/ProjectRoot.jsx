@@ -4,6 +4,7 @@ import HeadBar from "./HeadBar";
 import SideNav from "./Sidebar/SideNav";
 import Calculator from "./InputData/Calculator";
 import { stateContext } from "./Store-context/ProjectContext";
+import { Outlet } from "react-router-dom";
 
 const ProjectRoot = () => {
   let [login, setLogin] = useState(true);
@@ -236,8 +237,8 @@ const ProjectRoot = () => {
           <stateContext.Provider value={ctxValue}>
             <div className="w-full flex">
               <SideNav />
-              {/* <Outlet /> */}
-              <Calculator />
+              <Outlet />
+              {/* <Calculator /> */}
             </div>
           </stateContext.Provider>
         </div>
