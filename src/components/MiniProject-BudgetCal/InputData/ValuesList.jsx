@@ -9,14 +9,22 @@ const ValuesList = (
 ) => {
   let context = useContext(stateContext);
 
+  let mappingIncome = context.monthToMonth
+    ? context.incomeRange
+    : context.filteredIncome;
+
+  let mappingExpence = context.monthToMonth
+    ? context.expenceRange
+    : context.filteredExpence;
+
   return (
     <div className="w-full  mt-3 bg-yellow-100 h-svh rounded-t-2xl">
       <div className="w-full px-10 flex justify-between mt-7 ">
         <div className="w-[50%] p-7">
           <h1 className="text-5xl text-green-700 font-semibold">Income</h1>
-          {context.incomeRange === undefined
+          {mappingIncome === undefined
             ? ``
-            : context.incomeRange.map((el, id) => {
+            : mappingIncome.map((el, id) => {
                 return (
                   <div
                     key={id}
@@ -37,9 +45,9 @@ const ValuesList = (
         </div>
         <div className="w-[50%] p-7">
           <h1 className="text-5xl text-red-700 font-semibold">Expenses</h1>
-          {context.expenceRange === undefined
+          {mappingExpence === undefined
             ? ``
-            : context.expenceRange.map((el, id) => {
+            : mappingExpence.map((el, id) => {
                 return (
                   <div
                     key={id}

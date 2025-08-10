@@ -9,6 +9,7 @@ const DataInput = ({
   filteredIncome,
   removeincome,
   removeexpence,
+  monthToMonth,
 }) => {
   let inputClass = "rounded-xl p-2 m-5";
 
@@ -28,6 +29,7 @@ const DataInput = ({
 
     const inputValue = inputvalues.current.value;
     const decValue = inputDescription.current.value;
+
     selectedValues
       ? setIncomeState((prev) => [
           ...prev,
@@ -50,6 +52,7 @@ const DataInput = ({
 
     reset.current.reset();
     setSelectedValues(false);
+    monthToMonth(false);
   }
 
   return (

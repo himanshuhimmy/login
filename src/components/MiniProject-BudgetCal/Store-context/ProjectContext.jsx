@@ -15,4 +15,11 @@ export let stateContext = createContext({
   AlterExpence: () => {},
   incomeRange: () => {},
   expenceRange: () => {},
+  setmonthValue: () => {},
+  monthValue: ``,
+  setExpenceState: () => {},
+  setIncomeState: () => {},
+  setMonth: () => {},
+  monthToMonth: ``,
+  setMonthToMonth: () => {},
 });

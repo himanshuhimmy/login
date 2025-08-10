@@ -1,9 +1,13 @@
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 
 import ValuesList from "../InputData/ValuesList";
 import { stateContext } from "../Store-context/ProjectContext";
 
-const Months = ({ setMonth, income, expence, removeincome, removeexpence }) => {
+const Months = (
+  {
+    // setMonth, income, expence, removeincome, removeexpence
+  }
+) => {
   let context = useContext(stateContext);
 
   let fromref = useRef();
@@ -13,7 +17,8 @@ const Months = ({ setMonth, income, expence, removeincome, removeexpence }) => {
     event.preventDefault();
     let MonthFrom = fromref.current.value;
     let monthTo = toref.current.value;
-    setMonth({ from: MonthFrom, to: monthTo });
+    context.setMonth({ from: MonthFrom, to: monthTo });
+    context.setMonthToMonth(true);
   }
 
   return (

@@ -187,7 +187,7 @@ const Calculator = () => {
 
           <input
             value={monthValue}
-            onChange={(e) => setmonthValue(e.target.value)}
+            onChange={(e) => context.setmonthValue(e.target.value)}
             className={`w-[25%] ${inputClass}`}
             required
             placeholder="Enter Month"
@@ -211,22 +211,23 @@ const Calculator = () => {
       <div>
         {context.toggle.month && (
           <Months
-            setMonth={setMonth}
-            // income={incomeRange}
-            // expence={expenceRange}
-            // removeincome={RemoveIncome}
-            // removeexpence={RemoveExpence}
+          // setMonth={setMonth}
+          // income={incomeRange}
+          // expence={expenceRange}
+          // removeincome={RemoveIncome}
+          // removeexpence={RemoveExpence}
           />
         )}
 
         <DataInput
           removeincome={context.RemoveIncome}
           removeexpence={context.RemoveExpence}
-          setExpenceState={setExpenceState}
-          setIncomeState={setIncomeState}
-          monthValue={monthValue}
+          setExpenceState={context.setExpenceState}
+          setIncomeState={context.setIncomeState}
+          monthValue={context.monthValue}
           filteredIncome={context.filteredIncome}
           filteredExpence={context.filteredExpence}
+          monthToMonth={context.setMonthToMonth}
         />
       </div>
     </div>

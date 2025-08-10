@@ -13,6 +13,7 @@ const ProjectRoot = () => {
   });
 
   let [monthValue, setmonthValue] = useState();
+  // console.log(monthValue);
   let [incomeState, setIncomeState] = useState(() => {
     const saved = localStorage.getItem("incomeState");
     return saved
@@ -26,6 +27,8 @@ const ProjectRoot = () => {
           },
         ];
   });
+
+  // console.log(incomeState);
 
   let [expenceState, setExpenceState] = useState(() => {
     const saved = localStorage.getItem("expenceState");
@@ -42,6 +45,7 @@ const ProjectRoot = () => {
   });
 
   let [month, setMonth] = useState({ from: ``, to: `` });
+  let [monthToMonth, setMonthToMonth] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("incomeState", JSON.stringify(incomeState));
@@ -109,7 +113,7 @@ const ProjectRoot = () => {
       const y = d.getFullYear();
       const m = String(d.getMonth() + 1).padStart(2, "0");
       months.push(`${y}-${m}`);
-      console.log(months);
+      // console.log(months);
     }
     return months;
   }
@@ -158,7 +162,7 @@ const ProjectRoot = () => {
     const filtered = incomeState.filter((el) => last6Months.includes(el.month));
     if (filtered.length === 0) return 0;
     const sum = filtered.reduce((acc, el) => acc + parseInt(el.IncomeNew), 0);
-    console.log(sum);
+    // console.log(sum);
     return sum === 0
       ? "₹0"
       : Math.round(sum / filtered.length).toLocaleString("en-IN", {
@@ -198,6 +202,13 @@ const ProjectRoot = () => {
     monthsRange,
     expenceRange,
     incomeRange,
+    setmonthValue,
+    monthValue,
+    setExpenceState,
+    setIncomeState,
+    setMonth,
+    monthToMonth,
+    setMonthToMonth,
   };
 
   return (
