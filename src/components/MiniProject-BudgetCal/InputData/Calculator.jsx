@@ -6,46 +6,46 @@ import { stateContext } from "../Store-context/ProjectContext";
 const Calculator = () => {
   let context = useContext(stateContext);
 
-  let [monthValue, setmonthValue] = useState();
-  let [incomeState, setIncomeState] = useState(() => {
-    const saved = localStorage.getItem("incomeState");
-    return saved
-      ? JSON.parse(saved)
-      : [
-          {
-            enteredDec: "",
-            month: "",
-            IncomeNew: 0,
-            id: 0,
-          },
-        ];
-  });
+  // let [monthValue, setmonthValue] = useState();
+  // let [incomeState, setIncomeState] = useState(() => {
+  //   const saved = localStorage.getItem("incomeState");
+  //   return saved
+  //     ? JSON.parse(saved)
+  //     : [
+  //         {
+  //           enteredDec: "",
+  //           month: "",
+  //           IncomeNew: 0,
+  //           id: 0,
+  //         },
+  //       ];
+  // });
 
-  let [expenceState, setExpenceState] = useState(() => {
-    const saved = localStorage.getItem("expenceState");
-    return saved
-      ? JSON.parse(saved)
-      : [
-          {
-            enteredDec: "",
-            month: "",
-            ExpenseNew: 0,
-            id: 0,
-          },
-        ];
-  });
+  // let [expenceState, setExpenceState] = useState(() => {
+  //   const saved = localStorage.getItem("expenceState");
+  //   return saved
+  //     ? JSON.parse(saved)
+  //     : [
+  //         {
+  //           enteredDec: "",
+  //           month: "",
+  //           ExpenseNew: 0,
+  //           id: 0,
+  //         },
+  //       ];
+  // });
 
-  let [month, setMonth] = useState({ from: ``, to: `` });
+  // let [month, setMonth] = useState({ from: ``, to: `` });
 
   let inputClass = "rounded-xl p-2 m-5";
 
-  useEffect(() => {
-    localStorage.setItem("incomeState", JSON.stringify(incomeState));
-  }, [incomeState]);
+  // useEffect(() => {
+  //   localStorage.setItem("incomeState", JSON.stringify(incomeState));
+  // }, [incomeState]);
 
-  useEffect(() => {
-    localStorage.setItem("expenceState", JSON.stringify(expenceState));
-  }, [expenceState]);
+  // useEffect(() => {
+  //   localStorage.setItem("expenceState", JSON.stringify(expenceState));
+  // }, [expenceState]);
 
   // let filteredIncome = incomeState
   //   .filter((el) => monthValue === el.month)
@@ -169,47 +169,47 @@ const Calculator = () => {
 
   return (
     <div className="w-[80%] p-6">
-      {context.toggle.calculator && (
-        <div className="text-center">
-          <h1 className="font-semibold   text-5xl mb-4">Available Budget</h1>
-          <h2 className="font-semibold text-4xl mb-6">
-            {context.IncomeMonth - context.ExpenceMonth}
-          </h2>
+      {/* {context.toggle.calculator && ( */}
+      <div className="text-center">
+        <h1 className="font-semibold   text-5xl mb-4">Available Budget</h1>
+        <h2 className="font-semibold text-4xl mb-6">
+          {context.IncomeMonth - context.ExpenceMonth}
+        </h2>
 
-          <div className="w-full">
-            <h3 className="bg-teal-600 p-5 font-bold w-[40%] m-auto mb-5">
-              Income {context.IncomeMonth}
-            </h3>
-            <h3 className="bg-red-600 p-5 font-bold w-[40%] m-auto mb-5">
-              Expense {context.ExpenceMonth}
-            </h3>
-          </div>
-
-          <input
-            value={monthValue}
-            onChange={(e) => context.setmonthValue(e.target.value)}
-            className={`w-[25%] ${inputClass}`}
-            required
-            placeholder="Enter Month"
-            type="month"
-          />
-
-          <div className="p-3 w-[15%] bg-zinc-500 rounded-3xl absolute right-[2%] top-[10%]">
-            <h1 className="text-3xl font-semibold mb-4">
-              Avrage of last 6 months
-            </h1>
-            <p className="text-green-400 text-xl font-semibold mb-2">
-              Income {context.AlterIncome()}
-            </p>
-            <p className=" text-red-400 text-xl font-semibold">
-              Expence {context.AlterExpence()}
-            </p>
-          </div>
+        <div className="w-full">
+          <h3 className="bg-teal-600 p-5 font-bold w-[40%] m-auto mb-5">
+            Income {context.IncomeMonth}
+          </h3>
+          <h3 className="bg-red-600 p-5 font-bold w-[40%] m-auto mb-5">
+            Expense {context.ExpenceMonth}
+          </h3>
         </div>
-      )}
+
+        <input
+          value={context.monthValue}
+          onChange={(e) => context.setmonthValue(e.target.value)}
+          className={`w-[25%] ${inputClass}`}
+          required
+          placeholder="Enter Month"
+          type="month"
+        />
+
+        <div className="p-3 w-[15%] bg-zinc-500 rounded-3xl absolute right-[2%] top-[10%]">
+          <h1 className="text-3xl font-semibold mb-4">
+            Avrage of last 6 months
+          </h1>
+          <p className="text-green-400 text-xl font-semibold mb-2">
+            Income {context.AlterIncome()}
+          </p>
+          <p className=" text-red-400 text-xl font-semibold">
+            Expence {context.AlterExpence()}
+          </p>
+        </div>
+      </div>
+      {/* )} */}
 
       <div>
-        {context.toggle.month && (
+        {/* {context.toggle.month && (
           <Months
           // setMonth={setMonth}
           // income={incomeRange}
@@ -217,7 +217,7 @@ const Calculator = () => {
           // removeincome={RemoveIncome}
           // removeexpence={RemoveExpence}
           />
-        )}
+        )} */}
 
         <DataInput
           removeincome={context.RemoveIncome}
