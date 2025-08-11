@@ -224,12 +224,22 @@ const ProjectRoot = () => {
               className={`p-3 mx-4`}
               to={`/calculator`}
             >
-              <NavLink to="/calculator">
+              <NavLink
+                to="/calculator"
+                className={({ isActive }) =>
+                  isActive ? "text-yellow-500" : ""
+                }
+              >
                 <button>Calculator</button>
               </NavLink>
             </h1>
             <h1 onClick={ForMonth} className={`p-3 mx-4`} to={`/months`}>
-              <NavLink to="/months">
+              <NavLink
+                to="/months"
+                className={({ isActive }) =>
+                  isActive ? "text-yellow-500" : ""
+                }
+              >
                 <button>Months</button>
               </NavLink>
             </h1>

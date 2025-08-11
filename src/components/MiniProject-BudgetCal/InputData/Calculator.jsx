@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import DataInput from "./DataInput";
-import Months from "../MonthsToMonths/Months";
 import { stateContext } from "../Store-context/ProjectContext";
 
 const Calculator = () => {
