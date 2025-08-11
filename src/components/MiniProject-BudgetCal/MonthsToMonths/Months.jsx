@@ -3,11 +3,7 @@ import { useContext, useRef, useState } from "react";
 import ValuesList from "../InputData/ValuesList";
 import { stateContext } from "../Store-context/ProjectContext";
 
-const Months = (
-  {
-    // setMonth, income, expence, removeincome, removeexpence
-  }
-) => {
+const Months = () => {
   let context = useContext(stateContext);
 
   let fromref = useRef();
@@ -36,12 +32,7 @@ const Months = (
           <button className="text-2xl m-3 ">Show</button>
         </div>
       </form>
-      <ValuesList
-      // removeincome={removeincome}
-      // removeexpence={removeexpence}
-      // income={income}
-      // expence={expence}
-      />
+      <ValuesList />
     </div>
   );
 };

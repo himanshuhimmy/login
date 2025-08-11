@@ -1,12 +1,6 @@
 import { useContext } from "react";
 import { stateContext } from "../Store-context/ProjectContext";
-const ValuesList = (
-  {
-    // income,
-    // expence,
-    //  removeincome, removeexpence
-  }
-) => {
+const ValuesList = () => {
   let context = useContext(stateContext);
 
   let mappingIncome = context.monthToMonth

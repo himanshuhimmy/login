@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import CalcRoot from "./CalcRoot";
 import HeadBar from "./HeadBar";
 import SideNav from "./Sidebar/SideNav";
-import Calculator from "./InputData/Calculator";
 import { stateContext } from "./Store-context/ProjectContext";
 import { Link, NavLink, Outlet } from "react-router-dom";
 
@@ -14,7 +13,7 @@ const ProjectRoot = () => {
   });
 
   let [monthValue, setmonthValue] = useState();
-  // console.log(monthValue);
+
   let [incomeState, setIncomeState] = useState(() => {
     const saved = localStorage.getItem("incomeState");
     return saved
@@ -28,8 +27,6 @@ const ProjectRoot = () => {
           },
         ];
   });
-
-  // console.log(incomeState);
 
   let [expenceState, setExpenceState] = useState(() => {
     const saved = localStorage.getItem("expenceState");
@@ -242,7 +239,6 @@ const ProjectRoot = () => {
             <div className="w-full flex">
               <SideNav />
               <Outlet />
-              {/* <Calculator /> */}
             </div>
           </stateContext.Provider>
         </div>
