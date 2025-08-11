@@ -4,7 +4,7 @@ import HeadBar from "./HeadBar";
 import SideNav from "./Sidebar/SideNav";
 import Calculator from "./InputData/Calculator";
 import { stateContext } from "./Store-context/ProjectContext";
-import { Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 const ProjectRoot = () => {
   let [login, setLogin] = useState(true);
@@ -227,10 +227,14 @@ const ProjectRoot = () => {
               className={`p-3 mx-4`}
               to={`/calculator`}
             >
-              <button>Calculator</button>
+              <NavLink to="/calculator">
+                <button>Calculator</button>
+              </NavLink>
             </h1>
             <h1 onClick={ForMonth} className={`p-3 mx-4`} to={`/months`}>
-              <button>Months</button>
+              <NavLink to="/months">
+                <button>Months</button>
+              </NavLink>
             </h1>
           </div>
 

@@ -22,7 +22,7 @@ const Months = (
   }
 
   return (
-    <div>
+    <div className="w-[80%] p-6">
       <form className="flex" onSubmit={onsubmitForm}>
         <div className="flex text-center m-auto">
           <div className="p-3 m-2">
