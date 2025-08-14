@@ -35,6 +35,16 @@ const HomeTic_Tac_toe = () => {
     ]);
   }
 
+  boxState.map((el) => {
+    if (
+      (el.box === `X` && el.id === 1,
+      el.box === `X` && el.id === 2,
+      el.box === `X` && el.id === 3)
+    ) {
+      console.log(`X wins`);
+    }
+  });
+
   function boxClick(Nid) {
     setBoxState((prev) =>
       prev.map((el) =>
