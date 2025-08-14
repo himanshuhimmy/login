@@ -12,17 +12,17 @@ import TimerTow from "./components/UseEffect-Timer/TimerTow";
 import RootForm from "./components/MultiStepForm/RootForm";
 import Content from "./components/DilogBox/Content";
 import ProjectRoot from "./components/MiniProject-BudgetCal/ProjectRoot";
-
 import { BrowserRouter } from "react-router-dom";
-import RouterRoot from "./components/MiniProject-BudgetCal/routerSet/RouterRoot";
+import HomeTic_Tac_toe from "./components/tic tac toe/HomeTic_Tac_toe";
 
 function App() {
   return (
     <div className="App">
       <header className="">
-        <ProjectRoot />
-
-        {/* <RouterRoot /> */}
+        <HomeTic_Tac_toe />
+        {/* <Tic_tac_toe /> */}
+        {/* to start budgetproject uncomment index js  */}
+        {/* <ProjectRoot /> */}
         {/* <Content /> */}
         {/* <RootForm /> */}
         {/* <ChessRoot /> */}
