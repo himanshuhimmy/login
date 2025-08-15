@@ -1,11 +1,24 @@
 import Ximage from "../../Assets(all)/tic tac toe/x.png";
 import Oimage from "../../Assets(all)/tic tac toe/0.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Dialog from "./modal/Dialog";
 
 const HomeTic_Tac_toe = () => {
   let boxClass = "h-52 w-52 m-3 rounded-xl border border-solid";
 
   let [toggle, setToggle] = useState(false);
+  let CurrentWin = false;
+
+  let pattern = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9],
+    [1, 5, 9],
+    [3, 5, 7],
+  ];
 
   let [boxState, setBoxState] = useState([
     { box: null, id: 1 },
@@ -21,6 +34,8 @@ const HomeTic_Tac_toe = () => {
   let [double, setdouble] = useState(false);
   console.log(boxState);
 
+  let [winner, setWinner] = useState(false);
+
   function Reset() {
     setBoxState([
       { box: null, id: 1 },
@@ -35,15 +50,22 @@ const HomeTic_Tac_toe = () => {
     ]);
   }
 
-  boxState.map((el) => {
-    if (
-      (el.box === `X` && el.id === 1,
-      el.box === `X` && el.id === 2,
-      el.box === `X` && el.id === 3)
-    ) {
-      console.log(`X wins`);
-    }
-  });
+  let filterdX = boxState.filter((fl) => fl.box == `X`).map((fl) => fl.id);
+  let filterdO = boxState.filter((fl) => fl.box == `O`).map((fl) => fl.id);
+
+  let Xwinner = pattern.find((p) => p.every((id) => filterdX.includes(id)));
+  let Owinner = pattern.find((p) => p.every((id) => filterdO.includes(id)));
+
+  if (Xwinner !== undefined) {
+    CurrentWin = `X`;
+  }
+  if (Owinner !== undefined) {
+    CurrentWin = `O`;
+  }
+
+  useEffect(() => {
+    setWinner(CurrentWin);
+  }, [CurrentWin]);
 
   function boxClick(Nid) {
     setBoxState((prev) =>
@@ -58,7 +80,10 @@ const HomeTic_Tac_toe = () => {
     );
     setToggle(!toggle);
   }
-
+  function CloseModal() {
+    setWinner(false);
+    Reset();
+  }
   return (
     <div className="w-full">
       <div className="w-[80%] m-auto bg-slate-500 p-8 rounded-3xl">
@@ -66,6 +91,20 @@ const HomeTic_Tac_toe = () => {
           <samp className="text-3xl text-red-500 font-semibold">
             Please select the empty box
           </samp>
+        )}
+        {winner && (
+          <Dialog winner={winner}>
+            <h1 className="text-6xl font-bold text-red-950 p-9 mb-9">
+              {CurrentWin} is the winner
+            </h1>
+
+            <button
+              className="p-5 bg-green-700 rounded-xl m-3 font-semibold text-xl text-yellow-100"
+              onClick={CloseModal}
+            >
+              Close
+            </button>
+          </Dialog>
         )}
         <div className="flex flex-wrap w-[700px] m-auto">
           {boxState.map(({ box, id }) => (
