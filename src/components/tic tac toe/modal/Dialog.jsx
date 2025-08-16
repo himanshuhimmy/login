@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
 
-const Dialog = ({ children, winner }) => {
+const Dialog = ({ children, winner, double }) => {
   let toggle = useRef();
 
   useEffect(() => {
     console.log(`Modal`);
-    if (winner) {
+    if (winner || double) {
       toggle.current.showModal();
     } else {
       toggle.current.close();
