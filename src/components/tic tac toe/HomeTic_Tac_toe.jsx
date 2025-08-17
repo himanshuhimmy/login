@@ -46,7 +46,6 @@ const HomeTic_Tac_toe = () => {
     { box: null, id: 9 },
   ]);
   let [double, setdouble] = useState(false);
-  console.log(boxState);
 
   let [winner, setWinner] = useState(false);
 
@@ -66,6 +65,7 @@ const HomeTic_Tac_toe = () => {
 
   let filterdX = boxState.filter((fl) => fl.box == `X`).map((fl) => fl.id);
   let filterdO = boxState.filter((fl) => fl.box == `O`).map((fl) => fl.id);
+  // console.log(boxState.map((el) => el.box));
 
   let Xwinner = pattern.find((p) => p.every((id) => filterdX.includes(id)));
   let Owinner = pattern.find((p) => p.every((id) => filterdO.includes(id)));
@@ -94,7 +94,7 @@ const HomeTic_Tac_toe = () => {
       //   return setdouble(true);
       // }) ||
       prev.map((el) =>
-        el.id === Nid
+        el.id === Nid && el.box === null
           ? {
               ...el,
               box: toggle ? "X" : "O",

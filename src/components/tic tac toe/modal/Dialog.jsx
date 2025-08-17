@@ -4,7 +4,7 @@ const Dialog = ({ children, winner, double }) => {
   let toggle = useRef();
 
   useEffect(() => {
-    console.log(`Modal`);
+    // console.log(`Modal`);
     if (winner || double) {
       toggle.current.showModal();
     } else {
