@@ -25,8 +25,8 @@ const WordGameHome = () => {
     event.preventDefault();
 
     let filteredData = PlayerInput.filter(
-      (input) =>
-        fullWords.filter((word) => word.id === input.id && input.check).length >
+      (Iword) =>
+        fullWords.filter((word) => word.id === Iword.id && Iword.check).length >
         0
     );
     console.log(filteredData);
