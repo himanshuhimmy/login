@@ -83,32 +83,38 @@ const HomeTic_Tac_toe = () => {
     setWinner(CurrentWin);
   }, [CurrentWin]);
 
-  function toggleDouble() {
-    setdouble(false);
-  }
-
   function boxClick(Nid) {
-    setBoxState((prev) =>
-      // prev.map((el) => {
-      //   el.box === `X` || `O`;
-      //   return setdouble(true);
-      // }) ||
-      prev.map((el) =>
-        el.id === Nid && el.box === null
-          ? {
-              ...el,
-              box: toggle ? "X" : "O",
-            }
-          : el
-      )
-    );
+    let copyState = boxState;
+
+    copyState.map((el) => {
+      if (el.id === Nid && (el.box === `X` || el.box === `O`)) {
+        setToggle(!toggle);
+      } else if (condition) {
+      }
+    });
+
+    // setBoxState((prev) =>
+    //   prev.map((el) =>
+    //     // el.box === `X` || `O`
+    //     //   ? setdouble(true)
+    //     //   :
+    //     el.id === Nid && el.box === null
+    //       ? {
+    //           ...el,
+    //           box: toggle ? "X" : "O",
+    //         }
+    //       : el
+    //   )
+    // );
     setToggle(!toggle);
   }
   function CloseModal() {
-    toggleDouble();
-    setWinner(false);
+    setdouble(false);
     Reset();
+    setWinner(false);
+    console.log(`clicked`);
   }
+  console.log(winner);
   return (
     <div className="w-full">
       <div className="w-[80%] m-auto bg-slate-500 p-8 rounded-3xl">

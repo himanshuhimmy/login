@@ -14,12 +14,14 @@ import Content from "./components/DilogBox/Content";
 import ProjectRoot from "./components/MiniProject-BudgetCal/ProjectRoot";
 import { BrowserRouter } from "react-router-dom";
 import HomeTic_Tac_toe from "./components/tic tac toe/HomeTic_Tac_toe";
+import WordGameHome from "./components/WordGame/WordGameHome";
 
 function App() {
   return (
     <div className="App">
       <header className="">
-        <HomeTic_Tac_toe />
+        <WordGameHome />
+        {/* <HomeTic_Tac_toe /> */}
         {/* <Tic_tac_toe /> */}
         {/* to start budgetproject uncomment index js  */}
         {/* <ProjectRoot /> */}
