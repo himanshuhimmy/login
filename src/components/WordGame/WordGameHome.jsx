@@ -26,19 +26,23 @@ const WordGameHome = () => {
 
     let filteredData = PlayerInput.filter(
       (Iword) =>
-        fullWords.filter((word) => word.id === Iword.id && Iword.check).length >
-        0
+        Iword.check === true && fullWords.some((word) => word.id === Iword.id)
     );
     console.log(filteredData);
 
     fullWords.map((el) => {
       let correct = filteredData.map((fl) => el.name.includes(fl.name));
-      console.log(filteredData.every((fl) => fl.name));
 
       if (correct) {
         console.log(`correct`);
+      } else {
+        setLife(life - 1);
       }
     });
+
+    if (life === 0) {
+      console.log(`you lost`);
+    }
   }
 
   function userInput(text, Nid) {
