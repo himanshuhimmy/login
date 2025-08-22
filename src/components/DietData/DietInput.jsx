@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 const DietInput = ({ setMeals, meals }) => {
   let initaData = [...meals];
@@ -15,7 +15,7 @@ const DietInput = ({ setMeals, meals }) => {
     );
   }
 
-  let noOfItems = [
+  let [noOfItems, setNoOfMeals] = useState([
     {
       mealName: "Breakfast",
       meal: 1,
@@ -25,24 +25,34 @@ const DietInput = ({ setMeals, meals }) => {
     { mealName: "Snack", meal: 1 },
     { mealName: "PreWorkout", meal: 1 },
     { mealName: "Dinner", meal: 1 },
-  ];
+  ]);
+
+  console.log(noOfItems);
   function AddItem(meal) {
-    noOfItems = noOfItems.map((el) =>
-      el.mealName === meal ? { ...el, meal: el.meal + 1 } : el
+    setNoOfMeals(
+      noOfItems.map((el) =>
+        el.mealName === meal ? { ...el, meal: el.meal + 1 } : el
+      )
     );
-    console.log(noOfItems);
 
-    // setMeals((prev) =>
-    //   prev.map((el) =>
-    //     el.mealName === meal
-    //       ? {
-    //           ...el,
+    setMeals((prev) =>
+      prev.map((el, id) =>
+        el.mealName === meal
+          ? {
+              ...el,
 
-    //           item2: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
-    //         }
-    //       : el
-    //   )
-    // );
+              item2: {
+                id: id,
+                Food: "",
+                time: 0,
+                Carbs: 0,
+                Fats: 0,
+                Protien: 0,
+              },
+            }
+          : el
+      )
+    );
   }
   function RemoveItem() {}
 
