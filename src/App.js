@@ -15,12 +15,14 @@ import ProjectRoot from "./components/MiniProject-BudgetCal/ProjectRoot";
 import { BrowserRouter } from "react-router-dom";
 import HomeTic_Tac_toe from "./components/tic tac toe/HomeTic_Tac_toe";
 import WordGameHome from "./components/WordGame/WordGameHome";
+import DietRoot from "./components/DietData/DietRoot";
 
 function App() {
   return (
     <div className="App">
       <header className="">
-        <WordGameHome />
+        <DietRoot />
+        {/* <WordGameHome /> */}
         {/* <HomeTic_Tac_toe /> */}
         {/* <Tic_tac_toe /> */}
         {/* to start budgetproject uncomment index js  */}

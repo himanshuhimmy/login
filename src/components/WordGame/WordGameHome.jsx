@@ -32,7 +32,7 @@ const WordGameHome = () => {
 
     fullWords.map((el) => {
       let correct = filteredData.map((fl) => el.name.includes(fl.name));
-
+      console.log();
       if (correct) {
         console.log(`correct`);
       } else {
@@ -64,6 +64,7 @@ const WordGameHome = () => {
               <div key={id}>
                 <input
                   className="p-2 bg-orange-200 w-auto text-center rounded-full m-2"
+                  minLength={1}
                   type="text"
                   placeholder={text}
                   value={text}
