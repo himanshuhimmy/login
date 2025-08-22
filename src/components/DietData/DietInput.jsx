@@ -27,20 +27,22 @@ const DietInput = ({ setMeals, meals }) => {
     { mealName: "Dinner", meal: 1 },
   ];
   function AddItem(meal) {
-    noOfItems.map((el) =>
-      el.mealName === meal ? { ...el, meal: meal + 1 } : el
+    noOfItems = noOfItems.map((el) =>
+      el.mealName === meal ? { ...el, meal: el.meal + 1 } : el
     );
+    console.log(noOfItems);
 
-    setMeals((prev) =>
-      prev.map((el) =>
-        el.mealName === meal
-          ? {
-              ...el,
-              item2: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
-            }
-          : el
-      )
-    );
+    // setMeals((prev) =>
+    //   prev.map((el) =>
+    //     el.mealName === meal
+    //       ? {
+    //           ...el,
+
+    //           item2: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
+    //         }
+    //       : el
+    //   )
+    // );
   }
   function RemoveItem() {}
 

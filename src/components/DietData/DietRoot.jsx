@@ -16,36 +16,36 @@ const DietRoot = () => {
     {
       mealName: "Breakfast",
       status: true,
-      item1: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
+      item: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
     },
     {
       mealName: "Brunch",
       status: true,
-      item1: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
+      item: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
     },
     {
       mealName: "Lunch",
       status: true,
-      item1: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
+      item: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
     },
     {
       mealName: "Snack",
       status: true,
-      item1: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
+      item: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
     },
     {
       mealName: "PreWorkout",
       status: true,
-      item1: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
+      item: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
     },
     {
       mealName: "Dinner",
       status: true,
-      item1: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
+      item: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
     },
   ]);
 
-  console.log(data);
+  console.log(meals);
   let [noOfMeals, setNoOfMeals] = useState(1);
 
   function onClickHandle() {
