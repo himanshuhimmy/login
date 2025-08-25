@@ -49,37 +49,59 @@ const DietInput = ({ setMeals, meals }) => {
     setMeals(updated);
   }
 
-  function onClickHandle(event) {
-    let initalData = [...meals];
+  function onClickHandle(meal, itemId, event) {
     event.preventDefault();
-    let UserTime = time.current.vlaue;
+    let initalData = [...meals];
+    let UserTime = time.current.value;
     let UserFood = food.current.value;
     let UserCarbs = carbs.current.value;
     let UserProtien = protien.current.value;
     let UserFats = fats.current.value;
 
-    let updated = initalData.map((Meals) => {});
+    let updated = initalData.map((Meals) => {
+      if (Meals.mealName === meal) {
+        return {
+          ...Meals,
+          time: UserTime,
+          item: Meals.item.map((el) => {
+            if (el.id === itemId) {
+              return {
+                ...el,
+                Food: UserFood,
+                Protien: parseInt(UserProtien),
+                Carbs: parseInt(UserCarbs),
+                Fats: parseInt(UserFats),
+              };
+            }
+            return el;
+          }),
+        };
+      }
+    });
+    console.log(updated);
+    setMeals(updated);
   }
   return (
     <div>
       <div className=" bg-cyan-100 p-4 rounded-xl ">
-        <form action="">
-          {meals.map((el) => {
+        <form onSubmit={onClickHandle}>
+          {meals.map((el, id) => {
             return (
               <div>
                 {el.status && (
-                  <div>
+                  <div key={id}>
                     <h1 className="text-cyan-800 text-3xl bg-cyan-200 p-4 rounded-2xl">
                       {el.mealName}
                       <span className="p-2">Time</span>
                       <input
+                        required
                         ref={time}
                         type="time"
                         className="text-cyan-700 p-1 rounded-lg"
                       />
                     </h1>
                     <div>
-                      {el.item.map((meals) => {
+                      {el.item.map((Item) => {
                         return (
                           <div>
                             <div className="w-[20%] m-auto">
@@ -120,20 +142,26 @@ const DietInput = ({ setMeals, meals }) => {
                                 />
                               </div>
                               <button
-                                onClick={() => AddItem(el.mealName, meals.id)}
+                                onClick={() => AddItem(el.mealName, Item.id)}
                                 className="bg-cyan-400 rounded-lg p-2 m-4"
                               >
                                 Add Food Item
                               </button>
                               <button
-                                onClick={() =>
-                                  RemoveItem(el.mealName, meals.id)
-                                }
+                                onClick={() => RemoveItem(el.mealName, Item.id)}
                                 className="bg-red-200 rounded-lg p-2 m-4"
                               >
                                 Remove Food Item
                               </button>
                             </div>
+
+                            <button
+                              onClick={(e) =>
+                                onClickHandle(el.mealName, Item.id, e)
+                              }
+                            >
+                              Submit
+                            </button>
                           </div>
                         );
                       })}
@@ -150,7 +178,6 @@ const DietInput = ({ setMeals, meals }) => {
               </div>
             );
           })}
-          <button onClick={onClickHandle}> Submit</button>
         </form>
       </div>
     </div>

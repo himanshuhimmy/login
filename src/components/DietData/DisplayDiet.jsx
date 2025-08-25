@@ -1,4 +1,4 @@
-const DisplayDiet = ({ meal }) => {
+const DisplayDiet = ({ meal, toggle }) => {
   function GetTotal(item) {
     return item.reduce(
       (total, items) => {
@@ -18,7 +18,7 @@ const DisplayDiet = ({ meal }) => {
         return (
           <div className="bg-cyan-200 rounded-xl m-2 p-2">
             <h1 className="text-3xl font-bold p-4 rounded-2xl w-[25%] m-auto bg-cyan-300">
-              {Meals.mealName}
+              {Meals.mealName} Time :- {Meals.time}
             </h1>
             <div className="w-[95%] bg-cyan-300 m-4 text-center rounded-3xl">
               <div>
@@ -53,6 +53,7 @@ const DisplayDiet = ({ meal }) => {
           </div>
         );
       })}
+      <button onClick={toggle}>Back </button>
     </div>
   );
 };
