@@ -62,16 +62,16 @@ const DietRoot = () => {
         <h1 className="text-2xl text-cyan-300">Enter your Meals </h1>
       </div>
       <div>
-        <form action="">
-          <div className="border p-4 m-2 rounded-md">
-            {toggle === true ? (
-              <DisplayDiet meal={meals} />
-            ) : (
-              <DietInput meals={meals} data={data} setMeals={setMeals} />
-            )}
-          </div>
-          <button onClick={toggle}>Submit</button>
-        </form>
+        {/* <form action=""> */}
+        <div className="border p-4 m-2 rounded-md">
+          {toggle === true ? (
+            <DisplayDiet meal={meals} />
+          ) : (
+            <DietInput meals={meals} data={data} setMeals={setMeals} />
+          )}
+        </div>
+        {/* <button onClick={toggle}>Submit</button> */}
+        {/* </form> */}
       </div>
     </div>
   );

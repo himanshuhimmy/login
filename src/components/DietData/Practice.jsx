@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const Practice = () => {
   let [meals, setMeals] = useState([
@@ -7,81 +7,36 @@ const Practice = () => {
       status: true,
       item: [{ id: 9, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 30 }],
     },
-    {
-      mealName: "Brunch",
-      status: true,
-      item: [
-        { id: 1, Food: "EGG", time: 1, Carbs: 20, Fats: 27, Protien: 50 },
-        { id: 7, Food: "CHICKEN", time: 3, Carbs: 50, Fats: 10, Protien: 20 },
-        { id: 3, Food: "RICE", time: 5, Carbs: 80, Fats: 3, Protien: 30 },
-      ],
-    },
-    {
-      mealName: "Lunch",
-      status: true,
-      item: [{ id: 7, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
-    },
-    {
-      mealName: "Snack",
-      status: true,
-      item: [{ id: 1, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
-    },
-    {
-      mealName: "PreWorkout",
-      status: true,
-      item: [{ id: 1, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
-    },
+    // {
+    //   mealName: "Brunch",
+    //   status: true,
+    //   item: [
+    //     { id: 1, Food: "EGG", time: 1, Carbs: 20, Fats: 27, Protien: 50 },
+    //     { id: 7, Food: "CHICKEN", time: 3, Carbs: 50, Fats: 10, Protien: 20 },
+    //     { id: 3, Food: "RICE", time: 5, Carbs: 80, Fats: 3, Protien: 30 },
+    //   ],
+    // },
+    // {
+    //   mealName: "Lunch",
+    //   status: true,
+    //   item: [{ id: 7, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
+    // },
+    // {
+    //   mealName: "Snack",
+    //   status: true,
+    //   item: [{ id: 1, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
+    // },
+    // {
+    //   mealName: "PreWorkout",
+    //   status: true,
+    //   item: [{ id: 1, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
+    // },
     {
       mealName: "Dinner",
       status: true,
       item: [{ id: 6, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
     },
   ]);
-
-  const total = [
-    {
-      mealName: "Breakfast",
-      Carbs: 0,
-      Fats: 0,
-      Protien: 0,
-      Calories: 0,
-    },
-    {
-      mealName: "Brunch",
-      Carbs: 0,
-      Fats: 0,
-      Protien: 0,
-      Calories: 0,
-    },
-    {
-      mealName: "Lunch",
-      Carbs: 0,
-      Fats: 0,
-      Protien: 0,
-      Calories: 0,
-    },
-    {
-      mealName: "Snack",
-      Carbs: 0,
-      Fats: 0,
-      Protien: 0,
-      Calories: 0,
-    },
-    {
-      mealName: "PreWorkout",
-      Carbs: 0,
-      Fats: 0,
-      Protien: 0,
-      Calories: 0,
-    },
-    {
-      mealName: "Dinner",
-      Carbs: 0,
-      Fats: 0,
-      Protien: 0,
-      Calories: 0,
-    },
-  ];
 
   function addItem(meal) {
     let initalStae = [...meals];
@@ -136,9 +91,39 @@ const Practice = () => {
     );
   }
 
+  let Protien = useRef();
+  let foodItem = useRef();
+  let Fats = useRef();
+  let Carbs = useRef();
+
+  function NewData(event) {
+    let intialState = [...meals];
+    event.preventDefault();
+
+    let UserProtien = Protien.current.value;
+    let UserFoodItem = foodItem.current.value;
+    let UserFats = Fats.current.value;
+    let UserCarbs = Carbs.current.value;
+
+    let updated = intialState.map((Meals) => {
+      return [
+        { ...Meals },
+        (Meals.mealName = UserFoodItem),
+        (Meals.item = {
+          Carbs: UserCarbs,
+          Fats: UserFats,
+          Protien: UserProtien,
+        }),
+      ];
+    });
+    console.log(updated);
+    // console.log(Meals);
+    // console.log(UserCarbs, UserFats, UserFoodItem, UserProtien);
+  }
+
   return (
     <div>
-      <div>
+      {/* <div>
         <h2>Meals & Totals</h2>
         {meals.map((meal, index) => {
           const totals = getTotals(meal.item);
@@ -151,39 +136,62 @@ const Practice = () => {
             </div>
           );
         })}
-      </div>
+      </div> */}
 
-      {/* <div>
+      <div>
         {meals.map((meal) => {
           return (
             <div>
-              <h1>{meal.mealName}</h1>
-              <div>
-                {meal.item.map((items, id) => {
-                  return (
-                    <div>
-                      <input placeholder={items.id} type="text" />
-                      <input type="text" />
-                      <input type="text" />
-                      <input type="text" />
+              <form action="">
+                <h1>{meal.mealName}</h1>
+                <div>
+                  {meal.item.map((items, id) => {
+                    return (
                       <div>
-                        <button onClick={() => addItem(meal.mealName)}>
-                          Add Item
-                        </button>
-                        <button
-                          onClick={() => removeItem(meal.mealName, items.id)}
-                        >
-                          Remove Item
-                        </button>
+                        <input
+                          required
+                          placeholder="Carbs"
+                          ref={Carbs}
+                          type="text"
+                        />
+                        <input
+                          required
+                          ref={foodItem}
+                          placeholder="item name"
+                          type="text"
+                        />
+                        <input
+                          required
+                          ref={Protien}
+                          placeholder="Protien"
+                          type="text"
+                        />
+                        <input
+                          required
+                          ref={Fats}
+                          placeholder="Carbs"
+                          type="text"
+                        />
+                        <div>
+                          <button onClick={() => addItem(meal.mealName)}>
+                            Add Item
+                          </button>
+                          <button
+                            onClick={() => removeItem(meal.mealName, items.id)}
+                          >
+                            Remove Item
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+                <button onClick={NewData}>Done</button>
+              </form>
             </div>
           );
         })}
-      </div> */}
+      </div>
     </div>
   );
 };

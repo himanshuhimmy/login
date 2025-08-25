@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef } from "react";
 
 const DietInput = ({ setMeals, meals }) => {
   let food = useRef();
@@ -50,6 +50,7 @@ const DietInput = ({ setMeals, meals }) => {
   }
 
   function onClickHandle(event) {
+    let initalData = [...meals];
     event.preventDefault();
     let UserTime = time.current.vlaue;
     let UserFood = food.current.value;
@@ -57,103 +58,100 @@ const DietInput = ({ setMeals, meals }) => {
     let UserProtien = protien.current.value;
     let UserFats = fats.current.value;
 
-    initaData = {
-      time: UserTime,
-      Food: UserFood,
-      Carbs: parseInt(UserCarbs),
-      Fats: parseInt(UserProtien),
-      Protien: parseInt(UserFats),
-    };
-
-    update(initaData);
+    let updated = initalData.map((Meals) => {});
   }
   return (
     <div>
       <div className=" bg-cyan-100 p-4 rounded-xl ">
-        {meals.map((el) => {
-          return (
-            <div>
-              {el.status && (
-                <div>
-                  <h1 className="text-cyan-800 text-3xl bg-cyan-200 p-4 rounded-2xl">
-                    {el.mealName}
-                    <span className="p-2">Time</span>
-                    <input
-                      ref={time}
-                      type="time"
-                      className="text-cyan-700 p-1 rounded-lg"
-                    />
-                  </h1>
+        <form action="">
+          {meals.map((el) => {
+            return (
+              <div>
+                {el.status && (
                   <div>
-                    {el.item.map((meals) => {
-                      return (
-                        <div>
-                          <div className="w-[20%] m-auto">
-                            <div className="flex justify-between p-4">
-                              <span> Food You Eat</span>
-                              <input
-                                required
-                                ref={food}
-                                className="text-cyan-700 p-1 rounded-lg"
-                                type="text"
-                                placeholder="Food"
-                              />
+                    <h1 className="text-cyan-800 text-3xl bg-cyan-200 p-4 rounded-2xl">
+                      {el.mealName}
+                      <span className="p-2">Time</span>
+                      <input
+                        ref={time}
+                        type="time"
+                        className="text-cyan-700 p-1 rounded-lg"
+                      />
+                    </h1>
+                    <div>
+                      {el.item.map((meals) => {
+                        return (
+                          <div>
+                            <div className="w-[20%] m-auto">
+                              <div className="flex justify-between p-4">
+                                <span> Food You Eat</span>
+                                <input
+                                  required
+                                  ref={food}
+                                  className="text-cyan-700 p-1 rounded-lg"
+                                  type="text"
+                                  placeholder="Food"
+                                />
+                              </div>
+                            </div>
+                            <div className="w-[45%] m-auto">
+                              <div className="flex justify-between p-4">
+                                <span>Macros</span>
+                                <input
+                                  required
+                                  ref={carbs}
+                                  className="text-cyan-700 p-1 rounded-lg"
+                                  type="number"
+                                  placeholder="Carbs "
+                                />
+                                <input
+                                  required
+                                  ref={protien}
+                                  className="text-cyan-700 p-1 rounded-lg"
+                                  type="number"
+                                  placeholder="Protien"
+                                />
+                                <input
+                                  required
+                                  ref={fats}
+                                  className="text-cyan-700 p-1 rounded-lg"
+                                  type="number"
+                                  placeholder="Fats"
+                                />
+                              </div>
+                              <button
+                                onClick={() => AddItem(el.mealName, meals.id)}
+                                className="bg-cyan-400 rounded-lg p-2 m-4"
+                              >
+                                Add Food Item
+                              </button>
+                              <button
+                                onClick={() =>
+                                  RemoveItem(el.mealName, meals.id)
+                                }
+                                className="bg-red-200 rounded-lg p-2 m-4"
+                              >
+                                Remove Food Item
+                              </button>
                             </div>
                           </div>
-                          <div className="w-[45%] m-auto">
-                            <div className="flex justify-between p-4">
-                              <span>Macros</span>
-                              <input
-                                required
-                                ref={carbs}
-                                className="text-cyan-700 p-1 rounded-lg"
-                                type="number"
-                                placeholder="Carbs "
-                              />
-                              <input
-                                required
-                                ref={protien}
-                                className="text-cyan-700 p-1 rounded-lg"
-                                type="number"
-                                placeholder="Protien"
-                              />
-                              <input
-                                required
-                                ref={fats}
-                                className="text-cyan-700 p-1 rounded-lg"
-                                type="number"
-                                placeholder="Fats"
-                              />
-                            </div>
-                            <button
-                              onClick={() => AddItem(el.mealName, meals.id)}
-                              className="bg-cyan-400 rounded-lg p-2 m-4"
-                            >
-                              Add Food Item
-                            </button>
-                            <button
-                              onClick={() => RemoveItem(el.mealName, meals.id)}
-                              className="bg-red-200 rounded-lg p-2 m-4"
-                            >
-                              Remove Food Item
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
+                    <button
+                      onClick={() => mealSkip(el.mealName)}
+                      className="bg-red-400 rounded-lg p-2 m-4"
+                    >
+                      I Skip This MEAL
+                    </button>
+                    <br />
                   </div>
-                  <button
-                    onClick={() => mealSkip(el.mealName)}
-                    className="bg-red-400 rounded-lg p-2 m-4"
-                  >
-                    I Skip This MEAL
-                  </button>
-                  <br />
-                </div>
-              )}
-            </div>
-          );
-        })}
+                )}
+              </div>
+            );
+          })}
+          <button onClick={onClickHandle}> Submit</button>
+        </form>
       </div>
     </div>
   );
