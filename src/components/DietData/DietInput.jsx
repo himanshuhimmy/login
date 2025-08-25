@@ -1,8 +1,6 @@
 import React, { useRef, useState } from "react";
 
 const DietInput = ({ setMeals, meals }) => {
-  let initaData = [...meals];
-
   let food = useRef();
   let carbs = useRef();
   let protien = useRef();
@@ -15,46 +13,41 @@ const DietInput = ({ setMeals, meals }) => {
     );
   }
 
-  let [noOfItems, setNoOfMeals] = useState([
-    {
-      mealName: "Breakfast",
-      meal: 1,
-    },
-    { mealName: "Brunch", meal: 1 },
-    { mealName: "Lunch", meal: 1 },
-    { mealName: "Snack", meal: 1 },
-    { mealName: "PreWorkout", meal: 1 },
-    { mealName: "Dinner", meal: 1 },
-  ]);
+  function RemoveItem(meal, id) {
+    let initaData = [...meals];
 
-  console.log(noOfItems);
-  function AddItem(meal) {
-    setNoOfMeals(
-      noOfItems.map((el) =>
-        el.mealName === meal ? { ...el, meal: el.meal + 1 } : el
-      )
-    );
-
-    setMeals((prev) =>
-      prev.map((el, id) =>
-        el.mealName === meal
-          ? {
-              ...el,
-
-              item2: {
-                id: id,
-                Food: "",
-                time: 0,
-                Carbs: 0,
-                Fats: 0,
-                Protien: 0,
-              },
-            }
-          : el
-      )
-    );
+    let updated = initaData.map((Meals) => {
+      if (Meals.mealName === meal) {
+        return { ...Meals, item: Meals.item.filter((el) => el.id != id) };
+      }
+      return Meals;
+    });
+    setMeals(updated);
   }
-  function RemoveItem() {}
+
+  function AddItem(meal) {
+    let initaData = [...meals];
+    let updated = initaData.map((Meals) => {
+      if (Meals.mealName === meal) {
+        return {
+          ...Meals,
+          item: [
+            ...Meals.item,
+            {
+              id: Meals.item.length + 1,
+              Food: "",
+              time: 0,
+              Carbs: 0,
+              Fats: 0,
+              Protien: 0,
+            },
+          ],
+        };
+      }
+      return Meals;
+    });
+    setMeals(updated);
+  }
 
   function onClickHandle(event) {
     event.preventDefault();
@@ -64,20 +57,20 @@ const DietInput = ({ setMeals, meals }) => {
     let UserProtien = protien.current.value;
     let UserFats = fats.current.value;
 
-    // initaData = {
-    //   time: UserTime,
-    //   Food: UserFood,
-    //   Carbs: parseInt(UserCarbs),
-    //   Fats: parseInt(UserProtien),
-    //   Protien: parseInt(UserFats),
-    // };
+    initaData = {
+      time: UserTime,
+      Food: UserFood,
+      Carbs: parseInt(UserCarbs),
+      Fats: parseInt(UserProtien),
+      Protien: parseInt(UserFats),
+    };
 
     update(initaData);
   }
   return (
     <div>
       <div className=" bg-cyan-100 p-4 rounded-xl ">
-        {initaData.map((el) => {
+        {meals.map((el) => {
           return (
             <div>
               {el.status && (
@@ -92,56 +85,62 @@ const DietInput = ({ setMeals, meals }) => {
                     />
                   </h1>
                   <div>
-                    <div className="w-[20%] m-auto">
-                      <div className="flex justify-between p-4">
-                        <span> Food You Eat</span>
-                        <input
-                          required
-                          ref={food}
-                          className="text-cyan-700 p-1 rounded-lg"
-                          type="text"
-                          placeholder="Food"
-                        />
-                      </div>
-                    </div>
-                    <div className="w-[45%] m-auto">
-                      <div className="flex justify-between p-4">
-                        <span>Macros</span>
-                        <input
-                          required
-                          ref={carbs}
-                          className="text-cyan-700 p-1 rounded-lg"
-                          type="number"
-                          placeholder="Carbs "
-                        />
-                        <input
-                          required
-                          ref={protien}
-                          className="text-cyan-700 p-1 rounded-lg"
-                          type="number"
-                          placeholder="Protien"
-                        />
-                        <input
-                          required
-                          ref={fats}
-                          className="text-cyan-700 p-1 rounded-lg"
-                          type="number"
-                          placeholder="Fats"
-                        />
-                      </div>
-                      <button
-                        onClick={() => AddItem(el.mealName)}
-                        className="bg-cyan-400 rounded-lg p-2 m-4"
-                      >
-                        Add Food Item
-                      </button>
-                      <button
-                        onClick={() => RemoveItem(el.mealName)}
-                        className="bg-red-200 rounded-lg p-2 m-4"
-                      >
-                        Remove Food Item
-                      </button>
-                    </div>
+                    {el.item.map((meals) => {
+                      return (
+                        <div>
+                          <div className="w-[20%] m-auto">
+                            <div className="flex justify-between p-4">
+                              <span> Food You Eat</span>
+                              <input
+                                required
+                                ref={food}
+                                className="text-cyan-700 p-1 rounded-lg"
+                                type="text"
+                                placeholder="Food"
+                              />
+                            </div>
+                          </div>
+                          <div className="w-[45%] m-auto">
+                            <div className="flex justify-between p-4">
+                              <span>Macros</span>
+                              <input
+                                required
+                                ref={carbs}
+                                className="text-cyan-700 p-1 rounded-lg"
+                                type="number"
+                                placeholder="Carbs "
+                              />
+                              <input
+                                required
+                                ref={protien}
+                                className="text-cyan-700 p-1 rounded-lg"
+                                type="number"
+                                placeholder="Protien"
+                              />
+                              <input
+                                required
+                                ref={fats}
+                                className="text-cyan-700 p-1 rounded-lg"
+                                type="number"
+                                placeholder="Fats"
+                              />
+                            </div>
+                            <button
+                              onClick={() => AddItem(el.mealName, meals.id)}
+                              className="bg-cyan-400 rounded-lg p-2 m-4"
+                            >
+                              Add Food Item
+                            </button>
+                            <button
+                              onClick={() => RemoveItem(el.mealName, meals.id)}
+                              className="bg-red-200 rounded-lg p-2 m-4"
+                            >
+                              Remove Food Item
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                   <button
                     onClick={() => mealSkip(el.mealName)}

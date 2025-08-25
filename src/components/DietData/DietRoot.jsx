@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DietInput from "./DietInput";
+import DisplayDiet from "./DisplayDiet";
 
 const DietRoot = () => {
   let [data, setData] = useState([
@@ -11,45 +12,46 @@ const DietRoot = () => {
       Protien: 0,
     },
   ]);
-
+  let [display, setDisplay] = useState(false);
   let [meals, setMeals] = useState([
     {
       mealName: "Breakfast",
       status: true,
-      item: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
+      item: [{ id: 1, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
     },
     {
       mealName: "Brunch",
       status: true,
-      item: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
+      item: [{ id: 1, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
     },
     {
       mealName: "Lunch",
       status: true,
-      item: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
+      item: [{ id: 1, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
     },
     {
       mealName: "Snack",
       status: true,
-      item: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
+      item: [{ id: 1, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
     },
     {
       mealName: "PreWorkout",
       status: true,
-      item: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
+      item: [{ id: 1, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
     },
     {
       mealName: "Dinner",
       status: true,
-      item: { Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 },
+      item: [{ id: 1, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
     },
   ]);
 
-  console.log(meals);
   let [noOfMeals, setNoOfMeals] = useState(1);
 
-  function onClickHandle() {
-    setNoOfMeals(noOfMeals + 1);
+  function toggle(event) {
+    event.preventDefault();
+    setDisplay(!display);
+    console.log(display);
   }
   return (
     <div className="text-center p-9">
@@ -60,13 +62,16 @@ const DietRoot = () => {
         <h1 className="text-2xl text-cyan-300">Enter your Meals </h1>
       </div>
       <div>
-        {/* <form action=""> */}
-        <div className="border p-4 m-2 rounded-md">
-          <DietInput meals={meals} data={data} setMeals={setMeals} />
-        </div>
-
-        <button>Submit</button>
-        {/* </form> */}
+        <form action="">
+          <div className="border p-4 m-2 rounded-md">
+            {toggle === true ? (
+              <DisplayDiet meal={meals} />
+            ) : (
+              <DietInput meals={meals} data={data} setMeals={setMeals} />
+            )}
+          </div>
+          <button onClick={toggle}>Submit</button>
+        </form>
       </div>
     </div>
   );
