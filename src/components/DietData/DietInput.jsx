@@ -40,6 +40,22 @@ const DietInput = ({ setMeals, meals, toggle }) => {
     setMeals(updated);
   }
 
+  function AddTime(e, meal) {
+    let initalSate = [...meals];
+
+    let update = initalSate.map((Meals) => {
+      if (Meals.mealName === meal) {
+        return {
+          ...Meals,
+          time: e.target.value,
+        };
+      }
+      return Meals;
+    });
+
+    setMeals(update);
+  }
+
   function onChangeHandle(meal, itemId, field, value) {
     let initalSate = [...meals];
     let update = initalSate.map((Meals) =>
@@ -74,18 +90,11 @@ const DietInput = ({ setMeals, meals, toggle }) => {
                       {el.mealName}
                       <span className="p-2">Time</span>
                       <input
+                        value={el.time}
                         required
                         type="time"
                         className="text-cyan-700 p-1 rounded-lg"
-                        onChange={(e) =>
-                          setMeals((prev) =>
-                            prev.map((el) =>
-                              el.mealName === meals.mealName
-                                ? { ...el, time: e.target.value }
-                                : el
-                            )
-                          )
-                        }
+                        onChange={(e) => AddTime(e, el.mealName)}
                       />
                     </h1>
 
@@ -97,6 +106,7 @@ const DietInput = ({ setMeals, meals, toggle }) => {
                               <div className="flex justify-between p-4">
                                 <span> Food You Eat</span>
                                 <input
+                                  value={Item.Food}
                                   required
                                   className="text-cyan-700 p-1 rounded-lg"
                                   type="text"
@@ -115,8 +125,9 @@ const DietInput = ({ setMeals, meals, toggle }) => {
 
                             <div className="w-[45%] m-auto">
                               <div className="flex justify-between p-4">
-                                <span>Macros in GMS</span>
+                                <span>Macros in Gms</span>
                                 <input
+                                  value={Item.Carbs}
                                   required
                                   className="text-cyan-700 p-1 rounded-lg"
                                   type="number"
@@ -131,6 +142,7 @@ const DietInput = ({ setMeals, meals, toggle }) => {
                                   }
                                 />
                                 <input
+                                  value={Item.Protien}
                                   required
                                   className="text-cyan-700 p-1 rounded-lg"
                                   type="number"
@@ -145,6 +157,7 @@ const DietInput = ({ setMeals, meals, toggle }) => {
                                   }
                                 />
                                 <input
+                                  value={Item.Fats}
                                   required
                                   className="text-cyan-700 p-1 rounded-lg"
                                   type="number"

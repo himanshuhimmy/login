@@ -42,7 +42,7 @@ const DietRoot = () => {
       item: [{ id: 1, Food: "", time: 0, Carbs: 0, Fats: 0, Protien: 0 }],
     },
   ]);
-
+  console.log(meals);
   function toggle() {
     setDisplay(!display);
     console.log(display);
