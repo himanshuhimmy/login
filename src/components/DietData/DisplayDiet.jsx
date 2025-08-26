@@ -22,11 +22,11 @@ const DisplayDiet = ({ meal, toggle }) => {
             </h1>
             <div className="w-[95%] bg-cyan-300 m-4 text-center rounded-3xl">
               <div>
-                {Meals.item.map((item, id = 1) => {
+                {Meals.item.map((item, id) => {
                   return (
                     <div>
                       <p className="font-semibold p-3 text-xl">
-                        ITEM NO {id} :- {item.Food}
+                        ITEM NO {id + 1} :- {item.Food}
                       </p>
                       <div className="flex justify-between w-[20%] m-auto">
                         <p className="text-purple-700">carbs {item.Carbs} gm</p>

@@ -1,8 +1,4 @@
-import { useRef } from "react";
-
-const DietInput = ({ setMeals, meals }) => {
-  let time = useRef();
-
+const DietInput = ({ setMeals, meals, toggle }) => {
   function mealSkip(meal) {
     setMeals((prev) =>
       prev.map((el) => (el.mealName === meal ? { ...el, status: false } : el))
@@ -60,17 +56,9 @@ const DietInput = ({ setMeals, meals }) => {
     setMeals(update);
   }
 
-  function onSubmitHandle(e) {
-    e.preventDefault();
-    const UserTime = time.current.value;
-    let initalSate = [...meals];
-
-    let update = initalSate.map((Meals) => ({
-      ...Meals,
-      time: UserTime,
-    }));
-
-    setMeals(update);
+  function onSubmitHandle(event) {
+    event.preventDefault();
+    toggle();
   }
 
   return (
@@ -87,9 +75,17 @@ const DietInput = ({ setMeals, meals }) => {
                       <span className="p-2">Time</span>
                       <input
                         required
-                        ref={time}
                         type="time"
                         className="text-cyan-700 p-1 rounded-lg"
+                        onChange={(e) =>
+                          setMeals((prev) =>
+                            prev.map((el) =>
+                              el.mealName === meals.mealName
+                                ? { ...el, time: e.target.value }
+                                : el
+                            )
+                          )
+                        }
                       />
                     </h1>
 
@@ -119,7 +115,7 @@ const DietInput = ({ setMeals, meals }) => {
 
                             <div className="w-[45%] m-auto">
                               <div className="flex justify-between p-4">
-                                <span>Macros</span>
+                                <span>Macros in GMS</span>
                                 <input
                                   required
                                   className="text-cyan-700 p-1 rounded-lg"
@@ -198,7 +194,7 @@ const DietInput = ({ setMeals, meals }) => {
             );
           })}
           <button type="submit" className="bg-green-400 p-2 rounded-lg">
-            Save All
+            Submit
           </button>
         </form>
       </div>
