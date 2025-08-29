@@ -115,7 +115,6 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
       return Meals;
     });
     setMeals(update);
-    toggle();
   }
 
   return (
