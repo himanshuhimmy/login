@@ -65,10 +65,7 @@ const DisplayDiet = ({ meal, toggle }) => {
                     TOTAL MACROS IN A DAY
                   </h1>
                   <div className="flex justify-around w-[50%] m-auto pb-6">
-                    <p className="text-purple-700">
-                      {" "}
-                      CARBS :- {total.Carbs} GM{" "}
-                    </p>
+                    <p className="text-purple-700">CARBS :- {total.Carbs} GM</p>
                     <p className="text-red-700"> FATS :- {total.Fats} GM </p>
                     <p className="text-green-700">
                       PROTIEN :- {total.Protien} GM
