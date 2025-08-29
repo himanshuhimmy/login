@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DisplayDiet from "./DisplayDiet";
 
-const UserInput = ({ meals, setMeals, name, SetName, toggle }) => {
+const UserInput = ({ meals, setMeals, name, SetName }) => {
   let inputBannerClass = " p-3 text-cyan-400";
   let inputClass = "rounded-lg p-1 mb-2 text-cyan-600";
   let buttonClass =
@@ -306,7 +306,7 @@ const UserInput = ({ meals, setMeals, name, SetName, toggle }) => {
 
         {navInput === 4 && (
           <div className="w-full">
-            <DisplayDiet meal={meals} toggle={toggle} />
+            <DisplayDiet meal={meals} />
           </div>
         )}
         <div className="w-[50%] flex justify-around m-auto">
