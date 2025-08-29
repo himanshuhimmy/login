@@ -77,7 +77,7 @@ const DisplayDiet = ({ meal, toggle }) => {
           </div>
         );
       })}
-      <button onClick={toggle}>Back </button>
+      {/* <button onClick={toggle}>Back </button> */}
     </div>
   );
 };

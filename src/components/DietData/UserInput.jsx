@@ -7,7 +7,7 @@ const UserInput = ({ meals, setMeals, name, SetName, toggle }) => {
   let buttonClass =
     "bg-cyan-600 p-4 rounded-xl text-white  hover:bg-cyan-500 transition-all duration-500";
 
-  let [navInput, setNavInput] = useState(3);
+  let [navInput, setNavInput] = useState(1);
 
   function setName(e) {
     let initialSate = [...name];
@@ -101,13 +101,14 @@ const UserInput = ({ meals, setMeals, name, SetName, toggle }) => {
 
   // update Items
   function onChangeHandle(field, value, Mid, Iid) {
+    console.log(field, value);
     let initalSate = [...meals];
     let update = initalSate.map((Meals) => {
       if (Meals.id === Mid) {
         return {
           ...Meals,
           item: Meals.item.map((el) =>
-            el.id === Iid ? { ...el, [field]: parseInt(value) } : el
+            el.id === Iid ? { ...el, [field]: value } : el
           ),
         };
       }
@@ -120,7 +121,7 @@ const UserInput = ({ meals, setMeals, name, SetName, toggle }) => {
   return (
     <div
       className={` bg-cyan-700 rounded-xl p-4 ${
-        navInput === 3 ? ` w-[90%]` : ` w-[30%]`
+        navInput === 3 || navInput === 4 ? ` w-[90%]` : ` w-[30%]`
       }  m-auto `}
     >
       <form onSubmit={onNextHandle}>
@@ -213,7 +214,6 @@ const UserInput = ({ meals, setMeals, name, SetName, toggle }) => {
                             <p className="text-white font-semibold">
                               Food Item :-{" "}
                             </p>
-
                             <input
                               value={Item.Food === 0 ? `` : Item.Food}
                               onChange={(e) =>
@@ -305,8 +305,8 @@ const UserInput = ({ meals, setMeals, name, SetName, toggle }) => {
         )}
 
         {navInput === 4 && (
-          <div>
-            <DisplayDiet meal={meals} />
+          <div className="w-full">
+            <DisplayDiet meal={meals} toggle={toggle} />
           </div>
         )}
         <div className="w-[50%] flex justify-around m-auto">
@@ -318,7 +318,11 @@ const UserInput = ({ meals, setMeals, name, SetName, toggle }) => {
           >
             Prev
           </button>
-          <button type="submit" className={buttonClass}>
+          <button
+            disabled={navInput === 4}
+            type="submit"
+            className={buttonClass}
+          >
             Next
           </button>
         </div>
