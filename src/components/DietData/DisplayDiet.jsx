@@ -1,4 +1,4 @@
-const DisplayDiet = ({ meal, toggle }) => {
+const DisplayDiet = ({ meal, toggle, name }) => {
   function GetTotal(item) {
     return item.reduce(
       (total, items) => {
@@ -23,12 +23,23 @@ const DisplayDiet = ({ meal, toggle }) => {
     });
   };
 
+  const dailyItems = meal.map((Meals) => Meals.item).flat();
+  const dailyTotal = GetTotal(dailyItems);
+
+  console.log(dailyItems);
   return (
     <div>
       {meal.map((Meals) => {
         let total = GetTotal(Meals.item);
         return (
           <div className="bg-cyan-200 rounded-xl m-2 p-2">
+            <div>
+              {name.map((el) => (
+                <h1 className="font-semibold text-2xl mb-3">
+                  {el.UserName}'s Diet Plan
+                </h1>
+              ))}
+            </div>
             {Meals.status && (
               <>
                 <h1 className="text-3xl font-bold p-4 rounded-2xl w-[25%] m-auto bg-cyan-300">
@@ -62,7 +73,7 @@ const DisplayDiet = ({ meal, toggle }) => {
                     })}
                   </div>
                   <h1 className="mb-2 text-xl font-semibold pt-4">
-                    TOTAL MACROS IN A DAY
+                    TOTAL MACROS IN A Meal
                   </h1>
                   <div className="flex justify-around w-[50%] m-auto pb-6">
                     <p className="text-purple-700">CARBS :- {total.Carbs} GM</p>
@@ -77,6 +88,14 @@ const DisplayDiet = ({ meal, toggle }) => {
           </div>
         );
       })}
+      <div className="bg-cyan-400 m-4 p-4 rounded-xl text-center">
+        <h1 className="text-2xl font-bold mb-2">Total Macros In A Day</h1>
+        <div className="flex justify-around w-[50%] m-auto">
+          <p className="text-purple-700">CARBS :- {dailyTotal.Carbs} GM</p>
+          <p className="text-red-700">FATS :- {dailyTotal.Fats} GM</p>
+          <p className="text-green-700">PROTEIN :- {dailyTotal.Protien} GM</p>
+        </div>
+      </div>
       {/* <button onClick={toggle}>Back </button> */}
     </div>
   );

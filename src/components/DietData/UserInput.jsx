@@ -2,12 +2,12 @@ import { useState } from "react";
 import DisplayDiet from "./DisplayDiet";
 
 const UserInput = ({ meals, setMeals, name, SetName }) => {
-  let inputBannerClass = " p-3 text-cyan-400";
+  let inputBannerClass = " p-3 text-cyan-700 font-semibold";
   let inputClass = "rounded-lg p-1 mb-2 text-cyan-600";
   let buttonClass =
     "bg-cyan-600 p-4 rounded-xl text-white  hover:bg-cyan-500 transition-all duration-500";
 
-  let [navInput, setNavInput] = useState(1);
+  let [navInput, setNavInput] = useState(4);
 
   function setName(e) {
     let initialSate = [...name];
@@ -33,6 +33,7 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
     SetName(update);
   }
 
+  // next prev
   function onNextHandle(event) {
     event.preventDefault();
     if (navInput === 4) {
@@ -128,7 +129,7 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
           <div>
             {name.map((el) => {
               return (
-                <div>
+                <div className=" bg-cyan-200 w-[65%] m-auto p-7 rounded-3xl mb-4">
                   <div className="flex-col ">
                     <p className={inputBannerClass}>Enter Your Full Name</p>
                     <input
@@ -160,7 +161,7 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
           </div>
         )}
         {navInput === 2 && (
-          <div className="mb-3 p-2">
+          <div className="bg-cyan-200 w-[65%] m-auto p-7 rounded-3xl mb-3 ">
             {meals.map((el) => {
               return (
                 <div>
@@ -193,15 +194,18 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
         )}
 
         {navInput === 3 && (
-          <div className="w-full">
+          <div className=" w-full">
             {meals.map((Meals) => {
               return (
-                <div key={Meals.id}>
+                <div
+                  className="bg-cyan-200  m-auto p-7 rounded-3xl mb-3"
+                  key={Meals.id}
+                >
                   <div className="flex justify-center mb-5">
-                    <h1 className="text-white font-semibold text-xl mx-3">
+                    <h1 className="text-cyan-700 font-semibold text-xl mx-3">
                       {Meals.mealName}
                     </h1>
-                    <h1 className="text-white  font-semibold text-xl mx-3">
+                    <h1 className="text-cyan-700  font-semibold text-xl mx-3">
                       Time:- {Meals.time}
                     </h1>
                   </div>
@@ -210,8 +214,8 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
                       <div key={Item.id} className="flex-col ">
                         <div>
                           <div className="flex justify-around w-[20%] m-auto mt-3">
-                            <p className="text-white font-semibold">
-                              Food Item :-{" "}
+                            <p className="text-cyan-700 font-semibold">
+                              Food Item :-
                             </p>
                             <input
                               value={Item.Food === 0 ? `` : Item.Food}
@@ -247,7 +251,10 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
                           </div>
                         </div>
                         <div className="flex justify-around w-[50%] m-auto p-3">
-                          <p className="text-white"> Macros in Gms</p>
+                          <p className="text-cyan-700 font-semibold">
+                            {" "}
+                            Macros in Gms
+                          </p>
                           <input
                             value={Item.Protien === 0 ? "" : Item.Protien}
                             placeholder="Protien"
@@ -305,7 +312,7 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
 
         {navInput === 4 && (
           <div className="w-full">
-            <DisplayDiet meal={meals} />
+            <DisplayDiet meal={meals} name={name} />
           </div>
         )}
         <div className="w-[50%] flex justify-around m-auto">
