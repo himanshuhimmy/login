@@ -7,13 +7,32 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
   let buttonClass =
     "bg-cyan-600 p-4 rounded-xl text-white  hover:bg-cyan-500 transition-all duration-500";
 
-  let [navInput, setNavInput] = useState(4);
+  let [navInput, setNavInput] = useState(1);
 
   function setName(e) {
     let initialSate = [...name];
     let update = initialSate.map((el) => ({ ...el, UserName: e.target.value }));
     SetName(update);
   }
+
+  // for loop alternate of arrya.from
+  // function hello(count) {
+  //   let data = [];
+  //   for (let i = 1; i <= count; i++) {
+  //     console.log(i);
+  //     data.push({
+  //       mealName: "",
+  //       id: i,
+  //       time: 0,
+  //       status: true,
+  //       item: [{ id: 1, Food: "", Carbs: 0, Fats: 0, Protein: 0 }],
+  //     });
+  //   }
+  //   console.log(data);
+  //   return data;
+  // }
+  // hello(6);
+
   function generateMeals(count) {
     return Array.from({ length: count }, (_, i) => ({
       mealName: "",

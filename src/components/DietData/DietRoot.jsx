@@ -45,27 +45,23 @@ const DietRoot = () => {
   // ]);
 
   let [name, setName] = useState([{ UserName: ``, mealNo: 0 }]);
-  console.log(name);
+
   let [userMeals, setUserMeals] = useState([
     {
       mealName: "aaa",
       time: 0,
       id: 1,
       status: true,
-      item: [{ id: 1, Food: "", Carbs: 20, Fats: 90, Protien: 60 }],
+      item: [{ id: 1, Food: "", Carbs: 0, Fats: 0, Protien: 0 }],
     },
     {
       mealName: "aaa",
       time: 0,
       id: 1,
       status: true,
-      item: [
-        { id: 1, Food: "", Carbs: 60, Fats: 30, Protien: 50 },
-        { id: 2, Food: "", Carbs: 10, Fats: 10, Protien: 30 },
-      ],
+      item: [{ id: 1, Food: "", Carbs: 0, Fats: 0, Protien: 0 }],
     },
   ]);
-  console.log(userMeals);
 
   function toggle() {
     setDisplay(!display);

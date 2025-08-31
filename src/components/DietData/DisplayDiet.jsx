@@ -26,7 +26,6 @@ const DisplayDiet = ({ meal, toggle, name }) => {
   const dailyItems = meal.map((Meals) => Meals.item).flat();
   const dailyTotal = GetTotal(dailyItems);
 
-  console.log(dailyItems);
   return (
     <div>
       {meal.map((Meals) => {
@@ -102,3 +101,23 @@ const DisplayDiet = ({ meal, toggle, name }) => {
 };
 
 export default DisplayDiet;
+
+// function ittrateno(value) {
+//   return value.reduce(
+//     (acc, data) => {
+//       acc.protien += data.Protien;
+//       acc.carbs += data.Carbs;
+//       acc.fats += data.Fats;
+//       return acc;
+//     },
+//     { protien: 0, carbs: 0, fats: 0 }
+//   );
+// }
+
+// console.log(
+//   ittrateno([
+//     { id: 1, Food: "", Carbs: 60, Fats: 30, Protien: 50 },
+//     { id: 2, Food: "", Carbs: 10, Fats: 10, Protien: 30 },
+//     { id: 3, Food: "", Carbs: 20, Fats: 90, Protien: 60 },
+//   ])
+// );
