@@ -48,14 +48,14 @@ const DietRoot = () => {
 
   let [userMeals, setUserMeals] = useState([
     {
-      mealName: "aaa",
+      mealName: "",
       time: 0,
       id: 1,
       status: true,
       item: [{ id: 1, Food: "", Carbs: 0, Fats: 0, Protien: 0 }],
     },
     {
-      mealName: "aaa",
+      mealName: "",
       time: 0,
       id: 1,
       status: true,

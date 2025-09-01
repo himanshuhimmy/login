@@ -66,19 +66,11 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
   }
 
   // update meal name and time
-  function MealName(Event, id) {
+  function UpdateTimeMealName(Field, value, id) {
     let initalSate = [...meals];
-    let userMeal = Event.target.value;
+    console.log(Field, value, id);
     let update = initalSate.map((el) =>
-      el.id === id ? { ...el, mealName: userMeal } : el
-    );
-    setMeals(update);
-  }
-  function MealTime(Event, id) {
-    let initalSate = [...meals];
-    let userTime = Event.target.value;
-    let update = initalSate.map((el) =>
-      el.id === id ? { ...el, time: userTime } : el
+      el.id === id ? { ...el, [Field]: value } : el
     );
     setMeals(update);
   }
@@ -152,7 +144,7 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
                   <div className="flex-col ">
                     <p className={inputBannerClass}>Enter Your Full Name</p>
                     <input
-                      value={el.UserName}
+                      value={el.UserName === 0 ? `` : el.UserName}
                       required
                       minLength={3}
                       className={inputClass}
@@ -187,13 +179,15 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
                   <div className="flex-col">
                     <p className={inputBannerClass}>Enter Your Meal Names </p>
                     <input
-                      value={el.mealName}
+                      value={el.mealName === 0 ? `` : el.mealName}
                       className={inputClass}
                       required
                       minLength={3}
                       placeholder={`meal no ${el.id}`}
                       type="text"
-                      onChange={(e) => MealName(e, el.id)}
+                      onChange={(e) =>
+                        UpdateTimeMealName("mealName", e.target.value, el.id)
+                      }
                     />
                   </div>
                   <div className="flex-col">
@@ -203,7 +197,9 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
                       className={inputClass}
                       required
                       type="time"
-                      onChange={(e) => MealTime(e, el.id)}
+                      onChange={(e) =>
+                        UpdateTimeMealName("time", e.target.value, el.id)
+                      }
                     />
                   </div>
                 </div>

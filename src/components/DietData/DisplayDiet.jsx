@@ -28,20 +28,20 @@ const DisplayDiet = ({ meal, toggle, name }) => {
 
   return (
     <div>
+      <div>
+        {name.map((el) => (
+          <h1 className="font-semibold text-cyan-200 text-2xl mb-3">
+            {el.UserName}'s Diet Plan
+          </h1>
+        ))}
+      </div>
       {meal.map((Meals) => {
         let total = GetTotal(Meals.item);
         return (
           <div className="bg-cyan-200 rounded-xl m-2 p-2">
-            <div>
-              {name.map((el) => (
-                <h1 className="font-semibold text-2xl mb-3">
-                  {el.UserName}'s Diet Plan
-                </h1>
-              ))}
-            </div>
             {Meals.status && (
               <>
-                <h1 className="text-3xl font-bold p-4 rounded-2xl w-[25%] m-auto bg-cyan-300">
+                <h1 className="text-3xl font-bold p-4 rounded-2xl w-[30%] m-auto bg-cyan-300">
                   {Meals.mealName} Time :-
                   <span className="text-cyan-900">
                     {formatTime12h(Meals.time)}
@@ -56,7 +56,7 @@ const DisplayDiet = ({ meal, toggle, name }) => {
                             ITEM NO {id + 1} :-
                             <span className="text-cyan-900">{item.Food}</span>
                           </p>
-                          <div className="flex justify-between w-[20%] m-auto">
+                          <div className="flex justify-between w-[30%] m-auto">
                             <p className="text-purple-700">
                               carbs {item.Carbs} gm
                             </p>
@@ -71,8 +71,8 @@ const DisplayDiet = ({ meal, toggle, name }) => {
                       );
                     })}
                   </div>
-                  <h1 className="mb-2 text-xl font-semibold pt-4">
-                    TOTAL MACROS IN A Meal
+                  <h1 className="mb-2 text-xl text-cyan-700 font-semibold pt-4">
+                    TOTAL MACROS IN A MEAL
                   </h1>
                   <div className="flex justify-around w-[50%] m-auto pb-6">
                     <p className="text-purple-700">CARBS :- {total.Carbs} GM</p>
@@ -101,23 +101,3 @@ const DisplayDiet = ({ meal, toggle, name }) => {
 };
 
 export default DisplayDiet;
-
-// function ittrateno(value) {
-//   return value.reduce(
-//     (acc, data) => {
-//       acc.protien += data.Protien;
-//       acc.carbs += data.Carbs;
-//       acc.fats += data.Fats;
-//       return acc;
-//     },
-//     { protien: 0, carbs: 0, fats: 0 }
-//   );
-// }
-
-// console.log(
-//   ittrateno([
-//     { id: 1, Food: "", Carbs: 60, Fats: 30, Protien: 50 },
-//     { id: 2, Food: "", Carbs: 10, Fats: 10, Protien: 30 },
-//     { id: 3, Food: "", Carbs: 20, Fats: 90, Protien: 60 },
-//   ])
-// );
