@@ -1,5 +1,8 @@
 import { useState } from "react";
 import DisplayDiet from "./DisplayDiet";
+import Step1User from "./Components/Step1User";
+import Step2MealName from "./Components/Step2MealName";
+import Step3Data from "./Components/Step3Data";
 
 const UserInput = ({ meals, setMeals, name, SetName }) => {
   let inputBannerClass = " p-3 text-cyan-700 font-semibold";
@@ -137,192 +140,32 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
     >
       <form onSubmit={onNextHandle}>
         {navInput === 1 && (
-          <div>
-            {name.map((el) => {
-              return (
-                <div className=" bg-cyan-200 w-[65%] m-auto p-7 rounded-3xl mb-4">
-                  <div className="flex-col ">
-                    <p className={inputBannerClass}>Enter Your Full Name</p>
-                    <input
-                      value={el.UserName === 0 ? `` : el.UserName}
-                      required
-                      minLength={3}
-                      className={inputClass}
-                      placeholder="Full Name"
-                      type="text"
-                      onChange={(e) => setName(e)}
-                    />
-                  </div>
-                  <div className="flex-col mb-4">
-                    <p className={inputBannerClass}>
-                      Total No Of Meals You Have ?
-                    </p>
-                    <input
-                      value={el.mealNo}
-                      required
-                      className={inputClass}
-                      placeholder="Meals ?"
-                      type="number"
-                      onChange={(e) => setNoMeal(e)}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <Step1User
+            name={name}
+            inputBannerClass={inputBannerClass}
+            inputClass={inputClass}
+            setName={setName}
+            setNoMeal={setNoMeal}
+          />
         )}
         {navInput === 2 && (
-          <div className="bg-cyan-200 w-[65%] m-auto p-7 rounded-3xl mb-3 ">
-            {meals.map((el) => {
-              return (
-                <div>
-                  <div className="flex-col">
-                    <p className={inputBannerClass}>Enter Your Meal Names </p>
-                    <input
-                      value={el.mealName === 0 ? `` : el.mealName}
-                      className={inputClass}
-                      required
-                      minLength={3}
-                      placeholder={`meal no ${el.id}`}
-                      type="text"
-                      onChange={(e) =>
-                        UpdateTimeMealName("mealName", e.target.value, el.id)
-                      }
-                    />
-                  </div>
-                  <div className="flex-col">
-                    <p className={inputBannerClass}>Enter Your Meal Timing </p>
-                    <input
-                      value={el.time}
-                      className={inputClass}
-                      required
-                      type="time"
-                      onChange={(e) =>
-                        UpdateTimeMealName("time", e.target.value, el.id)
-                      }
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <Step2MealName
+            inputBannerClass={inputBannerClass}
+            inputClass={inputClass}
+            meals={meals}
+            UpdateTimeMealName={UpdateTimeMealName}
+          />
         )}
 
         {navInput === 3 && (
-          <div className=" w-full">
-            {meals.map((Meals) => {
-              return (
-                <div
-                  className="bg-cyan-200  m-auto p-7 rounded-3xl mb-3"
-                  key={Meals.id}
-                >
-                  <div className="flex justify-center mb-5">
-                    <h1 className="text-cyan-700 font-semibold text-xl mx-3">
-                      {Meals.mealName}
-                    </h1>
-                    <h1 className="text-cyan-700  font-semibold text-xl mx-3">
-                      Time:- {Meals.time}
-                    </h1>
-                  </div>
-                  {Meals.item.map((Item) => {
-                    return (
-                      <div key={Item.id} className="flex-col ">
-                        <div>
-                          <div className="flex justify-around w-[20%] m-auto mt-3">
-                            <p className="text-cyan-700 font-semibold">
-                              Food Item :-
-                            </p>
-                            <input
-                              value={Item.Food === 0 ? `` : Item.Food}
-                              onChange={(e) =>
-                                onChangeHandle(
-                                  "Food",
-                                  e.target.value,
-                                  Meals.id,
-                                  Item.id
-                                )
-                              }
-                              placeholder="Food "
-                              className={inputClass}
-                              required
-                              type="text"
-                            />
-                          </div>
-                          <div className="flex justify-around w-[25%] m-auto p-3">
-                            <button
-                              onClick={() => handleAddItem(Meals.id, Item.id)}
-                              className={buttonClass}
-                            >
-                              Add Item
-                            </button>
-                            <button
-                              onClick={() =>
-                                handleRemoveItem(Meals.id, Item.id)
-                              }
-                              className={buttonClass}
-                            >
-                              Remove Item
-                            </button>
-                          </div>
-                        </div>
-                        <div className="flex justify-around w-[50%] m-auto p-3">
-                          <p className="text-cyan-700 font-semibold">
-                            {" "}
-                            Macros in Gms
-                          </p>
-                          <input
-                            value={Item.Protien === 0 ? "" : Item.Protien}
-                            placeholder="Protien"
-                            onChange={(e) =>
-                              onChangeHandle(
-                                "Protien",
-                                e.target.value,
-                                Meals.id,
-                                Item.id
-                              )
-                            }
-                            className={inputClass}
-                            required
-                            type="number"
-                          />
-                          <input
-                            value={Item.Carbs === 0 ? "" : Item.Carbs}
-                            placeholder="Carbs"
-                            onChange={(e) =>
-                              onChangeHandle(
-                                "Carbs",
-                                e.target.value,
-                                Meals.id,
-                                Item.id
-                              )
-                            }
-                            className={inputClass}
-                            required
-                            type="number"
-                          />
-                          <input
-                            value={Item.Fats === 0 ? "" : Item.Fats}
-                            placeholder="Fats"
-                            onChange={(e) =>
-                              onChangeHandle(
-                                "Fats",
-                                e.target.value,
-                                Meals.id,
-                                Item.id
-                              )
-                            }
-                            className={inputClass}
-                            required
-                            type="number"
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </div>
+          <Step3Data
+            inputClass={inputClass}
+            meals={meals}
+            handleAddItem={handleAddItem}
+            handleRemoveItem={handleRemoveItem}
+            onChangeHandle={onChangeHandle}
+            buttonClass={buttonClass}
+          />
         )}
 
         {navInput === 4 && (
