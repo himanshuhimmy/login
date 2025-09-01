@@ -1,8 +1,9 @@
 import React from "react";
+import InputField from "../Reusabel/InputField";
+import DButton from "../Reusabel/DButton";
 
 const Step3Data = ({
   meals,
-  inputClass,
   handleAddItem,
   handleRemoveItem,
   onChangeHandle,
@@ -32,7 +33,7 @@ const Step3Data = ({
                       <p className="text-cyan-700 font-semibold">
                         Food Item :-
                       </p>
-                      <input
+                      <InputField
                         value={Item.Food === 0 ? `` : Item.Food}
                         onChange={(e) =>
                           onChangeHandle(
@@ -43,29 +44,28 @@ const Step3Data = ({
                           )
                         }
                         placeholder="Food "
-                        className={inputClass}
                         required
                         type="text"
                       />
                     </div>
                     <div className="flex justify-around w-[25%] m-auto p-3">
-                      <button
+                      <DButton
                         onClick={() => handleAddItem(Meals.id, Item.id)}
                         className={buttonClass}
                       >
                         Add Item
-                      </button>
-                      <button
+                      </DButton>
+                      <DButton
                         onClick={() => handleRemoveItem(Meals.id, Item.id)}
                         className={buttonClass}
                       >
                         Remove Item
-                      </button>
+                      </DButton>
                     </div>
                   </div>
                   <div className="flex justify-around w-[50%] m-auto p-3">
                     <p className="text-cyan-700 font-semibold">Macros in Gms</p>
-                    <input
+                    <InputField
                       value={Item.Protien === 0 ? "" : Item.Protien}
                       placeholder="Protien"
                       onChange={(e) =>
@@ -76,11 +76,10 @@ const Step3Data = ({
                           Item.id
                         )
                       }
-                      className={inputClass}
                       required
                       type="number"
                     />
-                    <input
+                    <InputField
                       value={Item.Carbs === 0 ? "" : Item.Carbs}
                       placeholder="Carbs"
                       onChange={(e) =>
@@ -91,11 +90,10 @@ const Step3Data = ({
                           Item.id
                         )
                       }
-                      className={inputClass}
                       required
                       type="number"
                     />
-                    <input
+                    <InputField
                       value={Item.Fats === 0 ? "" : Item.Fats}
                       placeholder="Fats"
                       onChange={(e) =>
@@ -106,7 +104,6 @@ const Step3Data = ({
                           Item.id
                         )
                       }
-                      className={inputClass}
                       required
                       type="number"
                     />

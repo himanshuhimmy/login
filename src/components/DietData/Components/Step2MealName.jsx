@@ -1,11 +1,7 @@
 import React from "react";
+import InputField from "../Reusabel/InputField";
 
-const Step2MealName = ({
-  meals,
-  inputBannerClass,
-  inputClass,
-  UpdateTimeMealName,
-}) => {
+const Step2MealName = ({ meals, inputBannerClass, UpdateTimeMealName }) => {
   return (
     <div className="bg-cyan-200 w-[65%] m-auto p-7 rounded-3xl mb-3 ">
       {meals.map((el) => {
@@ -13,9 +9,8 @@ const Step2MealName = ({
           <div>
             <div className="flex-col">
               <p className={inputBannerClass}>Enter Your Meal Names </p>
-              <input
+              <InputField
                 value={el.mealName === 0 ? `` : el.mealName}
-                className={inputClass}
                 required
                 minLength={3}
                 placeholder={`meal no ${el.id}`}
@@ -27,9 +22,8 @@ const Step2MealName = ({
             </div>
             <div className="flex-col">
               <p className={inputBannerClass}>Enter Your Meal Timing </p>
-              <input
+              <InputField
                 value={el.time}
-                className={inputClass}
                 required
                 type="time"
                 onChange={(e) =>

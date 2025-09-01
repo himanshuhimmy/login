@@ -3,6 +3,7 @@ import DisplayDiet from "./DisplayDiet";
 import Step1User from "./Components/Step1User";
 import Step2MealName from "./Components/Step2MealName";
 import Step3Data from "./Components/Step3Data";
+import DButton from "./Reusabel/DButton";
 
 const UserInput = ({ meals, setMeals, name, SetName }) => {
   let inputBannerClass = " p-3 text-cyan-700 font-semibold";
@@ -143,7 +144,6 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
           <Step1User
             name={name}
             inputBannerClass={inputBannerClass}
-            inputClass={inputClass}
             setName={setName}
             setNoMeal={setNoMeal}
           />
@@ -151,7 +151,6 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
         {navInput === 2 && (
           <Step2MealName
             inputBannerClass={inputBannerClass}
-            inputClass={inputClass}
             meals={meals}
             UpdateTimeMealName={UpdateTimeMealName}
           />
@@ -159,7 +158,6 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
 
         {navInput === 3 && (
           <Step3Data
-            inputClass={inputClass}
             meals={meals}
             handleAddItem={handleAddItem}
             handleRemoveItem={handleRemoveItem}
@@ -174,21 +172,21 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
           </div>
         )}
         <div className="w-[50%] flex justify-around m-auto">
-          <button
+          <DButton
             type="button"
             className={buttonClass}
             onClick={onPrevHandle}
             disabled={navInput === 1}
           >
             Prev
-          </button>
-          <button
+          </DButton>
+          <DButton
             disabled={navInput === 4}
             type="submit"
             className={buttonClass}
           >
             Next
-          </button>
+          </DButton>
         </div>
       </form>
     </div>
