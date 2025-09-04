@@ -17,13 +17,15 @@ import HomeTic_Tac_toe from "./components/tic tac toe/HomeTic_Tac_toe";
 import WordGameHome from "./components/WordGame/WordGameHome";
 import DietRoot from "./components/DietData/DietRoot";
 import Practice from "./components/DietData/Practice";
+import DummyRoot from "./components/DummyDataSort/DummyRoot";
 
 function App() {
   return (
     <div className="App">
       <header className="">
+        <DummyRoot />
         {/* <Practice /> */}
-        <DietRoot />
+        {/* <DietRoot /> */}
         {/* <WordGameHome /> */}
         {/* <HomeTic_Tac_toe /> */}
         {/* <Tic_tac_toe /> */}

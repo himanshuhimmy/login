@@ -139,6 +139,13 @@ const UserInput = ({ meals, setMeals, name, SetName }) => {
         navInput === 3 || navInput === 4 ? ` w-[90%]` : ` w-[30%]`
       }  m-auto `}
     >
+      <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+        <div
+          className="bg-cyan-500 h-2.5 rounded-full transition-all duration-500"
+          style={{ width: `${(navInput / 4) * 100}%` }}
+        ></div>
+      </div>
+
       <form onSubmit={onNextHandle}>
         {navInput === 1 && (
           <Step1User

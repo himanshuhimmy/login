@@ -1,12 +1,13 @@
 import { useState } from "react";
-import BoxChess from "./BoxChess";
+
+import ChessBox from "./ChessBox";
 
 const ChessRoot = () => {
   let Num = [1, 2, 3, 4, 5, 6, 7, 8];
 
   let [toggle, setToggle] = useState(false);
 
-  function active(id) {
+  function onclickHandle(id) {
     if (toggle === id) {
       setToggle(false);
     } else {
@@ -14,42 +15,55 @@ const ChessRoot = () => {
     }
   }
 
-  function WhiteFirst({ perfix }) {
-    return Num.map((el) => {
-      return (
-        <BoxChess
-          key={el}
+  function WhiteFirst({ preFix }) {
+    return Num.map((el) =>
+      el % 2 ? (
+        <ChessBox
+          colour="white"
+          postFix={el}
+          preFix={preFix}
           toggle={toggle}
-          active={active}
-          postfix={el}
-          perfix={perfix}
-          colour={el % 2 ? `black` : `white`}
+          onclickHandle={onclickHandle}
         />
-      );
-    });
+      ) : (
+        <ChessBox
+          colour="black"
+          postFix={el}
+          preFix={preFix}
+          toggle={toggle}
+          onclickHandle={onclickHandle}
+        />
+      )
+    );
   }
-
-  function BlackFirst({ perfix }) {
-    return Num.map((el) => {
-      return (
-        <BoxChess
-          key={el}
+  function BlackFirst({ preFix }) {
+    return Num.map((el) =>
+      el % 2 ? (
+        <ChessBox
+          colour="black"
+          postFix={el}
+          preFix={preFix}
           toggle={toggle}
-          active={active}
-          postfix={el}
-          perfix={perfix}
-          colour={el % 2 ? `white` : `black`}
+          onclickHandle={onclickHandle}
         />
-      );
-    });
+      ) : (
+        <ChessBox
+          colour="white"
+          postFix={el}
+          preFix={preFix}
+          toggle={toggle}
+          onclickHandle={onclickHandle}
+        />
+      )
+    );
   }
 
   return (
-    <div className="bg-orange-200">
+    <div className="bg-orange-300   p-24">
       {Num.map((el) => {
         return (
-          <div key={el} className="flex">
-            {el % 2 ? <BlackFirst perfix={el} /> : <WhiteFirst perfix={el} />}
+          <div className="flex justify-center">
+            {el % 2 ? <WhiteFirst preFix={el} /> : <BlackFirst preFix={el} />}
           </div>
         );
       })}
