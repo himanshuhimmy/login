@@ -105,16 +105,14 @@ const DummyRoot = () => {
       setNotFound(true);
     }
   }
-  console.log(notFound);
 
   function toggleHandle() {
-    let initalSate = [...userSate];
-    if (toggle === true) {
-      let activeSataus = initalSate.filter((el) => el.status === `active`);
-      setUserState(activeSataus);
+    if (toggle) {
+      setUserState(users);
       setToggle(false);
     } else {
-      setUserState(users);
+      const activeUsers = users.filter((el) => el.status === "active");
+      setUserState(activeUsers);
       setToggle(true);
     }
   }
@@ -194,13 +192,13 @@ const DummyRoot = () => {
             onClick={toggleHandle}
             className="p-2 bg-teal-700 text-white rounded-xl ml-3"
           >
-            {toggle === true ? `All` : `Active`}
+            {toggle === true ? `Active` : `All`}
           </button>
           <button
             onClick={sortAge}
             className="p-2 bg-teal-700 text-white rounded-xl ml-3"
           >
-            {arrangeAge ? `Assending order` : `Decending order`}
+            {arrangeAge ? `Decending  order` : `Assending order`}
           </button>
         </div>
       </div>
