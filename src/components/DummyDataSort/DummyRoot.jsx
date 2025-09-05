@@ -78,19 +78,34 @@ const DummyRoot = () => {
   let [toggle, setToggle] = useState(false);
   let [searchedName, SetSearchedName] = useState();
   let [arrangeAge, setArrangeAge] = useState(false);
+  let [notFound, setNotFound] = useState(false);
   //   false= assending true = decending
   function onChangeHandle(e) {
     let newNAme = [];
     newNAme.push(e);
     SetSearchedName(newNAme);
+    if (e === ``) {
+      setUserState(users);
+      setNotFound(false);
+    }
   }
 
   function onSubmitHandle(event) {
     event.preventDefault();
     let initalSate = [...userSate];
 
-    //   console.log(initalSate.map((el) => searchedName.includes(el.name)));
+    if (initalSate.map((el) => el.name.includes(searchedName))) {
+      let UpdateName = initalSate.filter((el) =>
+        el.name.includes(searchedName)
+      );
+      console.log(`why worked`);
+      setUserState(UpdateName);
+    } else {
+      console.log(`worked`);
+      setNotFound(true);
+    }
   }
+  console.log(notFound);
 
   function toggleHandle() {
     let initalSate = [...userSate];
@@ -121,48 +136,44 @@ const DummyRoot = () => {
     <div>
       <div>
         <div className="flex justify-center">
-          <table>
-            <tr className="p-3 text-xl ">
-              <th>Name</th>
-              <th>E-MAIL</th>
-              <th>AGE</th>
-              <th>STATUS</th>
+          <table className="w-full border">
+            <tr className="bg-gray-100">
+              <th className="px-6 py-3 ">Name</th>
+              <th className="px-6 py-3 ">E-Mail</th>
+              <th className="px-6 py-3 ">Age</th>
+              <th className="px-6 py-3 ">Status</th>
             </tr>
-            {userSate.map((User) => {
-              return (
-                <>
-                  <tr className="font-semibold">
-                    <th
-                      className={
-                        User.status === `active`
-                          ? `text-green-700`
-                          : `text-red-700`
-                      }
-                    >
-                      <p> {User.name}</p>
-                    </th>
-                    <th>
-                      <p>{User.email}</p>
-                    </th>
-                    <th>
-                      <p>{User.age}</p>
-                    </th>
-                    <th
-                      className={
-                        User.status === `active`
-                          ? `text-green-700`
-                          : `text-red-700`
-                      }
-                    >
-                      <p>{User.status}</p>
-                    </th>
-                  </tr>
-                </>
-              );
-            })}
+
+            {userSate.map((user) => (
+              <tr>
+                <td
+                  className={`px-6 py-4 font-medium  ${
+                    user.status === "active" ? "text-green-600" : "text-red-600"
+                  }`}
+                >
+                  {user.name}
+                </td>
+                <td className="px-6 py-4">{user.email}</td>
+                <td className="px-6 py-4">{user.age}</td>
+                <td
+                  className={`px-6 py-4 font-semibold ${
+                    user.status === "active" ? "text-green-600" : "text-red-600"
+                  }`}
+                >
+                  {user.status}
+                </td>
+              </tr>
+            ))}
           </table>
         </div>
       </div>
+      {notFound && (
+        <div className="text-center pt-2 ">
+          <h1 className="text-2xl font-semibold text-red-300">
+            User Not Found
+          </h1>
+        </div>
+      )}
       <div>
         <form onSubmit={onSubmitHandle}>
           <div className="p-5 ">
@@ -183,7 +194,7 @@ const DummyRoot = () => {
             onClick={toggleHandle}
             className="p-2 bg-teal-700 text-white rounded-xl ml-3"
           >
-            Toggle
+            {toggle === true ? `All` : `Active`}
           </button>
           <button
             onClick={sortAge}
