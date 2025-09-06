@@ -87,7 +87,6 @@ const DummyRoot = () => {
       setNotFound(false);
     }
   }
-  // console.log(searchedName);
 
   function onSubmitHandle(event) {
     event.preventDefault();
