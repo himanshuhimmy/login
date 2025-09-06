@@ -81,27 +81,26 @@ const DummyRoot = () => {
   let [notFound, setNotFound] = useState(false);
   //   false= assending true = decending
   function onChangeHandle(e) {
-    let newNAme = [];
-    newNAme.push(e);
-    SetSearchedName(newNAme);
+    SetSearchedName(e);
     if (e === ``) {
       setUserState(users);
       setNotFound(false);
     }
   }
+  // console.log(searchedName);
 
   function onSubmitHandle(event) {
     event.preventDefault();
     let initalSate = [...userSate];
 
-    if (initalSate.map((el) => el.name.includes(searchedName))) {
-      let UpdateName = initalSate.filter((el) =>
-        el.name.includes(searchedName)
-      );
-      console.log(`why worked`);
-      setUserState(UpdateName);
+    const matches = initalSate.filter((el) => {
+      let Splitname = el.name.split(" ");
+      return Splitname[0] === searchedName;
+    });
+
+    if (matches != 0) {
+      setUserState(matches);
     } else {
-      console.log(`worked`);
       setNotFound(true);
     }
   }
@@ -142,26 +141,31 @@ const DummyRoot = () => {
               <th className="px-6 py-3 ">Status</th>
             </tr>
 
-            {userSate.map((user) => (
-              <tr>
-                <td
-                  className={`px-6 py-4 font-medium  ${
-                    user.status === "active" ? "text-green-600" : "text-red-600"
-                  }`}
-                >
-                  {user.name}
-                </td>
-                <td className="px-6 py-4">{user.email}</td>
-                <td className="px-6 py-4">{user.age}</td>
-                <td
-                  className={`px-6 py-4 font-semibold ${
-                    user.status === "active" ? "text-green-600" : "text-red-600"
-                  }`}
-                >
-                  {user.status}
-                </td>
-              </tr>
-            ))}
+            {!notFound &&
+              userSate.map((user) => (
+                <tr>
+                  <td
+                    className={`px-6 py-4 font-medium  ${
+                      user.status === "active"
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                  >
+                    {user.name}
+                  </td>
+                  <td className="px-6 py-4">{user.email}</td>
+                  <td className="px-6 py-4">{user.age}</td>
+                  <td
+                    className={`px-6 py-4 font-semibold ${
+                      user.status === "active"
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                  >
+                    {user.status}
+                  </td>
+                </tr>
+              ))}
           </table>
         </div>
       </div>

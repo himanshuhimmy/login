@@ -18,12 +18,14 @@ import WordGameHome from "./components/WordGame/WordGameHome";
 import DietRoot from "./components/DietData/DietRoot";
 import Practice from "./components/DietData/Practice";
 import DummyRoot from "./components/DummyDataSort/DummyRoot";
+import DummyPractice from "./components/DummyDataSort/DummyPractice";
 
 function App() {
   return (
     <div className="App">
       <header className="">
         <DummyRoot />
+        {/* <DummyPractice /> */}
         {/* <Practice /> */}
         {/* <DietRoot /> */}
         {/* <WordGameHome /> */}
