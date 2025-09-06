@@ -94,7 +94,7 @@ const DummyRoot = () => {
 
     const matches = initalSate.filter((el) => {
       let Splitname = el.name.split(" ");
-      return Splitname[0] === searchedName;
+      return Splitname[0] === searchedName || Splitname[1] === searchedName;
     });
 
     if (matches != 0) {
