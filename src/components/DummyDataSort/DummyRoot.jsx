@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const DummyRoot = () => {
   const users = [
@@ -79,25 +79,54 @@ const DummyRoot = () => {
   let [searchedName, SetSearchedName] = useState();
   let [arrangeAge, setArrangeAge] = useState(false);
   let [notFound, setNotFound] = useState(false);
+  let [page, setPage] = useState(1);
   //   false= assending true = decending
   function onChangeHandle(e) {
     SetSearchedName(e);
+    let initialState = [...users];
     if (e === ``) {
-      setUserState(users);
+      setUserState(initialState.slice((page - 1) * 5, page * 5));
       setNotFound(false);
     }
   }
 
+  function OnPrevHandle() {
+    if (page === 1) {
+      setPage(2);
+    } else {
+      setPage((prev) => prev - 1);
+    }
+  }
+  function OnNextHandle() {
+    if (page === 2) {
+      setPage(1);
+    } else {
+      setPage((prev) => prev + 1);
+    }
+  }
+
+  useEffect(() => {
+    let initialState = [...users];
+    // if (page === 1) {
+    //   let first5 = initialState.filter((el) => el.id <= 5);
+    //   setUserState(first5);
+    // } else if (page === 2) {
+    //   let next5 = initialState.filter((el) => el.id > 5);
+    //   setUserState(next5);
+    // }
+    setUserState(initialState.slice((page - 1) * 5, page * 5));
+  }, [page]);
+
   function onSubmitHandle(event) {
     event.preventDefault();
-    let initalSate = [...userSate];
+    let initalSate = [...users];
 
     const matches = initalSate.filter((el) => {
       let Splitname = el.name.split(" ");
       return Splitname[0] === searchedName || Splitname[1] === searchedName;
     });
 
-    if (matches != 0) {
+    if (matches.length > 0) {
       setUserState(matches);
     } else {
       setNotFound(true);
@@ -106,7 +135,8 @@ const DummyRoot = () => {
 
   function toggleHandle() {
     if (toggle) {
-      setUserState(users);
+      let initialState = [...users];
+      setUserState(initialState.slice((page - 1) * 5, page * 5));
       setToggle(false);
     } else {
       const activeUsers = users.filter((el) => el.status === "active");
@@ -178,6 +208,22 @@ const DummyRoot = () => {
       <div>
         <form onSubmit={onSubmitHandle}>
           <div className="p-5 ">
+            <div className="p-3">
+              <button
+                onClick={OnPrevHandle}
+                disabled={page === 1}
+                className={`p-2 bg-teal-700 text-white rounded-xl mx-4`}
+              >
+                Prev
+              </button>
+              <button
+                onClick={OnNextHandle}
+                disabled={page === 2}
+                className={`p-2 bg-teal-700 text-white rounded-xl mx-4`}
+              >
+                Next
+              </button>
+            </div>
             <input
               className="p-1 bg-teal-100 rounded-lg mr-4"
               placeholder="Search Name"

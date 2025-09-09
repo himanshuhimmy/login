@@ -82,7 +82,7 @@ const DummyPractice = () => {
 
     const matches = users.filter((el) => {
       let Splitname = el.name.split(" ");
-      return Splitname[0] === name;
+      return Splitname[0] === name || Splitname[1] === name;
     });
 
     if (matches != 0) {
@@ -92,6 +92,22 @@ const DummyPractice = () => {
     }
   }
 
+  let totalNoOfUsers = 5;
+
+  let [page, setPage] = useState(1);
+  function RenderUser() {
+    // let usersx = filteredUsers.map((el, id) => {});
+    // console.log(usersx);
+
+    if (page === 1) {
+      let first5 = filteredUsers.filter((el) => el.id <= 5);
+      console.log(first5);
+    } else {
+      let last5 = filteredUsers.filter((el) => el.id > 5);
+      console.log(last5);
+    }
+  }
+  RenderUser();
   return (
     <div>
       {found && (
@@ -101,10 +117,10 @@ const DummyPractice = () => {
           </h1>
         </div>
       )}
-      <div className="w-[90%] m-auto">
+      <div className="w-full p-3  m-auto">
         <table className="w-full border-collapse">
           <thead>
-            <tr>
+            <tr className=" font-semibold mb-2 bg-slate-300">
               <th className="px-6 py-2">Name</th>
               <th className="px-6 py-2">Email</th>
               <th className="px-6 py-2">Age</th>
@@ -136,7 +152,6 @@ const DummyPractice = () => {
         </table>
       </div>
 
-      {/* Search Form */}
       <div className="w-[90%] m-auto p-8 bg-slate-600">
         <form onSubmit={onSubmitHandle}>
           <input
