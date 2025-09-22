@@ -16,15 +16,18 @@ import { BrowserRouter } from "react-router-dom";
 import HomeTic_Tac_toe from "./components/tic tac toe/HomeTic_Tac_toe";
 import WordGameHome from "./components/WordGame/WordGameHome";
 import DietRoot from "./components/DietData/DietRoot";
-import Practice from "./components/DietData/Practice";
+import Practice from "./components/DummyDataSort/Practice";
 import DummyRoot from "./components/DummyDataSort/DummyRoot";
 import DummyPractice from "./components/DummyDataSort/DummyPractice";
+import Home from "./components/Api Handle/Home";
 
 function App() {
   return (
     <div className="App">
       <header className="">
-        <DummyRoot />
+        <Home />
+        {/* <Practice /> */}
+        {/* <DummyRoot /> */}
         {/* <DummyPractice /> */}
         {/* <Practice /> */}
         {/* <DietRoot /> */}
