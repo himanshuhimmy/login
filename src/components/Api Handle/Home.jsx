@@ -57,8 +57,8 @@ const Home = () => {
 
   return (
     <div>
-      <table className="m-auto">
-        <tr>
+      <table className="w-full border">
+        <tr className="p-3 bg-gray-500">
           <th className="p-4 mx-5"> Name </th>
           <th className="p-4"> Age </th>
           <th className="p-4"> Mobile </th>
@@ -69,10 +69,11 @@ const Home = () => {
         {recivedData != null &&
           recivedData.map((client) => {
             return (
-              <tr>
+              <tr className="p-5">
                 <td>
                   {editToggle === client._id ? (
                     <input
+                      className={InputClass}
                       onChange={(e) =>
                         handleEditChange(e.target.value, client._id, "name")
                       }
@@ -85,32 +86,59 @@ const Home = () => {
                 </td>
                 <td>
                   {editToggle === client._id ? (
-                    <input value={client.age} type="text" />
+                    <input
+                      onChange={(e) =>
+                        handleEditChange(e.target.value, client._id, "age")
+                      }
+                      value={client.age}
+                      type="text"
+                      className={InputClass}
+                    />
                   ) : (
                     <p>{client.age}</p>
                   )}
                 </td>
                 <td>
                   {editToggle === client._id ? (
-                    <input value={client.mobile} type="text" />
+                    <input
+                      onChange={(e) =>
+                        handleEditChange(e.target.value, client._id, "mobile")
+                      }
+                      value={client.mobile}
+                      type="text"
+                      className={InputClass}
+                    />
                   ) : (
                     <p> {client.mobile}</p>
                   )}
                 </td>
                 <td>
                   {editToggle === client._id ? (
-                    <input value={client.resides} type="text" />
+                    <input
+                      onChange={(e) =>
+                        handleEditChange(e.target.value, client._id, "resides")
+                      }
+                      value={client.resides}
+                      type="text"
+                      className={InputClass}
+                    />
                   ) : (
                     <p> {client.resides}</p>
                   )}
                 </td>
                 <td>
-                  <button onClick={() => handleEdit(client._id)}>
+                  <button
+                    className=" p-2 text-green-500 hover:text-green-700 transition-all duration-300"
+                    onClick={() => handleEdit(client._id)}
+                  >
                     {editToggle === client._id ? "Done" : "Edit"}
                   </button>
                 </td>
                 <td>
-                  <button onClick={() => HandleDelete(client.name)}>
+                  <button
+                    className=" p-2 text-red-500 hover:text-red-700 transition-all duration-300"
+                    onClick={() => HandleDelete(client.name)}
+                  >
                     Delete
                   </button>
                 </td>
