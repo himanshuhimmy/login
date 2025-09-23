@@ -33,6 +33,9 @@ const Home = () => {
   }
   function handleEdit(id) {
     if (editToggle === id) {
+      const updatedRow = recivedData.find((client) => client._id === id);
+      console.log(updatedRow);
+      axios.put(`http://localhost:8000/put/${id}`, updatedRow);
       setEditToggle(null);
     } else {
       setEditToggle(id);
