@@ -6,6 +6,8 @@ const Home = () => {
   let [updatedData, setUpdatedData] = useState({});
   let InputClass = "rounded-xl mx-4 p-1";
 
+  let [editToggle, setEditToggle] = useState(null);
+
   useEffect(() => {
     let data = async () => {
       const response = await axios.get("http://localhost:8000/get");
@@ -29,6 +31,13 @@ const Home = () => {
   function onChangeHandle(value, field) {
     setUpdatedData((prev) => ({ ...prev, [field]: value }));
   }
+  function handleEdit(id) {
+    if (editToggle === id) {
+      setEditToggle(null);
+    } else {
+      setEditToggle(id);
+    }
+  }
 
   function handleSubmit() {
     let data = async () => {
@@ -36,6 +45,14 @@ const Home = () => {
       setUpdatedData({});
     };
     data();
+  }
+
+  function handleEditChange(value, id, field) {
+    setRecivedData((prev) =>
+      prev.map((client) =>
+        client._id === id ? { ...client, [field]: value } : client
+      )
+    );
   }
 
   return (
@@ -51,15 +68,46 @@ const Home = () => {
         </tr>
         {recivedData != null &&
           recivedData.map((client) => {
-            let no = 0;
             return (
-              <tr id={no + 1}>
-                <td>{client.name}</td>
-                <td>{client.age}</td>
-                <td>{client.mobile}</td>
-                <td>{client.resides}</td>
+              <tr>
                 <td>
-                  <button>Edit</button>
+                  {editToggle === client._id ? (
+                    <input
+                      onChange={(e) =>
+                        handleEditChange(e.target.value, client._id, "name")
+                      }
+                      value={client.name}
+                      type="text"
+                    />
+                  ) : (
+                    <p>{client.name}</p>
+                  )}
+                </td>
+                <td>
+                  {editToggle === client._id ? (
+                    <input value={client.age} type="text" />
+                  ) : (
+                    <p>{client.age}</p>
+                  )}
+                </td>
+                <td>
+                  {editToggle === client._id ? (
+                    <input value={client.mobile} type="text" />
+                  ) : (
+                    <p> {client.mobile}</p>
+                  )}
+                </td>
+                <td>
+                  {editToggle === client._id ? (
+                    <input value={client.resides} type="text" />
+                  ) : (
+                    <p> {client.resides}</p>
+                  )}
+                </td>
+                <td>
+                  <button onClick={() => handleEdit(client._id)}>
+                    {editToggle === client._id ? "Done" : "Edit"}
+                  </button>
                 </td>
                 <td>
                   <button onClick={() => HandleDelete(client.name)}>
@@ -81,7 +129,7 @@ const Home = () => {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="flex justify-between">
+        <div className="flex justify-center p-7 ">
           <input
             required
             minLength={3}
