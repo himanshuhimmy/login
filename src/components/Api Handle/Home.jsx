@@ -58,6 +58,32 @@ const Home = () => {
     );
   }
 
+  let searchedName = ``;
+
+  function handleSearch(e) {
+    e.preventDefault();
+    let initalSate = [...recivedData];
+
+    let SearchedData = initalSate.filter(
+      (cleint) => cleint.name === searchedName
+    );
+
+    if (SearchedData != false) {
+      setRecivedData(SearchedData);
+    }
+  }
+  function handleSearcChange(vlaue) {
+    searchedName = vlaue;
+
+    if (vlaue === ``) {
+      let data = async () => {
+        const response = await axios.get("http://localhost:8000/get");
+        setRecivedData(response.data);
+      };
+      data();
+    }
+  }
+
   return (
     <div>
       <table className="w-full border">
@@ -151,12 +177,20 @@ const Home = () => {
       </table>
 
       <div className="bg-slate-600 p-7">
-        <div className=" flex justify-center ">
-          <input className={InputClass} placeholder="Enter Name" type="text" />
-          <button className=" p-2 text-white bg-green-500 hover:bg-green-700 transition-all duration-300 rounded-xl">
-            Search
-          </button>
-        </div>
+        <form onSubmit={handleSearch}>
+          <div className=" flex justify-center ">
+            <input
+              required
+              className={InputClass}
+              placeholder="Enter Name"
+              type="text"
+              onChange={(e) => handleSearcChange(e.target.value)}
+            />
+            <button className=" p-2 text-white bg-green-500 hover:bg-green-700 transition-all duration-300 rounded-xl">
+              Search
+            </button>
+          </div>
+        </form>
       </div>
 
       <form onSubmit={handleSubmit}>
