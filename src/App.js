@@ -20,12 +20,16 @@ import Practice from "./components/DummyDataSort/Practice";
 import DummyRoot from "./components/DummyDataSort/DummyRoot";
 import DummyPractice from "./components/DummyDataSort/DummyPractice";
 import Home from "./components/Api Handle/Home";
+import PracticeHome from "./components/Api Handle/PracticeHome";
+import LoginPgae from "./components/Blog Mini_project/LoginPgae";
 
 function App() {
   return (
     <div className="App">
       <header className="">
-        <Home />
+        <LoginPgae />
+        {/* <PracticeHome /> */}
+        {/* <Home /> */}
         {/* <Practice /> */}
         {/* <DummyRoot /> */}
         {/* <DummyPractice /> */}
