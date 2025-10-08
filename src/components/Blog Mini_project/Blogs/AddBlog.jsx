@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const AddBlog = ({ login }) => {
+const AddBlog = ({ login, author }) => {
   let InputClass = "rounded-xl mx-4 p-1";
   let [newData, setNewData] = useState({});
 
@@ -18,8 +18,8 @@ const AddBlog = ({ login }) => {
   }
 
   return (
-    <div className="p-4 bg-gray-300">
-      <h1 className="p-3 font-semibold text-xl">Add Your Blog</h1>
+    <div className="p-4 bg-gray-200">
+      <h1 className="p-3 font-semibold text-xl">{author} Add Your Blog</h1>
       <form onSubmit={onSubmit}>
         <div>
           <input

@@ -3,14 +3,33 @@ import Blogs from "./Blogs/Blogs";
 import axios from "axios";
 import AddBlog from "./Blogs/AddBlog";
 import Modal from "./Reusable/Modal";
+import SearchBlogs from "./Blogs/SearchBlogs";
+import Navigation_side from "./Blogs/Navigation_side";
+import DisplayBlog from "./Blogs/DisplayBlog";
+import ActiveBlog from "./Blogs/ActiveBlog";
 
 const LoginPgae = () => {
-  let loginDetails = { username: `himanshu`, password: `chauhan` };
+  let loginDetails = [
+    { id: 1, username: `Himanshu`, password: `chauhan` },
+    { id: 2, username: `Pratik`, password: `vora` },
+    { id: 3, username: `Deepraj`, password: `gupta` },
+    { id: 4, username: `Guts`, password: `beserk` },
+  ];
   let InputClass = "rounded-xl m-4 p-1";
 
+  let [activeAuthor, setActiveAuthor] = useState(``);
   let [loginStstus, SetLoginStatus] = useState(true);
+  let [activeId, setActiveId] = useState(``);
+
   let [recivedBlogs, setRecivedBlogs] = useState(null);
   let [modalStatus, setModalStatus] = useState(false);
+  let [serchedData, setSearchedData] = useState({
+    author: ``,
+    genre: ``,
+    title: ``,
+  });
+
+  let [searchedNameGenre, setSearchedNameGenre] = useState(false);
 
   useEffect(() => {
     let data = async () => {
@@ -19,6 +38,22 @@ const LoginPgae = () => {
     };
     data();
   }, []);
+  useEffect(() => {
+    if (!recivedBlogs) return;
+
+    let filtered = recivedBlogs.filter((blog) => {
+      let Title = blog.title
+        .toLowerCase()
+        .split(` `)
+        .includes(serchedData.title);
+      let Author = blog.author === serchedData.author;
+      let Genre = blog.genre === serchedData.genre;
+
+      return Author || Genre || Title;
+    });
+
+    setSearchedNameGenre(filtered);
+  }, [serchedData, recivedBlogs]);
 
   function toggleLoginButton() {
     if (loginStstus) {
@@ -28,7 +63,6 @@ const LoginPgae = () => {
     }
   }
 
-  console.log(loginStstus, modalStatus);
   let username = ``;
   let password = ``;
 
@@ -42,10 +76,12 @@ const LoginPgae = () => {
 
   function onSubmitHandle(e) {
     e.preventDefault();
-    if (
-      username === loginDetails.username &&
-      password === loginDetails.password
-    ) {
+    let CompareId = loginDetails.find(
+      (el) => el.username === username && el.password === password
+    );
+
+    if (CompareId) {
+      setActiveAuthor(username);
       SetLoginStatus(true);
       setModalStatus(false);
     } else {
@@ -69,7 +105,10 @@ const LoginPgae = () => {
           </div>
         </div>
       </header>
-      <AddBlog login={loginStstus} />
+      {loginStstus === true && (
+        <AddBlog author={activeAuthor} login={loginStstus} />
+      )}
+      <SearchBlogs search={serchedData} setSearch={setSearchedData} />
       {modalStatus === true && (
         <Modal ststus={modalStatus}>
           <div className="p-5 bg-slate-100 rounded-xl">
@@ -101,12 +140,28 @@ const LoginPgae = () => {
           </div>
         </Modal>
       )}
-      <div>
-        <Blogs
-          blogs={recivedBlogs}
-          login={loginStstus}
-          updateBlogs={setRecivedBlogs}
-        />
+      <div className="flex">
+        <div className="w-[30%]">
+          <Navigation_side setActiveId={setActiveId} blogs={recivedBlogs} />
+        </div>
+        <div className="w-[70%]">
+          {activeId === `` ? (
+            <DisplayBlog
+              loginStstus={loginStstus}
+              userSearch={searchedNameGenre}
+              setActiveId={setActiveId}
+            />
+          ) : (
+            <ActiveBlog
+              loginDetails={loginDetails}
+              activeAuthor={activeAuthor}
+              login={loginStstus}
+              updateBlogs={setRecivedBlogs}
+              setActiveId={setActiveId}
+              activeId={activeId}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
