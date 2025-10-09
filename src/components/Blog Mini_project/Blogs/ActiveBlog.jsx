@@ -3,6 +3,7 @@ import axios from "axios";
 import { ReactComponent as ViewsIcon } from "../svg/eyes-svgrepo-com.svg";
 import { ReactComponent as CommentIcon } from "../svg/comment-1-svgrepo-com.svg";
 import { ReactComponent as LikeIcon } from "../svg/like-svgrepo-com.svg";
+import Modal from "../Reusable/Modal";
 
 const ActiveBlog = ({
   activeId,
@@ -13,6 +14,7 @@ const ActiveBlog = ({
 }) => {
   let [blogs, setBlogs] = useState(``);
   let [toggleEdit, setTogleEdit] = useState(``);
+  let [modaltoggle, setModalToggle] = useState(false);
   let InputClass = "rounded-xl m-4 p-1";
 
   useEffect(() => {
@@ -37,6 +39,10 @@ const ActiveBlog = ({
     );
   }
 
+  function handleModal() {
+    setModalToggle(!modaltoggle);
+  }
+
   function handleButtonEdit(id) {
     if (toggleEdit === id) {
       let changed = blogs.find((el) => el._id === id);
@@ -50,13 +56,15 @@ const ActiveBlog = ({
     }
   }
 
-  function HandleDelete(id) {
+  function HandleDelete() {
     let deleteBlog = async () => {
-      await axios.delete(`http://localhost:7000/delete/${id}`);
+      await axios.delete(`http://localhost:7000/delete/${activeId}`);
       let response = await axios.get("http://localhost:7000/get");
       updateBlogs(response.data);
     };
     deleteBlog();
+    setModalToggle(!modaltoggle);
+    setActiveId(``);
   }
 
   return (
@@ -66,6 +74,29 @@ const ActiveBlog = ({
           let author = el.author.split(` `)[0];
           return (
             <div className="p-2 border-2 w-[60%] bg-blue-100 border-gray-400 rounded-2xl m-auto my-4 ">
+              {modaltoggle === true && (
+                <Modal ststus={modaltoggle}>
+                  <div className="p-4">
+                    <h1 className="font-semibold text-xl mb-4">
+                      Delete This Blog ?{" "}
+                    </h1>
+                    <div className="p-4">
+                      <button
+                        className="m-2 px-3 py-2 bg-red-400 rounded-lg hover:bg-red-500 transition-all duration-300"
+                        onClick={HandleDelete}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        className="m-2 px-3 py-2 bg-green-400 rounded-lg hover:bg-green-500 transition-all duration-300"
+                        onClick={handleModal}
+                      >
+                        cancel
+                      </button>
+                    </div>
+                  </div>
+                </Modal>
+              )}
               <div className="m-2">
                 {toggleEdit === el._id && author === activeAuthor ? (
                   <input
@@ -168,7 +199,7 @@ const ActiveBlog = ({
                 </p>
               </div>
               <div>
-                <p>
+                <p className="mb-2">
                   <samp className="font-semibold">Researched From -</samp>
                   {toggleEdit === el._id && author === activeAuthor ? (
                     <input
@@ -184,7 +215,7 @@ const ActiveBlog = ({
                   )}
                 </p>
 
-                <p className="flex m-auto justify-around w-[25%] font-semibold">
+                <p className="flex m-auto justify-around w-[50%] font-semibold mb-2">
                   #
                   {toggleEdit === el._id && author === activeAuthor ? (
                     <input
@@ -210,6 +241,7 @@ const ActiveBlog = ({
                   <p>- {el.commentsCount}</p>
                 </div>
               </div>
+
               <div>
                 <button
                   type="button"
@@ -224,7 +256,8 @@ const ActiveBlog = ({
                   {toggleEdit === el._id ? `Done` : `Edit`}
                 </button>
                 <button
-                  onClick={() => HandleDelete(el._id)}
+                  onClick={() => handleModal()}
+                  // onClick={() => HandleDelete(el._id)}
                   disabled={login === false || author !== activeAuthor}
                   className={`rounded-lg px-4 py-2 text-white m-4  ${
                     login === false || author !== activeAuthor

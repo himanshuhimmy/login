@@ -45,9 +45,9 @@ const SearchBlogs = ({ search, setSearch }) => {
             <option value="Philosophy">Philosophy</option>
             <option value="Leadership">Leadership</option>
             <option value="Technology">Technology</option>
-            <option value="AI">AI</option>
+            <option value="Artificial Intelligence">AI</option>
             <option value="Discipline">Discipline</option>
-            <option value="Personal Growth">Personal Growth</option>
+            {/* <option value="Personal Growth">Personal Growth</option> */}
           </select>
         </div>
         <div>

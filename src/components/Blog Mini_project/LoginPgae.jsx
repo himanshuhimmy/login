@@ -34,6 +34,7 @@ const LoginPgae = () => {
   useEffect(() => {
     let data = async () => {
       let response = await axios.get("http://localhost:7000/get");
+      console.log("Fetched blogs:", response.data);
       setRecivedBlogs(response.data);
     };
     data();
