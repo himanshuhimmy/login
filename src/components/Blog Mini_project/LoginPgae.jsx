@@ -38,6 +38,7 @@ const LoginPgae = () => {
     };
     data();
   }, []);
+
   useEffect(() => {
     if (!recivedBlogs) return;
 
