@@ -21,6 +21,7 @@ const LoginPgae = () => {
   let [loginStstus, SetLoginStatus] = useState(true);
   let [activeId, setActiveId] = useState(``);
 
+  let [loginError, setLoginError] = useState("");
   let [recivedBlogs, setRecivedBlogs] = useState(null);
   let [modalStatus, setModalStatus] = useState(false);
   let [serchedData, setSearchedData] = useState({
@@ -61,7 +62,7 @@ const LoginPgae = () => {
     if (loginStstus) {
       SetLoginStatus(false);
     } else {
-      setModalStatus(true);
+      setModalStatus(!modalStatus);
     }
   }
 
@@ -69,6 +70,8 @@ const LoginPgae = () => {
   let password = ``;
 
   function LoginHandle(field, value) {
+    if (loginError) setLoginError("");
+
     if (field === `username`) {
       username = value;
     } else {
@@ -87,6 +90,7 @@ const LoginPgae = () => {
       SetLoginStatus(true);
       setModalStatus(false);
     } else {
+      setLoginError("Invalid username or password!");
     }
   }
 
@@ -116,6 +120,9 @@ const LoginPgae = () => {
           <div className="p-5 bg-slate-100 rounded-xl">
             <h1 className="text-center mb-5 font-semibold text-xl">Login</h1>
             <form onSubmit={onSubmitHandle}>
+              {loginError && (
+                <p className="text-red-500 text-center mb-2">{loginError}</p>
+              )}
               <div className="flex flex-col justify-between">
                 <input
                   className={InputClass}
@@ -137,6 +144,13 @@ const LoginPgae = () => {
 
               <button className="bg-green-300 text-white px-3 py-2 rounded-lg">
                 Login
+              </button>
+              <button
+                type="button"
+                onClick={toggleLoginButton}
+                className="bg-red-400 text-white px-3 py-2 rounded-lg mx-2"
+              >
+                back
               </button>
             </form>
           </div>
