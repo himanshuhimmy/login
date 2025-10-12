@@ -21,6 +21,12 @@ const Navigation_side = ({ blogs, setActiveId }) => {
             return (
               <button onClick={() => handleSelectedId(el._id)} key={el._id}>
                 <div className="p-3 m-2 bg-slate-300 hover:bg-gray-300 transition-all duration-300 rounded-2xl">
+                  <img
+                    src={el.image}
+                    className="w-[30%]"
+                    alt="Description of image"
+                  />
+
                   <h1 className="font-semibold text-xl">{el.title}</h1>
                   <p>Author -{el.author}</p>
                   <div className="flex justify-around">

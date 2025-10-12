@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { BrowserRouter, Outlet, useNavigate } from "react-router-dom";
 import Blogs from "./Blogs/Blogs";
 import axios from "axios";
 import AddBlog from "./Blogs/AddBlog";
@@ -6,7 +7,13 @@ import Modal from "./Reusable/Modal";
 import SearchBlogs from "./Blogs/SearchBlogs";
 import Navigation_side from "./Blogs/Navigation_side";
 import DisplayBlog from "./Blogs/DisplayBlog";
-import ActiveBlog from "./Blogs/ActiveBlog";
+import ActiveBlog from "./Components/Pages/ActiveBlog";
+import Sidebar from "./Components/Sidebar";
+import RenderBlogs from "./Components/RenderBlogs";
+import Suggesions from "./Components/Suggesions";
+import DisplayAllBlogs from "./Components/Pages/DisplayAllBlogs";
+import SideSeachedBlogs from "./Components/Pages/SideSeachedBlogs";
+import BlogsContext from "./Store-Context/BlogsContext";
 
 const LoginPgae = () => {
   let loginDetails = [
@@ -35,7 +42,7 @@ const LoginPgae = () => {
   useEffect(() => {
     let data = async () => {
       let response = await axios.get("http://localhost:7000/get");
-      console.log("Fetched blogs:", response.data);
+      // console.log("Fetched blogs:", response.data);
       setRecivedBlogs(response.data);
     };
     data();
@@ -93,13 +100,34 @@ const LoginPgae = () => {
       setLoginError("Invalid username or password!");
     }
   }
+  const navigate = useNavigate();
+
+  function handleOnchange(e, field) {
+    navigate(`/searchedBlogs`);
+    setSearchedData((prev) => ({ ...prev, [field]: e }));
+  }
+
+  let ctxValue = {
+    recivedBlogs,
+    loginStstus,
+    activeAuthor,
+    setActiveId,
+    activeId,
+    serchedData,
+  };
 
   return (
     <div>
       <header className="p-5 bg-slate-400">
         <div className="flex justify-between">
-          <div>
-            <h1 className="p-1 text-2xl font-bold ml-5">Blogs For You</h1>
+          <div className="flex">
+            <h1 className="p-1 text-2xl font-bold ml-6">Blogs For You</h1>
+            <input
+              onChange={(e) => handleOnchange(e.target.value, `title`)}
+              className="ml-3 p-2 rounded-2xl"
+              placeholder="Search Title"
+              type="text"
+            />
           </div>
           <div className="mr-4">
             <button
@@ -114,7 +142,7 @@ const LoginPgae = () => {
       {loginStstus === true && (
         <AddBlog author={activeAuthor} login={loginStstus} />
       )}
-      <SearchBlogs search={serchedData} setSearch={setSearchedData} />
+      {/* <SearchBlogs search={serchedData} setSearch={setSearchedData} /> */}
       {modalStatus === true && (
         <Modal ststus={modalStatus}>
           <div className="p-5 bg-slate-100 rounded-xl">
@@ -156,27 +184,30 @@ const LoginPgae = () => {
           </div>
         </Modal>
       )}
-      <div className="flex">
-        <div className="w-[30%]">
-          <Navigation_side setActiveId={setActiveId} blogs={recivedBlogs} />
+      <div className="flex mt-2">
+        <div className="w-[20%] h-svh bg-slate-300 rounded-r-lg">
+          <Sidebar handleOnchange={handleOnchange} />
         </div>
-        <div className="w-[70%]">
-          {activeId === `` ? (
-            <DisplayBlog
-              loginStstus={loginStstus}
-              userSearch={searchedNameGenre}
-              setActiveId={setActiveId}
-            />
-          ) : (
-            <ActiveBlog
-              loginDetails={loginDetails}
-              activeAuthor={activeAuthor}
-              login={loginStstus}
-              updateBlogs={setRecivedBlogs}
-              setActiveId={setActiveId}
-              activeId={activeId}
-            />
-          )}
+        <div className="w-[65%]">
+          <BlogsContext.Provider value={ctxValue}>
+            <Outlet />
+          </BlogsContext.Provider>
+          {/* 
+          <DisplayAllBlogs setActiveId={setActiveId} Blogs={recivedBlogs} />
+
+          <ActiveBlog
+            login={loginStstus}
+            activeAuthor={activeAuthor}
+            setActiveId={setActiveId}
+            activeId={activeId}
+          />
+          <SideSeachedBlogs
+            setActiveId={setActiveId}
+            serchedData={serchedData}
+          /> */}
+        </div>
+        <div className="w-[15%] h-svh bg-slate-100 rounded-l-lg">
+          <Suggesions Blogs={recivedBlogs} />
         </div>
       </div>
     </div>
