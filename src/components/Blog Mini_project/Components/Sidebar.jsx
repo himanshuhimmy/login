@@ -1,5 +1,3 @@
-import { NavLink, useNavigate } from "react-router-dom";
-
 const Sidebar = ({ handleOnchange }) => {
   const authors = [
     { id: 1, name: "Himanshu Chauhan" },

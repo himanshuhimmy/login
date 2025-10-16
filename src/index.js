@@ -46,6 +46,7 @@ import LoginPgae from "./components/Blog Mini_project/LoginPgae";
 import SideSeachedBlogs from "./components/Blog Mini_project/Components/Pages/SideSeachedBlogs";
 import ActiveBlog from "./components/Blog Mini_project/Components/Pages/ActiveBlog";
 import DisplayAllBlogs from "./components/Blog Mini_project/Components/Pages/DisplayAllBlogs";
+import AddBlog from "./components/Blog Mini_project/Components/Pages/AddBlog";
 
 let router = createBrowserRouter([
   {
@@ -61,8 +62,12 @@ let router = createBrowserRouter([
         element: <SideSeachedBlogs />,
       },
       {
-        path: "activeBlog",
+        path: "activeBlog/:id",
         element: <ActiveBlog />,
+      },
+      {
+        path: "addBlog",
+        element: <AddBlog />,
       },
     ],
   },

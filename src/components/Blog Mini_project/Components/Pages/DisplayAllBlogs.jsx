@@ -19,12 +19,11 @@ const DisplayAllBlogs = () => {
   return (
     <div>
       <div>
-        <h1 className="text-2xl font-bold p-4 mb-4">Blogs </h1>
         {recivedBlogs !== undefined &&
           recivedBlogs !== null &&
           recivedBlogs.map((el) => {
             return (
-              <Link to={`activeBlog`}>
+              <Link to={`activeBlog/%${el._id}`}>
                 <button onClick={() => HandleActive(el._id)}>
                   <div className="p-3 bg-teal-100 rounded-xl m-3">
                     <div className="flex">

@@ -1,18 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Outlet, useNavigate } from "react-router-dom";
-import Blogs from "./Blogs/Blogs";
+import { useEffect, useState } from "react";
+import { Outlet, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import AddBlog from "./Blogs/AddBlog";
 import Modal from "./Reusable/Modal";
-import SearchBlogs from "./Blogs/SearchBlogs";
-import Navigation_side from "./Blogs/Navigation_side";
-import DisplayBlog from "./Blogs/DisplayBlog";
-import ActiveBlog from "./Components/Pages/ActiveBlog";
 import Sidebar from "./Components/Sidebar";
-import RenderBlogs from "./Components/RenderBlogs";
 import Suggesions from "./Components/Suggesions";
-import DisplayAllBlogs from "./Components/Pages/DisplayAllBlogs";
-import SideSeachedBlogs from "./Components/Pages/SideSeachedBlogs";
 import BlogsContext from "./Store-Context/BlogsContext";
 
 const LoginPgae = () => {
@@ -42,7 +33,7 @@ const LoginPgae = () => {
   useEffect(() => {
     let data = async () => {
       let response = await axios.get("http://localhost:7000/get");
-      // console.log("Fetched blogs:", response.data);
+      console.log("Fetched blogs:", response.data);
       setRecivedBlogs(response.data);
     };
     data();
@@ -62,7 +53,7 @@ const LoginPgae = () => {
       return Author || Genre || Title;
     });
 
-    setSearchedNameGenre(filtered);
+    // setSearchedNameGenre(filtered);
   }, [serchedData, recivedBlogs]);
 
   function toggleLoginButton() {
@@ -114,6 +105,8 @@ const LoginPgae = () => {
     setActiveId,
     activeId,
     serchedData,
+    setRecivedBlogs,
+    activeAuthor,
   };
 
   return (
@@ -130,6 +123,13 @@ const LoginPgae = () => {
             />
           </div>
           <div className="mr-4">
+            {loginStstus === true && (
+              <Link to={`/addBlog`}>
+                <button className="mx-4 px-3 py-2 bg-red-300 rounded-lg">
+                  Add A Blog
+                </button>
+              </Link>
+            )}
             <button
               onClick={toggleLoginButton}
               className="px-3 py-2 bg-green-300 rounded-md hover:bg-green-600 transition-all duration-300 hover:text-white"
@@ -139,10 +139,7 @@ const LoginPgae = () => {
           </div>
         </div>
       </header>
-      {loginStstus === true && (
-        <AddBlog author={activeAuthor} login={loginStstus} />
-      )}
-      {/* <SearchBlogs search={serchedData} setSearch={setSearchedData} /> */}
+
       {modalStatus === true && (
         <Modal ststus={modalStatus}>
           <div className="p-5 bg-slate-100 rounded-xl">
@@ -190,21 +187,9 @@ const LoginPgae = () => {
         </div>
         <div className="w-[65%]">
           <BlogsContext.Provider value={ctxValue}>
+            <h1 className="font-bold text-2xl text-center mb-4">Blogs</h1>
             <Outlet />
           </BlogsContext.Provider>
-          {/* 
-          <DisplayAllBlogs setActiveId={setActiveId} Blogs={recivedBlogs} />
-
-          <ActiveBlog
-            login={loginStstus}
-            activeAuthor={activeAuthor}
-            setActiveId={setActiveId}
-            activeId={activeId}
-          />
-          <SideSeachedBlogs
-            setActiveId={setActiveId}
-            serchedData={serchedData}
-          /> */}
         </div>
         <div className="w-[15%] h-svh bg-slate-100 rounded-l-lg">
           <Suggesions Blogs={recivedBlogs} />

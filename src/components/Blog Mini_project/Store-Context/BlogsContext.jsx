@@ -1,6 +1,7 @@
 import { createContext } from "react";
 
 const BlogsContext = createContext({
+  recivedBlogs: ``,
   serchedData: ``,
   loginStstus: false,
   activeAuthor: ``,
@@ -11,6 +12,8 @@ const BlogsContext = createContext({
     genre: "",
     title: "",
   },
+  setRecivedBlogs: () => {},
+  activeAuthor: ``,
 });
 
 export default BlogsContext;

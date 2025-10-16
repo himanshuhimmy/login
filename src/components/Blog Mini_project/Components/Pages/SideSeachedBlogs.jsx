@@ -31,6 +31,7 @@ const SideSeachedBlogs = () => {
       };
       data();
     }
+
     if (serchedData.title !== ``) {
     }
   }, [serchedData]);
@@ -48,7 +49,7 @@ const SideSeachedBlogs = () => {
       {data !== `` &&
         data.map((el) => {
           return (
-            <Link to={`/activeBlog`}>
+            <Link to={`/activeBlog/${el._id}`}>
               <button onClick={() => HandleActive(el._id)}>
                 <div className="p-3 bg-teal-100 rounded-xl m-3">
                   <div className="flex">

@@ -17,13 +17,18 @@ const ActiveBlog = () => {
   let { activeAuthor } = useContext(BlogsContext);
   let { setActiveId } = useContext(BlogsContext);
   let { loginStstus } = useContext(BlogsContext);
+  let { setRecivedBlogs } = useContext(BlogsContext);
+  let { recivedBlogs } = useContext(BlogsContext);
 
   function handleBack() {
     ``;
   }
 
   function OnEditHandle(id, field, value) {
-    updateBlogs((prev) =>
+    setRecivedBlogs((prev) =>
+      prev.map((blog) => (blog._id === id ? { ...blog, [field]: value } : blog))
+    );
+    setActive((prev) =>
       prev.map((blog) => (blog._id === id ? { ...blog, [field]: value } : blog))
     );
   }
@@ -34,7 +39,7 @@ const ActiveBlog = () => {
 
   function handleButtonEdit(id) {
     if (toggleEdit === id) {
-      let changed = blogs.find((el) => el._id === id);
+      let changed = recivedBlogs.find((el) => el._id === id);
       let data = async () => {
         await axios.put(`http://localhost:7000/update/${id}`, changed);
       };
@@ -49,7 +54,7 @@ const ActiveBlog = () => {
     let deleteBlog = async () => {
       await axios.delete(`http://localhost:7000/delete/${activeId}`);
       let response = await axios.get("http://localhost:7000/get");
-      updateBlogs(response.data);
+      setRecivedBlogs(response.data);
     };
     deleteBlog();
     setModalToggle(!modaltoggle);
@@ -67,6 +72,7 @@ const ActiveBlog = () => {
       data();
     }
   }, [activeId]);
+
   return (
     <div>
       {active !== `` &&
