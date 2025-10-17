@@ -6,6 +6,7 @@ import { ReactComponent as CommentIcon } from "../../svg/comment-1-svgrepo-com.s
 import { ReactComponent as ViewsIcon } from "../../svg/eyes-svgrepo-com.svg";
 import BlogsContext from "../../Store-Context/BlogsContext";
 import { Link } from "react-router-dom";
+import RichTextEditor from "./RichTextEditor";
 
 const ActiveBlog = () => {
   let [active, setActive] = useState(``);
@@ -21,7 +22,7 @@ const ActiveBlog = () => {
   let { recivedBlogs } = useContext(BlogsContext);
 
   function handleBack() {
-    ``;
+    setActiveId(``);
   }
 
   function OnEditHandle(id, field, value) {
@@ -39,6 +40,8 @@ const ActiveBlog = () => {
 
   function handleButtonEdit(id) {
     if (toggleEdit === id) {
+      console.log(recivedBlogs.find((el) => el._id === id));
+
       let changed = recivedBlogs.find((el) => el._id === id);
       let data = async () => {
         await axios.put(`http://localhost:7000/update/${id}`, changed);
@@ -184,21 +187,17 @@ const ActiveBlog = () => {
                 </div>
               </div>
               <div>
-                <p className="text-center p-3">
+                <div className="text-center p-3">
                   <samp className="font-semibold ">Content </samp>
                   {toggleEdit === el._id && author === activeAuthor ? (
-                    <textarea
-                      className="w-[50%] p-2 rounded-md"
+                    <RichTextEditor
                       value={el.content}
-                      onChange={(e) =>
-                        OnEditHandle(el._id, `content`, e.target.value)
-                      }
-                      InputClass="rounded-xl mx-4 p-1"
+                      onChange={(e) => OnEditHandle(el._id, "content", e)}
                     />
                   ) : (
                     <p className="text-center p-3">{el.content}</p>
                   )}
-                </p>
+                </div>
 
                 <p className=" text-center">
                   Published on -

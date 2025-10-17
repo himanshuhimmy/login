@@ -5,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import RichTextEditor from "./RichTextEditor";
+import { NavLink } from "react-router-dom";
 
 const BlogSchema = z.object({
   title: z
@@ -178,6 +179,17 @@ const AddBlog = () => {
           >
             Add
           </button>
+
+          <NavLink
+            to="/"
+            className={`rounded-lg px-4 py-2 text-white m-4 ${
+              loginStstus === false
+                ? "bg-stone-200"
+                : "bg-stone-400 hover:bg-stone-600 transition-all duration-300"
+            }`}
+          >
+            Back
+          </NavLink>
         </div>
       </form>
     </div>

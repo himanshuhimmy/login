@@ -29,7 +29,7 @@ const LoginPgae = () => {
   });
 
   let [searchedNameGenre, setSearchedNameGenre] = useState(false);
-
+  console.log(activeId);
   useEffect(() => {
     let data = async () => {
       let response = await axios.get("http://localhost:7000/get");
@@ -107,6 +107,7 @@ const LoginPgae = () => {
     serchedData,
     setRecivedBlogs,
     activeAuthor,
+    setSearchedData,
   };
 
   return (
@@ -185,15 +186,15 @@ const LoginPgae = () => {
         <div className="w-[20%] h-svh bg-slate-300 rounded-r-lg">
           <Sidebar handleOnchange={handleOnchange} />
         </div>
-        <div className="w-[65%]">
-          <BlogsContext.Provider value={ctxValue}>
+        <BlogsContext.Provider value={ctxValue}>
+          <div className="w-[65%]">
             <h1 className="font-bold text-2xl text-center mb-4">Blogs</h1>
             <Outlet />
-          </BlogsContext.Provider>
-        </div>
-        <div className="w-[15%] h-svh bg-slate-100 rounded-l-lg">
-          <Suggesions Blogs={recivedBlogs} />
-        </div>
+          </div>
+          <div className="w-[15%] h-svh bg-slate-100 rounded-l-lg">
+            <Suggesions />
+          </div>
+        </BlogsContext.Provider>
       </div>
     </div>
   );
