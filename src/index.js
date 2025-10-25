@@ -47,6 +47,9 @@ import SideSeachedBlogs from "./components/Blog Mini_project/Components/Pages/Si
 import ActiveBlog from "./components/Blog Mini_project/Components/Pages/ActiveBlog";
 import DisplayAllBlogs from "./components/Blog Mini_project/Components/Pages/DisplayAllBlogs";
 import AddBlog from "./components/Blog Mini_project/Components/Pages/AddBlog";
+import AddAuthor from "./components/Blog Mini_project/Components/Pages/AddAuthor";
+import OperationAuthors from "./components/Blog Mini_project/Components/Pages/OperationAuthors";
+import EditAuthor from "./components/Blog Mini_project/Components/Pages/EditAuthor";
 
 let router = createBrowserRouter([
   {
@@ -68,6 +71,18 @@ let router = createBrowserRouter([
       {
         path: "addBlog",
         element: <AddBlog />,
+      },
+      {
+        path: "addAuthor",
+        element: <AddAuthor />,
+      },
+      {
+        path: "OperationAuthors",
+        element: <OperationAuthors />,
+      },
+      {
+        path: "EditAuthor/:id",
+        element: <EditAuthor />,
       },
     ],
   },

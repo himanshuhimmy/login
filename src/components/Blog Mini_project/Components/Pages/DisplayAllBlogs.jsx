@@ -38,7 +38,7 @@ const DisplayAllBlogs = () => {
                           </p>
                           <p>
                             <samp className="font-semibold">Author - </samp>
-                            {el.author}
+                            {el.author?.name}
                           </p>
                         </div>
                         <div className="p-4">

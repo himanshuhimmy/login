@@ -1,7 +1,13 @@
 import React from "react";
+import Authors from "../Components/Pages/Authors";
+import ListAllAuthors from "../Components/Pages/ListAllAuthors";
+import { useContext } from "react";
+import BlogsContext from "../Store-Context/BlogsContext";
 
 const SearchBlogs = ({ search, setSearch }) => {
   let InputClass = "rounded-xl m-4 p-1";
+
+  let { loginStstus } = useContext(BlogsContext);
 
   function handleOnchange(e, field) {
     setSearch((prev) => ({ ...prev, [field]: e }));
@@ -47,7 +53,6 @@ const SearchBlogs = ({ search, setSearch }) => {
             <option value="Technology">Technology</option>
             <option value="Artificial Intelligence">AI</option>
             <option value="Discipline">Discipline</option>
-            {/* <option value="Personal Growth">Personal Growth</option> */}
           </select>
         </div>
         <div>

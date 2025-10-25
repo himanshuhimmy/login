@@ -5,6 +5,7 @@ import Modal from "./Reusable/Modal";
 import Sidebar from "./Components/Sidebar";
 import Suggesions from "./Components/Suggesions";
 import BlogsContext from "./Store-Context/BlogsContext";
+import ListAllAuthors from "./Components/Pages/ListAllAuthors";
 
 const LoginPgae = () => {
   let loginDetails = [
@@ -19,6 +20,8 @@ const LoginPgae = () => {
   let [loginStstus, SetLoginStatus] = useState(true);
   let [activeId, setActiveId] = useState(``);
 
+  // For Authors collection
+  let [activeAuthorId, setActiveAuthorId] = useState(null);
   let [loginError, setLoginError] = useState("");
   let [recivedBlogs, setRecivedBlogs] = useState(null);
   let [modalStatus, setModalStatus] = useState(false);
@@ -29,7 +32,7 @@ const LoginPgae = () => {
   });
 
   let [searchedNameGenre, setSearchedNameGenre] = useState(false);
-  console.log(activeId);
+
   useEffect(() => {
     let data = async () => {
       let response = await axios.get("http://localhost:7000/get");
@@ -101,15 +104,18 @@ const LoginPgae = () => {
   let ctxValue = {
     recivedBlogs,
     loginStstus,
+    SetLoginStatus,
     activeAuthor,
     setActiveId,
     activeId,
     serchedData,
     setRecivedBlogs,
-    activeAuthor,
     setSearchedData,
+    setActiveAuthorId,
+    activeAuthorId,
   };
 
+  console.log(`Login pAGE ${loginStstus}`);
   return (
     <div>
       <header className="p-5 bg-slate-400">

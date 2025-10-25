@@ -15,6 +15,8 @@ const BlogsContext = createContext({
   setRecivedBlogs: () => {},
   activeAuthor: ``,
   setSearchedData: () => {},
+  activeAuthorId: ``,
+  setActiveAuthorId: () => {},
 });
 
 export default BlogsContext;

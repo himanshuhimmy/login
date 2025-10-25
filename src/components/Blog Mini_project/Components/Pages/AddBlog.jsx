@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import BlogsContext from "../../Store-Context/BlogsContext";
 import { useForm, Controller } from "react-hook-form";
@@ -57,6 +57,7 @@ const AddBlog = () => {
 
     const formData = new FormData();
 
+    // to aviod error
     if (data.tags) {
       data.tags
         .split(",")
@@ -81,7 +82,7 @@ const AddBlog = () => {
 
     if (file) formData.append("BlogProfile", file);
 
-    console.log(formData);
+    // console.log(formData);
     const response = await axios.post("http://localhost:7000/post", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });

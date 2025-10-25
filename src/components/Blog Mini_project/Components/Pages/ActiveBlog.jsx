@@ -14,12 +14,14 @@ const ActiveBlog = () => {
   let [toggleEdit, setTogleEdit] = useState(``);
   let InputClass = "rounded-xl m-4 p-1";
 
-  let { activeId } = useContext(BlogsContext);
-  let { activeAuthor } = useContext(BlogsContext);
-  let { setActiveId } = useContext(BlogsContext);
-  let { loginStstus } = useContext(BlogsContext);
-  let { setRecivedBlogs } = useContext(BlogsContext);
-  let { recivedBlogs } = useContext(BlogsContext);
+  const {
+    activeId,
+    activeAuthor,
+    setActiveId,
+    loginStstus,
+    setRecivedBlogs,
+    recivedBlogs,
+  } = useContext(BlogsContext);
 
   function handleBack() {
     setActiveId(``);
@@ -76,11 +78,18 @@ const ActiveBlog = () => {
     }
   }, [activeId]);
 
+  // refference ti authors object id issue
+  active !== `` &&
+    active.map((el) => {
+      // console.log("active:", JSON.stringify(el, null, 2));
+    });
   return (
     <div>
       {active !== `` &&
         active.map((el) => {
-          let author = el.author.split(` `)[0];
+          let author = el.author;
+          console.log(`check ${el.author}`);
+          // ?.name.split(` `)[0];
           return (
             <div className="p-2 border-2 w-[90%] bg-blue-100 border-gray-400 rounded-2xl m-auto my-4 ">
               {modaltoggle === true && (
@@ -142,7 +151,7 @@ const ActiveBlog = () => {
                           InputClass="rounded-xl mx-4 p-1"
                         />
                       ) : (
-                        <samp className="font-normal"> {el.author}</samp>
+                        <samp className="font-normal"> {el.author?.name}</samp>
                       )}
                     </p>
                     <p className="font-semibold">

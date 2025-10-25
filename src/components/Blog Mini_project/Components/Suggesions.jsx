@@ -1,6 +1,9 @@
 import { useContext, useEffect, useMemo } from "react";
 import BlogsContext from "../Store-Context/BlogsContext";
 import { NavLink } from "react-router-dom";
+import Authors from "./Pages/Authors";
+import ListingAuthors from "./Pages/ListingAuthors";
+// import OperationAuthors from "./Pages./OperationAuthors ";
 
 const Suggesions = () => {
   const { activeId, recivedBlogs, setSearchedData } = useContext(BlogsContext);
@@ -15,7 +18,7 @@ const Suggesions = () => {
   let displayAuthor = useMemo(() => {
     const filteredAuthor = recivedBlogs.filter((el) => el._id === activeId);
 
-    return filteredAuthor.map((el) => el.author);
+    return filteredAuthor.map((el) => el.author?.name);
   }, [activeId]);
 
   useEffect(() => {
@@ -44,6 +47,8 @@ const Suggesions = () => {
           </NavLink>
         )}
       </div>
+      <Authors />
+      <ListingAuthors />
     </div>
   );
 };

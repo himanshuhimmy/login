@@ -1,3 +1,7 @@
+import { useContext } from "react";
+import BlogsContext from "../Store-Context/BlogsContext";
+import ListingAuthors from "./Pages/ListingAuthors";
+
 const Sidebar = ({ handleOnchange }) => {
   const authors = [
     { id: 1, name: "Himanshu Chauhan" },
@@ -19,37 +23,46 @@ const Sidebar = ({ handleOnchange }) => {
     { id: 9, name: "Discipline" },
   ];
 
+  let { loginStstus } = useContext(BlogsContext);
+
+  console.log(`side bar ${loginStstus}`);
   return (
     <div className="w-full">
-      <div className="p-3 my-3">
-        <h1 className="text-xl font-semibold mb-3">Authors</h1>
-        <select
-          onChange={(e) => handleOnchange(e.target.value, "author")}
-          className="p-2 rounded-lg bg-slate-200 text-gray-600 w-full"
-        >
-          <option value="">Select an Author</option>
-          {authors.map((author) => (
-            <option key={author.id} value={author.name}>
-              {author.name}
-            </option>
-          ))}
-        </select>
-      </div>
+      {loginStstus === true ? (
+        <ListingAuthors />
+      ) : (
+        <>
+          <div className="p-3 my-3">
+            <h1 className="text-xl font-semibold mb-3">Authors</h1>
+            <select
+              onChange={(e) => handleOnchange(e.target.value, "author")}
+              className="p-2 rounded-lg bg-slate-200 text-gray-600 w-full"
+            >
+              <option value="">Select an Author</option>
+              {authors.map((author) => (
+                <option key={author.id} value={author.name}>
+                  {author.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
-      <div className="p-4">
-        <h1 className="text-xl font-semibold mb-3">Genre</h1>
-        <select
-          onChange={(e) => handleOnchange(e.target.value, "genre")}
-          className="p-2 rounded-lg bg-slate-200 text-gray-600 w-full"
-        >
-          <option value="">Select Genre</option>
-          {genres.map((genre) => (
-            <option key={genre.id} value={genre.name}>
-              {genre.name}
-            </option>
-          ))}
-        </select>
-      </div>
+          <div className="p-4">
+            <h1 className="text-xl font-semibold mb-3">Genre</h1>
+            <select
+              onChange={(e) => handleOnchange(e.target.value, "genre")}
+              className="p-2 rounded-lg bg-slate-200 text-gray-600 w-full"
+            >
+              <option value="">Select Genre</option>
+              {genres.map((genre) => (
+                <option key={genre.id} value={genre.name}>
+                  {genre.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </>
+      )}
     </div>
   );
 };
