@@ -265,32 +265,34 @@ const ActiveBlog = () => {
                 </div>
               </div>
 
-              <div className=" flex justify-evenly w-[60%] m-auto">
-                <button
-                  type="button"
-                  onClick={() => handleButtonEdit(el._id)}
-                  disabled={loginStstus === false || author !== activeAuthor}
-                  className={`rounded-lg px-4 py-2 text-white m-4  ${
-                    loginStstus === false || author !== activeAuthor
-                      ? `bg-green-100`
-                      : `bg-green-400  hover:bg-green-600 transition-all duration-300`
-                  }`}
-                >
-                  {toggleEdit === el._id ? `Done` : `Edit`}
-                </button>
-                <button
-                  onClick={() => handleModal()}
-                  // onClick={() => HandleDelete(el._id)}
-                  disabled={loginStstus === false || author !== activeAuthor}
-                  className={`rounded-lg px-4 py-2 text-white m-4  ${
-                    loginStstus === false || author !== activeAuthor
-                      ? `bg-red-100`
-                      : `bg-red-400 hover:bg-red-600 transition-all duration-300 `
-                  }`}
-                >
-                  Delete
-                </button>
-              </div>
+              {loginStstus === true && (
+                <div className=" flex justify-evenly w-[60%] m-auto">
+                  <button
+                    type="button"
+                    onClick={() => handleButtonEdit(el._id)}
+                    disabled={loginStstus === false || author !== activeAuthor}
+                    className={`rounded-lg px-4 py-2 text-white m-4  ${
+                      loginStstus === false || author !== activeAuthor
+                        ? `bg-green-100`
+                        : `bg-green-400  hover:bg-green-600 transition-all duration-300`
+                    }`}
+                  >
+                    {toggleEdit === el._id ? `Done` : `Edit`}
+                  </button>
+                  <button
+                    onClick={() => handleModal()}
+                    // onClick={() => HandleDelete(el._id)}
+                    disabled={loginStstus === false || author !== activeAuthor}
+                    className={`rounded-lg px-4 py-2 text-white m-4  ${
+                      loginStstus === false || author !== activeAuthor
+                        ? `bg-red-100`
+                        : `bg-red-400 hover:bg-red-600 transition-all duration-300 `
+                    }`}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
               <div className="p-3 flex justify-center font-semibold">
                 <Link to={`/`}>
                   <button className="" onClick={handleBack}>

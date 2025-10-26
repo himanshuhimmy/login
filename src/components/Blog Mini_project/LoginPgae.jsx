@@ -94,6 +94,7 @@ const LoginPgae = () => {
       setLoginError("Invalid username or password!");
     }
   }
+  console.log(activeAuthor);
   const navigate = useNavigate();
 
   function handleOnchange(e, field) {

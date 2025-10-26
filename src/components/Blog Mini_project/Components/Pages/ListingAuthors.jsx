@@ -14,7 +14,7 @@ const ListingAuthors = () => {
       setAuthorsList(response.data);
     };
     data();
-  }, []);
+  }, [authorsList]);
 
   function SelectAuthor(id) {
     setActiveAuthorId(id);

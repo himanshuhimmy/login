@@ -9,6 +9,7 @@ import { Controller, useForm } from "react-hook-form";
 const EditAuthor = () => {
   let { id } = useParams();
   let [author, setAuthor] = useState(null);
+  let [changes, setChanges] = useState(null);
 
   useEffect(() => {
     let data = async () => {
@@ -26,13 +27,13 @@ const EditAuthor = () => {
       .min(3, { message: "Name Too Short" })
       .max(25, { message: "Name Too Long" }),
     email: z.email({ message: "Invalid email address" }),
-    insta: z.string().regex(/^@?([a-zA-Z0-9._]{1,30})$/, {
+    insta: z.string().min(5, {
       message: "Invalid Instagram handle",
     }),
     description: z
       .string()
       .min(20, { message: " Description too short " })
-      .max(200, { message: " Description too long " }),
+      .max(1000, { message: " Description too long " }),
   });
 
   const InputClass = "rounded-xl mx-4 p-1 w-full";
@@ -45,9 +46,32 @@ const EditAuthor = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(AuthorSchema), mode: "onChange" });
 
-  function HandleEdit(field, value) {}
+  function HandleEdit(field, value) {
+    setChanges((prev) => ({ ...prev, [field]: value }));
 
-  function onSubmit(data) {}
+    //   if (changes !== null) {
+    //     let data = async () => {
+    //       let response = await axios.get(
+    //         `http://localhost:7000/updateAuthor/${id}`,
+    //         changes
+    //       );
+    //       // setChanges(response.data);
+    //     };
+    //     data();
+    //     setChanges(null);
+    //   }
+  }
+
+  function onSubmit(edits) {
+    let data = async () => {
+      let response = await axios.put(
+        `http://localhost:7000/updateAuthor/${id}`,
+        edits
+      );
+      setChanges(response.data);
+    };
+    data();
+  }
 
   return (
     <div className="bg-teal-200 rounded-lg m-4 p-4">
@@ -66,7 +90,9 @@ const EditAuthor = () => {
                     type="text"
                     onChange={(e) => HandleEdit(`name`, e.target.value)}
                   />
-                  {errors.name && <p className={errorClass}>{errors.name}</p>}
+                  {errors.name && (
+                    <p className={errorClass}>{errors.name.message}</p>
+                  )}
                 </div>
                 <div className="w-[40%]  mb-4 text-center ">
                   <p className="mb-2 font-semibold"> E-mail</p>
@@ -77,7 +103,9 @@ const EditAuthor = () => {
                     type="text"
                     onChange={(e) => HandleEdit(`email`, e.target.value)}
                   />
-                  {errors.email && <p className={errorClass}>{errors.email}</p>}
+                  {errors.email && (
+                    <p className={errorClass}>{errors.email.message}</p>
+                  )}
                 </div>
 
                 <div className="w-[40%]  mb-4 text-center ">
@@ -89,19 +117,33 @@ const EditAuthor = () => {
                     type="text"
                     onChange={(e) => HandleEdit(`insta`, e.target.value)}
                   />
-                  {errors.insta && <p className={errorClass}>{errors.insta}</p>}
+                  {errors.insta && (
+                    <p className={errorClass}>{errors.insta.message}</p>
+                  )}
                 </div>
 
                 <div className="w-[80%]  mb-4 text-center ">
                   <p className="mb-2 font-semibold">Description</p>
 
-                  <RichTextEditor
-                    value={el.description}
-                    onChange={(e) => HandleEdit(`description`, e.target.value)}
+                  <Controller
+                    name="description"
+                    control={control}
+                    defaultValue={el.description || ""} // Ensure default is a string
+                    render={({ field }) => (
+                      <RichTextEditor
+                        {...field} // connects value & onChange
+                        onChange={(val) => field.onChange(val)} // make sure changes propagate
+                      />
+                    )}
                   />
 
+                  {/* <RichTextEditor
+                    value={el.description}
+                    onChange={(e) => HandleEdit(`description`, e)}
+                  /> */}
+
                   {errors.description && (
-                    <p className={errorClass}>{errors.description}</p>
+                    <p className={errorClass}>{errors.description.message}</p>
                   )}
                 </div>
                 <div className="w-full flex m-3 justify-center">

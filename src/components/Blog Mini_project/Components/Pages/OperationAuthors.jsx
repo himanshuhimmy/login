@@ -4,10 +4,11 @@ import axios from "axios";
 import { ReactComponent as Gmail } from "../../svg/gmail.svg";
 import { ReactComponent as Insta } from "../../svg/insta.svg";
 import { NavLink } from "react-router-dom";
+import Modal from "../../Reusable/Modal";
 
 const OperationAuthors = () => {
   let [currentAuthor, setCurrentAuthor] = useState(null);
-
+  let [toggle, setToggle] = useState(false);
   let { activeAuthorId } = useContext(BlogsContext);
 
   useEffect(() => {
@@ -17,6 +18,18 @@ const OperationAuthors = () => {
     };
     data();
   }, []);
+
+  function ModalToggle() {
+    setToggle(!toggle);
+  }
+
+  function handleDelete(id) {
+    let data = async () => {
+      await axios.delete(`http://localhost:7000/deleteAuthor/${id}`);
+    };
+    data();
+    setToggle(!toggle);
+  }
 
   let AuthorFilter =
     currentAuthor !== null &&
@@ -29,6 +42,30 @@ const OperationAuthors = () => {
           {AuthorFilter.map((el) => {
             return (
               <div className="bg-slate-300 rounded-xl m-3 p-4">
+                {toggle === true && (
+                  <Modal status={toggle}>
+                    <div className="p-5 bg-teal-400 rounded-2xl">
+                      <h1 className="text-xl font-semibold">
+                        Delete This Author ?
+                      </h1>
+
+                      <div className="mt-4">
+                        <button
+                          className="bg-red-200 rounded-xl py-2 px-3 mx-2"
+                          onClick={() => handleDelete(el._id)}
+                        >
+                          Delete
+                        </button>
+                        <button
+                          className="bg-green-200 rounded-xl py-2 px-3 mx-2"
+                          onClick={ModalToggle}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </Modal>
+                )}
                 <div className="flex p-3">
                   <div className="w-[60%] ">
                     <h1 className="text-center text-xl font-semibold mb-4">
@@ -52,9 +89,20 @@ const OperationAuthors = () => {
                 </div>
                 <div className="text-center">
                   <NavLink to={`/EditAuthor/${el._id}`}>
-                    <button className="bg-green-200 rounded-xl py-2 px-3">
+                    <button className="bg-green-200 rounded-xl py-2 px-3 mx-2">
                       Edit
                     </button>
+                  </NavLink>
+                  <button
+                    onClick={ModalToggle}
+                    className="bg-red-200 rounded-xl py-2 px-3 mx-2"
+                  >
+                    Delete
+                  </button>
+                </div>
+                <div className="text-center mt-4">
+                  <NavLink to={".."}>
+                    <button>Back</button>
                   </NavLink>
                 </div>
               </div>
