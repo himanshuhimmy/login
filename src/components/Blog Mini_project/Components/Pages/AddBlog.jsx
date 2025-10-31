@@ -13,9 +13,7 @@ const BlogSchema = z.object({
     .min(5, { message: "Title must be at least 5 characters" })
     .max(100, { message: "Title too long" })
     .nonempty({ message: "Title is required" }),
-  author: z.string(),
-  // .min(3, { message: "Author name too short" })
-  // .max(50, { message: "Author name too long" }),
+  author: z.string().min(1, { message: "Author is required" }),
   genre: z
     .string()
     .min(3, { message: "Genre too short" })
@@ -25,10 +23,9 @@ const BlogSchema = z.object({
     .min(20, { message: "Content too short" })
     .max(2000, { message: "Content too long" })
     .nonempty({ message: "Content is required" }),
-  publishDate: z.string(),
+  publishDate: z.string().optional(),
   tags: z.string().optional(),
   researchedFrom: z.string(),
-  image: z.string().url().optional(),
 });
 
 const AddBlog = () => {
@@ -46,7 +43,7 @@ const AddBlog = () => {
   });
 
   let [fetchAuthor, setFetchAuthor] = useState(null);
-  let [selectedAuthor, setSelectedAuthor] = useState(null);
+  let [selectedAuthorId, setSelectedAuthorId] = useState("");
 
   useEffect(() => {
     let data = async () => {
@@ -54,7 +51,7 @@ const AddBlog = () => {
       setFetchAuthor(response.data);
     };
     data();
-  }, [selectedAuthor]);
+  }, []);
 
   const InputClass = "rounded-xl mx-4 p-1";
   const errorClass = "m-2 font-thin text-red-500";
@@ -79,9 +76,7 @@ const AddBlog = () => {
         .forEach((r) => formData.append("researchedFrom", r.trim()));
     }
 
-    let filterName = fetchAuthor.filter((el) => el.name === selectedAuthor);
-    let SelectedAuthorName =
-      filterName !== undefined || (filterName !== null && filterName._id);
+    const authorIdToUse = data.author || selectedAuthorId;
 
     formData.set("likes", likesRandom);
     formData.set("commentsCount", commentsRandom);
@@ -89,14 +84,15 @@ const AddBlog = () => {
     formData.set("authorRating", authorRatingRandom);
 
     formData.append("title", data.title);
-    formData.append("author", data.SelectedAuthorName);
+    if (authorIdToUse) {
+      formData.append("author", authorIdToUse);
+    }
     formData.append("genre", data.genre);
     formData.append("content", data.content);
     formData.append("publishDate", data.publishDate);
 
     if (file) formData.append("BlogProfile", file);
 
-    // console.log(formData);
     const response = await axios.post("http://localhost:7000/post", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
@@ -132,14 +128,19 @@ const AddBlog = () => {
           </div>
           <div>
             <label>Select An Author</label>
-            <select className="p-1" {...register("author")} name="" id="">
+            <select
+              className="p-1"
+              {...register("author")}
+              onChange={(e) => setSelectedAuthorId(e.target.value)}
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Select author
+              </option>
               {fetchAuthor !== null &&
                 fetchAuthor.map((el) => {
                   return (
-                    <option
-                      onChange={() => setSelectedAuthor(el.name)}
-                      value={el.name}
-                    >
+                    <option key={el._id} value={el._id}>
                       {el.name}
                     </option>
                   );
