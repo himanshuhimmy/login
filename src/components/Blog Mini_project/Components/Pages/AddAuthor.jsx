@@ -10,11 +10,9 @@ const authorSchema = z.object({
     .string()
     .min(3, { message: "Name must be at least 5 characters" })
     .max(30, { message: "Name too long" }),
-  insta: z
-    .string()
-    .regex(/^@?([a-zA-Z0-9._]{1,30})$/, {
-      message: "Invalid Instagram handle",
-    }),
+  insta: z.string().regex(/^@?([a-zA-Z0-9._]{1,30})$/, {
+    message: "Invalid Instagram handle",
+  }),
   email: z.email({ message: "Invalid email address" }),
   description: z
     .string()
@@ -121,7 +119,7 @@ const AddAuthor = () => {
             <button className="bg-gray-200 px-3 py-2 text-green-600 rounded-md hover:bg-gray-400 hover:text-white transition-all duration-300">
               Add Author
             </button>
-            l
+
             <NavLink to={".."}>
               <button>Back</button>
             </NavLink>

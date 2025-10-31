@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 const ListingAuthors = () => {
   let [authorsList, setAuthorsList] = useState(null);
 
-  let { setActiveAuthorId } = useContext(BlogsContext);
+  let { setActiveAuthorId, activeAuthorId } = useContext(BlogsContext);
 
   useEffect(() => {
     let data = async () => {
@@ -21,14 +21,22 @@ const ListingAuthors = () => {
   }
 
   return (
-    <div>
+    <div className="p-4 mx-3 mt-2">
+      <h1 className="text-center font-semibold text-2xl m-3">Edit Authors</h1>
       {authorsList !== null &&
         authorsList.map((el) => {
           return (
             <ul>
-              <li>
+              <li className="">
                 <NavLink to={"OperationAuthors"}>
-                  <button onClick={() => SelectAuthor(el._id)}>
+                  <button
+                    className={`hover:text-orange-600 transition-all duration-200 ${
+                      el._id === activeAuthorId
+                        ? " text-white font-semibold"
+                        : " "
+                    }`}
+                    onClick={() => SelectAuthor(el._id)}
+                  >
                     {el.name}
                   </button>
                 </NavLink>

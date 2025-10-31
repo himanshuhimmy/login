@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import BlogsContext from "../../Store-Context/BlogsContext";
 import { useForm, Controller } from "react-hook-form";
@@ -13,10 +13,9 @@ const BlogSchema = z.object({
     .min(5, { message: "Title must be at least 5 characters" })
     .max(100, { message: "Title too long" })
     .nonempty({ message: "Title is required" }),
-  author: z
-    .string()
-    .min(3, { message: "Author name too short" })
-    .max(50, { message: "Author name too long" }),
+  author: z.string(),
+  // .min(3, { message: "Author name too short" })
+  // .max(50, { message: "Author name too long" }),
   genre: z
     .string()
     .min(3, { message: "Genre too short" })
@@ -46,6 +45,17 @@ const AddBlog = () => {
     mode: "onChange",
   });
 
+  let [fetchAuthor, setFetchAuthor] = useState(null);
+  let [selectedAuthor, setSelectedAuthor] = useState(null);
+
+  useEffect(() => {
+    let data = async () => {
+      let response = await axios.get(`http://localhost:7000/fetchAuthors`);
+      setFetchAuthor(response.data);
+    };
+    data();
+  }, [selectedAuthor]);
+
   const InputClass = "rounded-xl mx-4 p-1";
   const errorClass = "m-2 font-thin text-red-500";
 
@@ -69,13 +79,17 @@ const AddBlog = () => {
         .forEach((r) => formData.append("researchedFrom", r.trim()));
     }
 
+    let filterName = fetchAuthor.filter((el) => el.name === selectedAuthor);
+    let SelectedAuthorName =
+      filterName !== undefined || (filterName !== null && filterName._id);
+
     formData.set("likes", likesRandom);
     formData.set("commentsCount", commentsRandom);
     formData.set("views", viewsRandom);
     formData.set("authorRating", authorRatingRandom);
 
     formData.append("title", data.title);
-    formData.append("author", data.author);
+    formData.append("author", data.SelectedAuthorName);
     formData.append("genre", data.genre);
     formData.append("content", data.content);
     formData.append("publishDate", data.publishDate);
@@ -117,8 +131,21 @@ const AddBlog = () => {
             )}
           </div>
           <div>
-            <label>Author</label>
-            <input {...register("author")} className={InputClass} />
+            <label>Select An Author</label>
+            <select className="p-1" {...register("author")} name="" id="">
+              {fetchAuthor !== null &&
+                fetchAuthor.map((el) => {
+                  return (
+                    <option
+                      onChange={() => setSelectedAuthor(el.name)}
+                      value={el.name}
+                    >
+                      {el.name}
+                    </option>
+                  );
+                })}
+            </select>
+            {/* <input {...register("author")} className={InputClass} /> */}
             {errors.author && (
               <p className={errorClass}>{errors.author.message}</p>
             )}

@@ -9,17 +9,19 @@ import { Controller, useForm } from "react-hook-form";
 const EditAuthor = () => {
   let { id } = useParams();
   let [author, setAuthor] = useState(null);
-  let [changes, setChanges] = useState(null);
 
   useEffect(() => {
     let data = async () => {
       let response = await axios.get(
         `http://localhost:7000/fetchAuthorId/${id}`
       );
-      setAuthor(response.data);
+      // API returns an array; pick the first item
+      setAuthor(
+        Array.isArray(response.data) ? response.data[0] : response.data
+      );
     };
     data();
-  }, []);
+  }, [id]);
 
   let AuthorSchema = z.object({
     name: z
@@ -43,32 +45,25 @@ const EditAuthor = () => {
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({ resolver: zodResolver(AuthorSchema), mode: "onChange" });
 
-  function HandleEdit(field, value) {
-    setChanges((prev) => ({ ...prev, [field]: value }));
-
-    //   if (changes !== null) {
-    //     let data = async () => {
-    //       let response = await axios.get(
-    //         `http://localhost:7000/updateAuthor/${id}`,
-    //         changes
-    //       );
-    //       // setChanges(response.data);
-    //     };
-    //     data();
-    //     setChanges(null);
-    //   }
-  }
+  // When author loads, prefill the form fields
+  useEffect(() => {
+    if (author) {
+      reset({
+        name: author.name || "",
+        email: author.email || "",
+        insta: author.insta || "",
+        description: author.description || "",
+      });
+    }
+  }, [author, reset]);
 
   function onSubmit(edits) {
     let data = async () => {
-      let response = await axios.put(
-        `http://localhost:7000/updateAuthor/${id}`,
-        edits
-      );
-      setChanges(response.data);
+      await axios.put(`http://localhost:7000/updateAuthor/${id}`, edits);
     };
     data();
   }
@@ -77,88 +72,70 @@ const EditAuthor = () => {
     <div className="bg-teal-200 rounded-lg m-4 p-4">
       <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
         <h1 className="text-center font-medium text-2xl mb-5">Author</h1>
-        {author !== null &&
-          author.map((el) => {
-            return (
-              <div className="w-full flex flex-wrap justify-evenly">
-                <div className="w-[40%] mb-4 text-center ">
-                  <p className="mb-2 font-semibold">Full Name</p>
-                  <input
-                    {...register("name")}
-                    className={InputClass}
-                    defaultValue={el.name}
-                    type="text"
-                    onChange={(e) => HandleEdit(`name`, e.target.value)}
+        {author !== null && (
+          <div className="w-full flex flex-wrap justify-evenly">
+            <div className="w-[40%] mb-4 text-center ">
+              <p className="mb-2 font-semibold">Full Name</p>
+              <input {...register("name")} className={InputClass} type="text" />
+              {errors.name && (
+                <p className={errorClass}>{errors.name.message}</p>
+              )}
+            </div>
+            <div className="w-[40%]  mb-4 text-center ">
+              <p className="mb-2 font-semibold"> E-mail</p>
+              <input
+                {...register("email")}
+                className={InputClass}
+                type="text"
+              />
+              {errors.email && (
+                <p className={errorClass}>{errors.email.message}</p>
+              )}
+            </div>
+
+            <div className="w-[40%]  mb-4 text-center ">
+              <p className="mb-2 font-semibold">Insta Url</p>
+              <input
+                {...register("insta")}
+                className={InputClass}
+                type="text"
+              />
+              {errors.insta && (
+                <p className={errorClass}>{errors.insta.message}</p>
+              )}
+            </div>
+
+            <div className="w-[80%]  mb-4 text-center ">
+              <p className="mb-2 font-semibold">Description</p>
+
+              <Controller
+                name="description"
+                control={control}
+                defaultValue={""}
+                render={({ field }) => (
+                  <RichTextEditor
+                    {...field}
+                    onChange={(val) => field.onChange(val)}
                   />
-                  {errors.name && (
-                    <p className={errorClass}>{errors.name.message}</p>
-                  )}
-                </div>
-                <div className="w-[40%]  mb-4 text-center ">
-                  <p className="mb-2 font-semibold"> E-mail</p>
-                  <input
-                    {...register("email")}
-                    className={InputClass}
-                    defaultValue={el.email}
-                    type="text"
-                    onChange={(e) => HandleEdit(`email`, e.target.value)}
-                  />
-                  {errors.email && (
-                    <p className={errorClass}>{errors.email.message}</p>
-                  )}
-                </div>
+                )}
+              />
 
-                <div className="w-[40%]  mb-4 text-center ">
-                  <p className="mb-2 font-semibold">Insta Url</p>
-                  <input
-                    {...register("insta")}
-                    className={InputClass}
-                    defaultValue={el.insta}
-                    type="text"
-                    onChange={(e) => HandleEdit(`insta`, e.target.value)}
-                  />
-                  {errors.insta && (
-                    <p className={errorClass}>{errors.insta.message}</p>
-                  )}
-                </div>
-
-                <div className="w-[80%]  mb-4 text-center ">
-                  <p className="mb-2 font-semibold">Description</p>
-
-                  <Controller
-                    name="description"
-                    control={control}
-                    defaultValue={el.description || ""} // Ensure default is a string
-                    render={({ field }) => (
-                      <RichTextEditor
-                        {...field} // connects value & onChange
-                        onChange={(val) => field.onChange(val)} // make sure changes propagate
-                      />
-                    )}
-                  />
-
-                  {/* <RichTextEditor
-                    value={el.description}
-                    onChange={(e) => HandleEdit(`description`, e)}
-                  /> */}
-
-                  {errors.description && (
-                    <p className={errorClass}>{errors.description.message}</p>
-                  )}
-                </div>
-                <div className="w-full flex m-3 justify-center">
-                  <button className="bg-teal-100 p-3 rounded-xl text-green-950 mx-3">
-                    Done
-                  </button>
-                  <NavLink to={".."}>
-                    <button className="p-3 hover:text-red-500 transition-all">
-                      Back
-                    </button>
-                  </NavLink>
-                </div>
-              </div>
-            );
-          })}
+              {errors.description && (
+                <p className={errorClass}>{errors.description.message}</p>
+              )}
+            </div>
+            <div className="w-full flex m-3 justify-center">
+              <button className="bg-teal-100 p-3 rounded-xl text-green-950 mx-3">
+                Done
+              </button>
+              <NavLink to={".."}>
+                <button className="p-3 hover:text-red-500 transition-all">
+                  Back
+                </button>
+              </NavLink>
+            </div>
+          </div>
+        )}
       </form>
     </div>
   );

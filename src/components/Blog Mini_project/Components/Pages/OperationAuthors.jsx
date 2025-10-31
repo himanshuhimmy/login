@@ -71,7 +71,10 @@ const OperationAuthors = () => {
                     <h1 className="text-center text-xl font-semibold mb-4">
                       {el.name}
                     </h1>
-                    <p className="text-left p-2">{el.description}</p>
+                    <div
+                      className="text-left p-2"
+                      dangerouslySetInnerHTML={{ __html: el.description }}
+                    />
                   </div>
                   <img className="w-[40%]" src={el.image} alt="" />
                 </div>

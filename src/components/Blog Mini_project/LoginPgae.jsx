@@ -31,6 +31,9 @@ const LoginPgae = () => {
     title: ``,
   });
 
+  // local state for title input; only search on Enter
+  let [titleInput, setTitleInput] = useState("");
+
   let [searchedNameGenre, setSearchedNameGenre] = useState(false);
 
   useEffect(() => {
@@ -98,8 +101,24 @@ const LoginPgae = () => {
   const navigate = useNavigate();
 
   function handleOnchange(e, field) {
-    navigate(`/searchedBlogs`);
-    setSearchedData((prev) => ({ ...prev, [field]: e }));
+    // author/genre search happens immediately
+    if (field === "author" || field === "genre") {
+      navigate(`/searchedBlogs`);
+      setSearchedData((prev) => ({ ...prev, [field]: e }));
+    }
+  }
+
+  function handleTitleKeyDown(ev) {
+    if (ev.key === "Enter") {
+      const value = titleInput.trim();
+      if (value) {
+        navigate(`/searchedBlogs`);
+        setSearchedData((prev) => ({ ...prev, title: value }));
+      } else {
+        // clear title search if input is empty and Enter pressed
+        setSearchedData((prev) => ({ ...prev, title: "" }));
+      }
+    }
   }
 
   let ctxValue = {
@@ -116,7 +135,6 @@ const LoginPgae = () => {
     activeAuthorId,
   };
 
-  console.log(`Login pAGE ${loginStstus}`);
   return (
     <div>
       <header className="p-5 bg-slate-400">
@@ -124,20 +142,15 @@ const LoginPgae = () => {
           <div className="flex">
             <h1 className="p-1 text-2xl font-bold ml-6">Blogs For You</h1>
             <input
-              onChange={(e) => handleOnchange(e.target.value, `title`)}
+              value={titleInput}
+              onChange={(e) => setTitleInput(e.target.value)}
+              onKeyDown={handleTitleKeyDown}
               className="ml-3 p-2 rounded-2xl"
               placeholder="Search Title"
               type="text"
             />
           </div>
           <div className="mr-4">
-            {loginStstus === true && (
-              <Link to={`/addBlog`}>
-                <button className="mx-4 px-3 py-2 bg-red-300 rounded-lg">
-                  Add A Blog
-                </button>
-              </Link>
-            )}
             <button
               onClick={toggleLoginButton}
               className="px-3 py-2 bg-green-300 rounded-md hover:bg-green-600 transition-all duration-300 hover:text-white"
@@ -189,11 +202,11 @@ const LoginPgae = () => {
           </div>
         </Modal>
       )}
-      <div className="flex mt-2">
-        <div className="w-[20%] h-svh bg-slate-300 rounded-r-lg">
-          <Sidebar handleOnchange={handleOnchange} />
-        </div>
-        <BlogsContext.Provider value={ctxValue}>
+      <BlogsContext.Provider value={ctxValue}>
+        <div className="flex mt-2">
+          <div className="w-[20%] h-svh bg-slate-300 rounded-r-lg">
+            <Sidebar handleOnchange={handleOnchange} />
+          </div>
           <div className="w-[65%]">
             <h1 className="font-bold text-2xl text-center mb-4">Blogs</h1>
             <Outlet />
@@ -201,8 +214,8 @@ const LoginPgae = () => {
           <div className="w-[15%] h-svh bg-slate-100 rounded-l-lg">
             <Suggesions />
           </div>
-        </BlogsContext.Provider>
-      </div>
+        </div>
+      </BlogsContext.Provider>
     </div>
   );
 };

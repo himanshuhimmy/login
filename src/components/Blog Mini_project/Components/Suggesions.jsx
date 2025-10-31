@@ -47,8 +47,6 @@ const Suggesions = () => {
           </NavLink>
         )}
       </div>
-      <Authors />
-      <ListingAuthors />
     </div>
   );
 };

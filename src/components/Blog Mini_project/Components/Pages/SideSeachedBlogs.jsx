@@ -7,18 +7,33 @@ import BlogsContext from "../../Store-Context/BlogsContext";
 import { Link } from "react-router-dom";
 
 const SideSeachedBlogs = () => {
-  let [data, setData] = useState(``);
+  let [data, setData] = useState([]);
 
   let { serchedData } = useContext(BlogsContext);
   let { setActiveId } = useContext(BlogsContext);
 
   useEffect(() => {
+    // If no criteria provided, show all blogs (useful on reload of /searchedBlogs)
+    if (
+      (!serchedData.author || serchedData.author === ``) &&
+      (!serchedData.genre || serchedData.genre === ``) &&
+      (!serchedData.title || serchedData.title === ``)
+    ) {
+      let fetchAll = async () => {
+        let Response = await axios.get(`http://localhost:7000/get`);
+        setData(Response.data);
+      };
+      fetchAll();
+      return;
+    }
+
     if (serchedData.author !== ``) {
+      console.log(serchedData.author);
       let data = async () => {
         let Response = await axios.get(
           `http://localhost:7000/get/author/${serchedData.author}`
         );
-        setData((prev) => ({ ...prev }, Response.data));
+        setData(Response.data);
       };
       data();
     }
@@ -27,17 +42,31 @@ const SideSeachedBlogs = () => {
         let Response = await axios.get(
           `http://localhost:7000/get/genre/${serchedData.genre}`
         );
-        setData((prev) => ({ ...prev }, Response.data));
+        setData(Response.data);
       };
       data();
     }
 
     if (serchedData.title !== ``) {
+      let data = async () => {
+        let Response = await axios.get(
+          `http://localhost:7000/get/title/${serchedData.title}`
+        );
+        setData(Response.data);
+      };
+      data();
     }
   }, [serchedData]);
 
+  function stripHtml(html) {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  }
+
   function getFirstWords(text, count) {
-    return text.split(" ").slice(0, count).join(" ") + "    ...ReadMore";
+    const plain = stripHtml(text || "");
+    return plain.split(" ").slice(0, count).join(" ") + "    ...ReadMore";
   }
 
   function HandleActive(id) {
@@ -46,11 +75,12 @@ const SideSeachedBlogs = () => {
 
   return (
     <div>
-      {data !== `` &&
+      {data &&
+        Array.isArray(data) &&
+        data.length > 0 &&
         data.map((el) => {
           return (
             <Link to={`/activeBlog/${el._id}`}>
-              {console.log(el)}
               <button onClick={() => HandleActive(el._id)}>
                 <div className="p-3 bg-teal-100 rounded-xl m-3">
                   <div className="flex">
@@ -65,7 +95,7 @@ const SideSeachedBlogs = () => {
                         </p>
                         <p>
                           <samp className="font-semibold">Author - </samp>
-                          {el.author}
+                          {el.author?.name}
                         </p>
                       </div>
                       <div className="p-4">

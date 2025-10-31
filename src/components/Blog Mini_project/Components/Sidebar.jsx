@@ -1,6 +1,9 @@
 import { useContext } from "react";
 import BlogsContext from "../Store-Context/BlogsContext";
 import ListingAuthors from "./Pages/ListingAuthors";
+import AddAuthor from "./Pages/AddAuthor";
+import Authors from "./Pages/Authors";
+import { Link, NavLink } from "react-router-dom";
 
 const Sidebar = ({ handleOnchange }) => {
   const authors = [
@@ -8,7 +11,7 @@ const Sidebar = ({ handleOnchange }) => {
     { id: 2, name: "Pratik Vora" },
     { id: 3, name: "Deepraj Gupta" },
     { id: 4, name: "Roman Reigns" },
-    { id: 5, name: "Guts Beserk" },
+    { id: 5, name: "Guts Berserk" },
   ];
 
   const genres = [
@@ -25,11 +28,28 @@ const Sidebar = ({ handleOnchange }) => {
 
   let { loginStstus } = useContext(BlogsContext);
 
-  console.log(`side bar ${loginStstus}`);
   return (
-    <div className="w-full">
+    <div className="w-full ">
       {loginStstus === true ? (
-        <ListingAuthors />
+        <div>
+          <ListingAuthors />
+          <Authors />
+          <div className="m-4">
+            <h1 className="text-xl font-semibold text-center mb-3">
+              Add A New Blog
+            </h1>
+            <NavLink
+              to="/addBlog"
+              className={({ isActive }) =>
+                isActive
+                  ? "bg-slate-500 px-4 py-2 rounded-md"
+                  : "bg-slate-400 px-3 py-2 rounded-lg"
+              }
+            >
+              + Add A Blog
+            </NavLink>
+          </div>
+        </div>
       ) : (
         <>
           <div className="p-3 my-3">

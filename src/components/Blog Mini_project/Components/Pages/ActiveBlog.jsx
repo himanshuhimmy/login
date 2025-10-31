@@ -87,9 +87,9 @@ const ActiveBlog = () => {
     <div>
       {active !== `` &&
         active.map((el) => {
-          let author = el.author;
+          let author = el.author?.name ? el.author.name.split(" ")[0] : "";
+          //  el.author?.name.split(` `)[0];
           console.log(`check ${el.author}`);
-          // ?.name.split(` `)[0];
           return (
             <div className="p-2 border-2 w-[90%] bg-blue-100 border-gray-400 rounded-2xl m-auto my-4 ">
               {modaltoggle === true && (
@@ -204,7 +204,10 @@ const ActiveBlog = () => {
                       onChange={(e) => OnEditHandle(el._id, "content", e)}
                     />
                   ) : (
-                    <p className="text-center p-3">{el.content}</p>
+                    <div
+                      className="text-center p-3"
+                      dangerouslySetInnerHTML={{ __html: el.content }}
+                    />
                   )}
                 </div>
 
@@ -281,7 +284,6 @@ const ActiveBlog = () => {
                   </button>
                   <button
                     onClick={() => handleModal()}
-                    // onClick={() => HandleDelete(el._id)}
                     disabled={loginStstus === false || author !== activeAuthor}
                     className={`rounded-lg px-4 py-2 text-white m-4  ${
                       loginStstus === false || author !== activeAuthor
