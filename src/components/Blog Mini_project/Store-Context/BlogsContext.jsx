@@ -17,6 +17,17 @@ const BlogsContext = createContext({
   setSearchedData: () => {},
   activeAuthorId: ``,
   setActiveAuthorId: () => {},
+  start: ``,
+  end: ``,
+  handleNext: () => {},
+  handlePrev: () => {},
+  currentpage: ``,
+  handlePageChange: () => {},
+  handlePageChange: () => {},
+  onSubmitHandle: () => {},
+  LoginHandle: () => {},
+  loginError: ``,
+  toggleLoginButton: () => {},
 });
 
 export default BlogsContext;

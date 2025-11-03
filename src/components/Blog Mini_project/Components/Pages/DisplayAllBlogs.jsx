@@ -5,8 +5,7 @@ import { useContext } from "react";
 import BlogsContext from "../../Store-Context/BlogsContext";
 import { Link } from "react-router-dom";
 const DisplayAllBlogs = () => {
-  let { setActiveId } = useContext(BlogsContext);
-  let { recivedBlogs } = useContext(BlogsContext);
+  let { setActiveId, recivedBlogs, start, end } = useContext(BlogsContext);
 
   function getFirstWords(text, count) {
     return text.split(" ").slice(0, count).join(" ") + "    ...ReadMore";
@@ -21,7 +20,7 @@ const DisplayAllBlogs = () => {
       <div>
         {recivedBlogs !== undefined &&
           recivedBlogs !== null &&
-          recivedBlogs.map((el) => {
+          recivedBlogs.slice(start, end).map((el) => {
             return (
               <Link to={`activeBlog/%${el._id}`}>
                 <button onClick={() => HandleActive(el._id)}>

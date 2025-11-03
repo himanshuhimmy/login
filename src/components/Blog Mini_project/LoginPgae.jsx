@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Outlet, useNavigate, Link } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Modal from "./Reusable/Modal";
 import Sidebar from "./Components/Sidebar";
 import Suggesions from "./Components/Suggesions";
 import BlogsContext from "./Store-Context/BlogsContext";
-import ListAllAuthors from "./Components/Pages/ListAllAuthors";
+
+import PaginationComp from "./Components/Pages/PaginationComp";
+import LoginLanding from "./Components/Pages/LoginLanding";
 
 const LoginPgae = () => {
   let loginDetails = [
@@ -19,6 +20,7 @@ const LoginPgae = () => {
   let [activeAuthor, setActiveAuthor] = useState(``);
   let [loginStstus, SetLoginStatus] = useState(true);
   let [activeId, setActiveId] = useState(``);
+  let [toggleLandingLogin, SetToggleLandingLogin] = useState(false);
 
   // For Authors collection
   let [activeAuthorId, setActiveAuthorId] = useState(null);
@@ -31,9 +33,34 @@ const LoginPgae = () => {
     title: ``,
   });
 
-  // local state for title input; only search on Enter
-  let [titleInput, setTitleInput] = useState("");
+  let [currentpage, setCurrentPage] = useState(0);
 
+  const TotalPageSize = 5;
+  const TotalProducts = recivedBlogs ? recivedBlogs.length : 0;
+  const NoOfPages = Math.ceil(TotalProducts / TotalPageSize);
+  const start = currentpage * TotalPageSize;
+  const end = start + TotalPageSize;
+
+  function handlePageChange(n) {
+    setCurrentPage(n);
+  }
+
+  function handleNext() {
+    if (currentpage === 6) {
+      setCurrentPage(0);
+    } else {
+      setCurrentPage((prev) => prev + 1);
+    }
+  }
+  function handlePrev() {
+    if (currentpage === 0) {
+      setCurrentPage(6);
+    } else {
+      setCurrentPage((prev) => prev - 1);
+    }
+  }
+
+  let [titleInput, setTitleInput] = useState("");
   let [searchedNameGenre, setSearchedNameGenre] = useState(false);
 
   useEffect(() => {
@@ -63,10 +90,11 @@ const LoginPgae = () => {
   }, [serchedData, recivedBlogs]);
 
   function toggleLoginButton() {
+    if (!loginStstus) {
+      SetToggleLandingLogin(!toggleLandingLogin);
+    }
     if (loginStstus) {
       SetLoginStatus(false);
-    } else {
-      setModalStatus(!modalStatus);
     }
   }
 
@@ -92,16 +120,16 @@ const LoginPgae = () => {
     if (CompareId) {
       setActiveAuthor(username);
       SetLoginStatus(true);
+      SetToggleLandingLogin(false);
       setModalStatus(false);
     } else {
       setLoginError("Invalid username or password!");
     }
   }
-  console.log(activeAuthor);
+
   const navigate = useNavigate();
 
   function handleOnchange(e, field) {
-    // author/genre search happens immediately
     if (field === "author" || field === "genre") {
       navigate(`/searchedBlogs`);
       setSearchedData((prev) => ({ ...prev, [field]: e }));
@@ -115,7 +143,6 @@ const LoginPgae = () => {
         navigate(`/searchedBlogs`);
         setSearchedData((prev) => ({ ...prev, title: value }));
       } else {
-        // clear title search if input is empty and Enter pressed
         setSearchedData((prev) => ({ ...prev, title: "" }));
       }
     }
@@ -133,6 +160,16 @@ const LoginPgae = () => {
     setSearchedData,
     setActiveAuthorId,
     activeAuthorId,
+    start,
+    end,
+    handleNext,
+    handlePrev,
+    currentpage,
+    handlePageChange,
+    onSubmitHandle,
+    LoginHandle,
+    loginError,
+    toggleLoginButton,
   };
 
   return (
@@ -141,14 +178,16 @@ const LoginPgae = () => {
         <div className="flex justify-between">
           <div className="flex">
             <h1 className="p-1 text-2xl font-bold ml-6">Blogs For You</h1>
-            <input
-              value={titleInput}
-              onChange={(e) => setTitleInput(e.target.value)}
-              onKeyDown={handleTitleKeyDown}
-              className="ml-3 p-2 rounded-2xl"
-              placeholder="Search Title"
-              type="text"
-            />
+            {!toggleLandingLogin && (
+              <input
+                value={titleInput}
+                onChange={(e) => setTitleInput(e.target.value)}
+                onKeyDown={handleTitleKeyDown}
+                className="ml-3 p-2 rounded-2xl"
+                placeholder="Search Title"
+                type="text"
+              />
+            )}
           </div>
           <div className="mr-4">
             <button
@@ -161,60 +200,24 @@ const LoginPgae = () => {
         </div>
       </header>
 
-      {modalStatus === true && (
-        <Modal ststus={modalStatus}>
-          <div className="p-5 bg-slate-100 rounded-xl">
-            <h1 className="text-center mb-5 font-semibold text-xl">Login</h1>
-            <form onSubmit={onSubmitHandle}>
-              {loginError && (
-                <p className="text-red-500 text-center mb-2">{loginError}</p>
-              )}
-              <div className="flex flex-col justify-between">
-                <input
-                  className={InputClass}
-                  onChange={(e) => LoginHandle("username", e.target.value)}
-                  required
-                  minLength={4}
-                  placeholder="User Name"
-                  type="text"
-                />
-                <input
-                  className={InputClass}
-                  onChange={(e) => LoginHandle("password", e.target.value)}
-                  required
-                  minLength={4}
-                  placeholder="Password"
-                  type="text"
-                />
-              </div>
-
-              <button className="bg-green-300 text-white px-3 py-2 rounded-lg">
-                Login
-              </button>
-              <button
-                type="button"
-                onClick={toggleLoginButton}
-                className="bg-red-400 text-white px-3 py-2 rounded-lg mx-2"
-              >
-                back
-              </button>
-            </form>
-          </div>
-        </Modal>
-      )}
       <BlogsContext.Provider value={ctxValue}>
-        <div className="flex mt-2">
-          <div className="w-[20%] h-svh bg-slate-300 rounded-r-lg">
-            <Sidebar handleOnchange={handleOnchange} />
+        {toggleLandingLogin === true ? (
+          <LoginLanding />
+        ) : (
+          <div className="flex mt-2">
+            <div className="w-[20%] h-svh bg-slate-300 rounded-r-lg">
+              <Sidebar handleOnchange={handleOnchange} />
+            </div>
+            <div className="w-[65%]">
+              <h1 className="font-bold text-2xl text-center mb-4">Blogs</h1>
+              <PaginationComp />
+              <Outlet />
+            </div>
+            <div className="w-[15%] h-svh bg-slate-100 rounded-l-lg">
+              <Suggesions />
+            </div>
           </div>
-          <div className="w-[65%]">
-            <h1 className="font-bold text-2xl text-center mb-4">Blogs</h1>
-            <Outlet />
-          </div>
-          <div className="w-[15%] h-svh bg-slate-100 rounded-l-lg">
-            <Suggesions />
-          </div>
-        </div>
+        )}
       </BlogsContext.Provider>
     </div>
   );

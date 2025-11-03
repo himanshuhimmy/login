@@ -50,6 +50,7 @@ import AddBlog from "./components/Blog Mini_project/Components/Pages/AddBlog";
 import AddAuthor from "./components/Blog Mini_project/Components/Pages/AddAuthor";
 import OperationAuthors from "./components/Blog Mini_project/Components/Pages/OperationAuthors";
 import EditAuthor from "./components/Blog Mini_project/Components/Pages/EditAuthor";
+import LoginLanding from "./components/Blog Mini_project/Components/Pages/LoginLanding";
 
 let router = createBrowserRouter([
   {
@@ -83,6 +84,10 @@ let router = createBrowserRouter([
       {
         path: "EditAuthor/:id",
         element: <EditAuthor />,
+      },
+      {
+        path: "LoginLanding",
+        element: <LoginLanding />,
       },
     ],
   },
