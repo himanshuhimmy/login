@@ -28,6 +28,10 @@ const BlogsContext = createContext({
   LoginHandle: () => {},
   loginError: ``,
   toggleLoginButton: () => {},
+  activeAuthor: ``,
+  setActiveAuthor: () => {},
+  authorsList: ``,
+  setAuthorsList: () => {},
 });
 
 export default BlogsContext;

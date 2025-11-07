@@ -4,6 +4,8 @@ import ListingAuthors from "./Pages/ListingAuthors";
 import AddAuthor from "./Pages/AddAuthor";
 import Authors from "./Pages/Authors";
 import { Link, NavLink } from "react-router-dom";
+import AuthorSiderbarComp from "./Pages/AuthorSiderbarComp";
+import BlogsSidebarComp from "./Pages/BlogsSidebarComp";
 
 const Sidebar = ({ handleOnchange }) => {
   const authors = [
@@ -32,9 +34,11 @@ const Sidebar = ({ handleOnchange }) => {
     <div className="w-full ">
       {loginStstus === true ? (
         <div>
-          <ListingAuthors />
-          <Authors />
-          <div className="m-4">
+          <AuthorSiderbarComp />
+          <BlogsSidebarComp />
+          {/* <ListingAuthors />
+          <Authors /> */}
+          {/* <div className="m-4">
             <h1 className="text-xl font-semibold text-center mb-3">
               Add A New Blog
             </h1>
@@ -48,7 +52,7 @@ const Sidebar = ({ handleOnchange }) => {
             >
               + Add A Blog
             </NavLink>
-          </div>
+          </div> */}
         </div>
       ) : (
         <>

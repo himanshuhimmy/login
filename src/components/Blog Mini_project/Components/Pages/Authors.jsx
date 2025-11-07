@@ -6,10 +6,7 @@ const Authors = () => {
   let { recivedBlogs } = useContext(BlogsContext);
 
   return (
-    <div className="mt-3">
-      <h1 className="text-center font-semibold text-xl mb-4">
-        Add A New Author
-      </h1>
+    <div className="mt-2">
       <NavLink
         to="addAuthor"
         className={({ isActive }) =>

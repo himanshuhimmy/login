@@ -15,8 +15,8 @@ const LoginPgae = () => {
     { id: 3, username: `Deepraj`, password: `gupta` },
     { id: 4, username: `Guts`, password: `beserk` },
   ];
-  let InputClass = "rounded-xl m-4 p-1";
 
+  let [authorsList, setAuthorsList] = useState(null);
   let [activeAuthor, setActiveAuthor] = useState(``);
   let [loginStstus, SetLoginStatus] = useState(true);
   let [activeId, setActiveId] = useState(``);
@@ -61,7 +61,6 @@ const LoginPgae = () => {
   }
 
   let [titleInput, setTitleInput] = useState("");
-  let [searchedNameGenre, setSearchedNameGenre] = useState(false);
 
   useEffect(() => {
     let data = async () => {
@@ -73,21 +72,12 @@ const LoginPgae = () => {
   }, []);
 
   useEffect(() => {
-    if (!recivedBlogs) return;
-
-    let filtered = recivedBlogs.filter((blog) => {
-      let Title = blog.title
-        .toLowerCase()
-        .split(` `)
-        .includes(serchedData.title);
-      let Author = blog.author === serchedData.author;
-      let Genre = blog.genre === serchedData.genre;
-
-      return Author || Genre || Title;
-    });
-
-    // setSearchedNameGenre(filtered);
-  }, [serchedData, recivedBlogs]);
+    let data = async () => {
+      let response = await axios.get("http://localhost:7000/fetchAuthors");
+      setAuthorsList(response.data);
+    };
+    data();
+  }, []);
 
   function toggleLoginButton() {
     if (!loginStstus) {
@@ -110,15 +100,20 @@ const LoginPgae = () => {
       password = value;
     }
   }
-
   function onSubmitHandle(e) {
     e.preventDefault();
-    let CompareId = loginDetails.find(
+
+    const CompareId = loginDetails.find(
       (el) => el.username === username && el.password === password
     );
 
+    const authorIdActive =
+      authorsList
+        ?.filter((el) => el.name.split(" ")[0] === username)
+        .map((el) => el._id) || [];
+
     if (CompareId) {
-      setActiveAuthor(username);
+      setActiveAuthor(authorIdActive[0] || null);
       SetLoginStatus(true);
       SetToggleLandingLogin(false);
       setModalStatus(false);
@@ -170,6 +165,10 @@ const LoginPgae = () => {
     LoginHandle,
     loginError,
     toggleLoginButton,
+    activeAuthor,
+    setActiveAuthor,
+    authorsList,
+    setAuthorsList,
   };
 
   return (

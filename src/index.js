@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 
@@ -51,6 +51,9 @@ import AddAuthor from "./components/Blog Mini_project/Components/Pages/AddAuthor
 import OperationAuthors from "./components/Blog Mini_project/Components/Pages/OperationAuthors";
 import EditAuthor from "./components/Blog Mini_project/Components/Pages/EditAuthor";
 import LoginLanding from "./components/Blog Mini_project/Components/Pages/LoginLanding";
+import ViewAuthors from "./components/Blog Mini_project/Components/Pages/ViewAuthors";
+import BlogsOprations from "./components/Blog Mini_project/Components/Pages/BlogsOprations";
+import EditLoginBLog from "./components/Blog Mini_project/Components/Pages/EditLoginBLog";
 
 let router = createBrowserRouter([
   {
@@ -86,11 +89,21 @@ let router = createBrowserRouter([
         element: <EditAuthor />,
       },
       {
-        path: "LoginLanding",
-        element: <LoginLanding />,
+        path: "viewAuthors",
+        element: <ViewAuthors />,
+      },
+      {
+        path: "BlogsOprations",
+        element: <BlogsOprations />,
+      },
+      {
+        path: "EditLoginBLog/:id",
+        element: <EditLoginBLog />,
       },
     ],
   },
 ]);
 
-ReactDOM.createRoot(root).render(<RouterProvider router={router} />);
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <RouterProvider router={router} />
+);
