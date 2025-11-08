@@ -7,6 +7,7 @@ import axios from "axios";
 const BlogsOprations = () => {
   let {
     setActiveId,
+    activeId,
     recivedBlogs,
     start,
     end,
@@ -14,6 +15,13 @@ const BlogsOprations = () => {
     setActiveAuthor,
     activeAuthor,
   } = useContext(BlogsContext);
+
+  const getAuthorId = (author) => {
+    if (!author) return null;
+    if (typeof author === "string") return author;
+    if (author._id) return author._id.toString();
+    return null;
+  };
 
   function HandleActive(id, authorId) {
     setActiveId(id);
@@ -73,8 +81,11 @@ const BlogsOprations = () => {
               second: "2-digit",
               hour12: true,
             });
+            const authorId = getAuthorId(el.author);
+            const isAuthorMatch = activeAuthor === authorId;
+
             return (
-              <div className="block w-full m-3 text-left">
+              <div key={el._id} className="block w-full m-3 text-left">
                 <div className="p-3 bg-teal-100 rounded-xl w-full">
                   <div className="flex">
                     <div className="w-[70%] my-3">
@@ -101,25 +112,26 @@ const BlogsOprations = () => {
                       <div className="flex  justify-evenly">
                         <NavLink to={`/EditLoginBLog/%${el._id}`}>
                           <button
-                            disabled={activeAuthor !== el.author}
-                            onClick={() => HandleActive(el._id, el.author)}
+                            disabled={!isAuthorMatch}
+                            onClick={() => HandleActive(el._id, authorId)}
                             className={`px-4 py-2 m-4 rounded-lg text-white transition-all duration-300 ${
-                              activeAuthor !== el.author
-                                ? "bg-green-200 "
+                              !isAuthorMatch
+                                ? "bg-green-200 cursor-not-allowed"
                                 : "bg-green-400 hover:bg-green-600"
                             }`}
                           >
-                            {console.log(`Author ${el.author._id}`)}
-                            {console.log(`active author ${activeAuthor}`)}
                             Edit
                           </button>
                         </NavLink>
                         <button
-                          disabled={activeAuthor !== el.author}
-                          onClick={() => handleModal()}
+                          disabled={!isAuthorMatch}
+                          onClick={() => {
+                            setActiveId(el._id);
+                            handleModal();
+                          }}
                           className={`px-4 py-2 m-4 rounded-lg text-white transition-all duration-300 ${
-                            activeAuthor !== el.author
-                              ? "bg-red-200 "
+                            !isAuthorMatch
+                              ? "bg-red-200 cursor-not-allowed"
                               : "bg-red-400 hover:bg-red-600"
                           }`}
                         >

@@ -54,6 +54,7 @@ import LoginLanding from "./components/Blog Mini_project/Components/Pages/LoginL
 import ViewAuthors from "./components/Blog Mini_project/Components/Pages/ViewAuthors";
 import BlogsOprations from "./components/Blog Mini_project/Components/Pages/BlogsOprations";
 import EditLoginBLog from "./components/Blog Mini_project/Components/Pages/EditLoginBLog";
+import RequiredAuth from "./components/Blog Mini_project/RequiredAuth";
 
 let router = createBrowserRouter([
   {
@@ -74,31 +75,59 @@ let router = createBrowserRouter([
       },
       {
         path: "addBlog",
-        element: <AddBlog />,
+        element: (
+          <RequiredAuth>
+            <AddBlog />,
+          </RequiredAuth>
+        ),
       },
       {
         path: "addAuthor",
-        element: <AddAuthor />,
+        element: (
+          <RequiredAuth>
+            <AddAuthor />,
+          </RequiredAuth>
+        ),
       },
       {
         path: "OperationAuthors",
-        element: <OperationAuthors />,
+        element: (
+          <RequiredAuth>
+            <OperationAuthors />,
+          </RequiredAuth>
+        ),
       },
       {
         path: "EditAuthor/:id",
-        element: <EditAuthor />,
+        element: (
+          <RequiredAuth>
+            <EditAuthor />,
+          </RequiredAuth>
+        ),
       },
       {
         path: "viewAuthors",
-        element: <ViewAuthors />,
+        element: (
+          <RequiredAuth>
+            <ViewAuthors />,
+          </RequiredAuth>
+        ),
       },
       {
         path: "BlogsOprations",
-        element: <BlogsOprations />,
+        element: (
+          <RequiredAuth>
+            <BlogsOprations />,
+          </RequiredAuth>
+        ),
       },
       {
         path: "EditLoginBLog/:id",
-        element: <EditLoginBLog />,
+        element: (
+          <RequiredAuth>
+            <EditLoginBLog />,
+          </RequiredAuth>
+        ),
       },
     ],
   },

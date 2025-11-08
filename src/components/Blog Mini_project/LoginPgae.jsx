@@ -18,8 +18,20 @@ const LoginPgae = () => {
 
   let [authorsList, setAuthorsList] = useState(null);
   let [activeAuthor, setActiveAuthor] = useState(``);
-  let [loginStstus, SetLoginStatus] = useState(true);
-  let [activeId, setActiveId] = useState(``);
+
+  let [loginStstus, SetLoginStatus] = useState(() => {
+    return localStorage.getItem("loginStstus") || false;
+  });
+  useEffect(() => {
+    localStorage.setItem("loginStatus", JSON.stringify(loginStstus));
+  }, [loginStstus]);
+
+  let [activeId, setActiveId] = useState(() => {
+    return localStorage.getItem("activeId") || "";
+  });
+  useEffect(() => {
+    localStorage.setItem("loginStatus", JSON.stringify(activeId));
+  }, [activeId]);
   let [toggleLandingLogin, SetToggleLandingLogin] = useState(false);
 
   // For Authors collection
