@@ -6,6 +6,7 @@ import Authors from "./Pages/Authors";
 import { Link, NavLink } from "react-router-dom";
 import AuthorSiderbarComp from "./Pages/AuthorSiderbarComp";
 import BlogsSidebarComp from "./Pages/BlogsSidebarComp";
+import Test from "./Test";
 
 const Sidebar = ({ handleOnchange }) => {
   const authors = [
@@ -36,23 +37,6 @@ const Sidebar = ({ handleOnchange }) => {
         <div>
           <AuthorSiderbarComp />
           <BlogsSidebarComp />
-          {/* <ListingAuthors />
-          <Authors /> */}
-          {/* <div className="m-4">
-            <h1 className="text-xl font-semibold text-center mb-3">
-              Add A New Blog
-            </h1>
-            <NavLink
-              to="/addBlog"
-              className={({ isActive }) =>
-                isActive
-                  ? "bg-slate-500 px-4 py-2 rounded-md"
-                  : "bg-slate-400 px-3 py-2 rounded-lg"
-              }
-            >
-              + Add A Blog
-            </NavLink>
-          </div> */}
         </div>
       ) : (
         <>
@@ -87,6 +71,7 @@ const Sidebar = ({ handleOnchange }) => {
           </div>
         </>
       )}
+      <Test />
     </div>
   );
 };

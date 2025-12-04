@@ -18,19 +18,21 @@ const LoginPgae = () => {
 
   let [authorsList, setAuthorsList] = useState(null);
   let [activeAuthor, setActiveAuthor] = useState(``);
+  let [authorRole, setAuthorRole] = useState(null);
 
   let [loginStstus, SetLoginStatus] = useState(() => {
-    return localStorage.getItem("loginStstus") || false;
+    const stored = localStorage.getItem("loginStstus");
+    return stored ? JSON.parse(stored) : false;
   });
   useEffect(() => {
-    localStorage.setItem("loginStatus", JSON.stringify(loginStstus));
+    localStorage.setItem("loginStstus", JSON.stringify(loginStstus));
   }, [loginStstus]);
 
   let [activeId, setActiveId] = useState(() => {
     return localStorage.getItem("activeId") || "";
   });
   useEffect(() => {
-    localStorage.setItem("loginStatus", JSON.stringify(activeId));
+    localStorage.setItem("activeId", activeId);
   }, [activeId]);
   let [toggleLandingLogin, SetToggleLandingLogin] = useState(false);
 
@@ -83,6 +85,18 @@ const LoginPgae = () => {
     data();
   }, []);
 
+  let [loggedInUsername, setLoggedInUsername] = useState(() => {
+    return localStorage.getItem("loggedInUsername") || "";
+  });
+
+  useEffect(() => {
+    let data = async () => {
+      let response = await axios.get(`http://localhost:7000/getAuthorRoles`);
+      setAuthorRole(response.data);
+    };
+    data();
+  }, []);
+
   useEffect(() => {
     let data = async () => {
       let response = await axios.get("http://localhost:7000/fetchAuthors");
@@ -91,12 +105,40 @@ const LoginPgae = () => {
     data();
   }, []);
 
+  useEffect(() => {
+    if (
+      loginStstus &&
+      authorsList &&
+      authorsList.length > 0 &&
+      loggedInUsername &&
+      (!activeAuthor || activeAuthor === "")
+    ) {
+      const authorIdActive =
+        authorsList
+          .filter((el) => el.name.split(" ")[0] === loggedInUsername)
+          .map((el) => el._id) || [];
+
+      if (authorIdActive.length > 0) {
+        const authorIdString = String(authorIdActive[0]);
+        setActiveAuthor(authorIdString);
+        console.log("Set activeAuthor from useEffect:", {
+          loggedInUsername,
+          authorId: authorIdString,
+          authorIdType: typeof authorIdString,
+        });
+      }
+    }
+  }, [loginStstus, authorsList, loggedInUsername, activeAuthor]);
+
   function toggleLoginButton() {
     if (!loginStstus) {
       SetToggleLandingLogin(!toggleLandingLogin);
     }
     if (loginStstus) {
       SetLoginStatus(false);
+      setActiveAuthor("");
+      setLoggedInUsername("");
+      localStorage.removeItem("loggedInUsername");
     }
   }
 
@@ -119,13 +161,33 @@ const LoginPgae = () => {
       (el) => el.username === username && el.password === password
     );
 
-    const authorIdActive =
-      authorsList
-        ?.filter((el) => el.name.split(" ")[0] === username)
-        .map((el) => el._id) || [];
-
     if (CompareId) {
-      setActiveAuthor(authorIdActive[0] || null);
+      setLoggedInUsername(username);
+      localStorage.setItem("loggedInUsername", username);
+
+      if (authorsList && authorsList.length > 0) {
+        const authorIdActive =
+          authorsList
+            .filter((el) => el.name.split(" ")[0] === username)
+            .map((el) => el._id) || [];
+
+        if (authorIdActive.length > 0) {
+          // Ensure we store as string to avoid type comparison issues
+          const authorIdString = String(authorIdActive[0]);
+          setActiveAuthor(authorIdString);
+          console.log("Set activeAuthor on login:", {
+            username,
+            authorId: authorIdString,
+            authorIdType: typeof authorIdString,
+            rawId: authorIdActive[0],
+          });
+        } else {
+          setActiveAuthor("");
+          console.warn(`Author not found for username: ${username}`);
+        }
+      } else {
+        setActiveAuthor("");
+      }
       SetLoginStatus(true);
       SetToggleLandingLogin(false);
       setModalStatus(false);
@@ -181,6 +243,7 @@ const LoginPgae = () => {
     setActiveAuthor,
     authorsList,
     setAuthorsList,
+    authorRole,
   };
 
   return (

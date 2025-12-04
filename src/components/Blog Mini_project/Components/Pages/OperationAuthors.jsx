@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import BlogsContext from "../../Store-Context/BlogsContext";
 import axios from "axios";
 import { ReactComponent as Gmail } from "../../svg/gmail.svg";
@@ -9,7 +9,7 @@ import Modal from "../../Reusable/Modal";
 const OperationAuthors = () => {
   let [currentAuthor, setCurrentAuthor] = useState(null);
   let [toggle, setToggle] = useState(false);
-  let { activeAuthorId } = useContext(BlogsContext);
+  let { activeAuthorId, activeAuthor } = useContext(BlogsContext);
 
   useEffect(() => {
     let data = async () => {
@@ -34,6 +34,22 @@ const OperationAuthors = () => {
   let AuthorFilter =
     currentAuthor !== null &&
     currentAuthor.filter((el) => el._id === activeAuthorId);
+
+  const isAuthorMatch = useMemo(() => {
+    const normalizedActiveAuthorId = activeAuthorId
+      ? String(activeAuthorId).trim()
+      : "";
+    const normalizedActiveAuthor = activeAuthor
+      ? String(activeAuthor).trim()
+      : "";
+
+    const match =
+      normalizedActiveAuthorId === normalizedActiveAuthor &&
+      normalizedActiveAuthor !== "" &&
+      normalizedActiveAuthorId !== "";
+
+    return match;
+  }, [activeAuthorId, activeAuthor]);
 
   return (
     <div>
@@ -92,13 +108,25 @@ const OperationAuthors = () => {
                 </div>
                 <div className="text-center">
                   <NavLink to={`/EditAuthor/${el._id}`}>
-                    <button className="bg-green-200 rounded-xl py-2 px-3 mx-2">
+                    <button
+                      disabled={!isAuthorMatch}
+                      className={`rounded-xl py-2 px-3 mx-2 ${
+                        isAuthorMatch
+                          ? "bg-green-400 hover:bg-green-500 cursor-pointer"
+                          : "bg-green-200 opacity-50 cursor-not-allowed"
+                      }`}
+                    >
                       Edit
                     </button>
                   </NavLink>
                   <button
+                    disabled={!isAuthorMatch}
                     onClick={ModalToggle}
-                    className="bg-red-200 rounded-xl py-2 px-3 mx-2"
+                    className={`rounded-xl py-2 px-3 mx-2 ${
+                      isAuthorMatch
+                        ? "bg-red-400 hover:bg-red-500 cursor-pointer"
+                        : "bg-red-200 opacity-50 cursor-not-allowed"
+                    }`}
                   >
                     Delete
                   </button>

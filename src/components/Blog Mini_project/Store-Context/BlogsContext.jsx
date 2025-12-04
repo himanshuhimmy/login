@@ -32,6 +32,7 @@ const BlogsContext = createContext({
   setActiveAuthor: () => {},
   authorsList: ``,
   setAuthorsList: () => {},
+  authorRole: "",
 });
 
 export default BlogsContext;

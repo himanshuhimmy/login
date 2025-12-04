@@ -55,6 +55,7 @@ import ViewAuthors from "./components/Blog Mini_project/Components/Pages/ViewAut
 import BlogsOprations from "./components/Blog Mini_project/Components/Pages/BlogsOprations";
 import EditLoginBLog from "./components/Blog Mini_project/Components/Pages/EditLoginBLog";
 import RequiredAuth from "./components/Blog Mini_project/RequiredAuth";
+import LoggedinPAge from "./components/Blog Mini_project/Components/Pages/LoggedinPAge";
 
 let router = createBrowserRouter([
   {
@@ -74,10 +75,14 @@ let router = createBrowserRouter([
         element: <ActiveBlog />,
       },
       {
+        path: "LoginLanding",
+        element: <LoginLanding />,
+      },
+      {
         path: "addBlog",
         element: (
           <RequiredAuth>
-            <AddBlog />,
+            <AddBlog />
           </RequiredAuth>
         ),
       },
@@ -85,7 +90,7 @@ let router = createBrowserRouter([
         path: "addAuthor",
         element: (
           <RequiredAuth>
-            <AddAuthor />,
+            <AddAuthor />
           </RequiredAuth>
         ),
       },
@@ -93,7 +98,7 @@ let router = createBrowserRouter([
         path: "OperationAuthors",
         element: (
           <RequiredAuth>
-            <OperationAuthors />,
+            <OperationAuthors />
           </RequiredAuth>
         ),
       },
@@ -101,7 +106,7 @@ let router = createBrowserRouter([
         path: "EditAuthor/:id",
         element: (
           <RequiredAuth>
-            <EditAuthor />,
+            <EditAuthor />
           </RequiredAuth>
         ),
       },
@@ -109,7 +114,7 @@ let router = createBrowserRouter([
         path: "viewAuthors",
         element: (
           <RequiredAuth>
-            <ViewAuthors />,
+            <ViewAuthors />
           </RequiredAuth>
         ),
       },
@@ -117,7 +122,7 @@ let router = createBrowserRouter([
         path: "BlogsOprations",
         element: (
           <RequiredAuth>
-            <BlogsOprations />,
+            <BlogsOprations />
           </RequiredAuth>
         ),
       },
@@ -125,7 +130,16 @@ let router = createBrowserRouter([
         path: "EditLoginBLog/:id",
         element: (
           <RequiredAuth>
-            <EditLoginBLog />,
+            <EditLoginBLog />
+          </RequiredAuth>
+        ),
+      },
+
+      {
+        path: "LoggedinPAge",
+        element: (
+          <RequiredAuth>
+            <LoggedinPAge />
           </RequiredAuth>
         ),
       },

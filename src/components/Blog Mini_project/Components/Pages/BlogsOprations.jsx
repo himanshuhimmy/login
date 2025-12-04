@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import BlogsContext from "../../Store-Context/BlogsContext";
 import { NavLink } from "react-router-dom";
 import Modal from "../../Reusable/Modal";
@@ -14,7 +14,16 @@ const BlogsOprations = () => {
     setRecivedBlogs,
     setActiveAuthor,
     activeAuthor,
+    authorRole,
   } = useContext(BlogsContext);
+
+  let [rolesState, setRolesState] = useState({
+    manager: false,
+    editor: false,
+    writer: false,
+  });
+
+  let [rolesId, setRolesId] = useState(``);
 
   const getAuthorId = (author) => {
     if (!author) return null;
@@ -42,6 +51,60 @@ const BlogsOprations = () => {
     setModalToggle(!modaltoggle);
     setActiveId(``);
   }
+  useEffect(() => {
+    authorRole !== null &&
+      authorRole.map((el) =>
+        el.authorRoles.filter((a) =>
+          String(activeAuthor).trim() === String(a.authorId).trim()
+            ? setRolesState(a.roles)
+            : ``
+        )
+      );
+
+    authorRole !== null &&
+      authorRole.map((el) => el.authorRoles.manager === true);
+  }, [activeAuthor, authorRole]);
+
+  console.log(authorRole);
+
+  // Helper function to check if an author is a manager
+  const isAuthorManager = (authorId) => {
+    if (!authorId || !authorRole) return false;
+    const authorIdStr = String(authorId).trim();
+
+    for (const roleGroup of authorRole) {
+      if (roleGroup.authorRoles) {
+        const authorRoleData = roleGroup.authorRoles.find(
+          (a) => String(a.authorId).trim() === authorIdStr
+        );
+        if (authorRoleData && authorRoleData.roles?.manager === true) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  // Calculate disabled state for each blog
+  const getDisabledState = (blogAuthorId) => {
+    // If current user is a writer, always disabled
+    if (rolesState.writer === true) {
+      return true;
+    }
+
+    // If current user is an editor, disable if blog author is a manager
+    if (rolesState.editor === true) {
+      return isAuthorManager(blogAuthorId);
+    }
+
+    // If current user is a manager, never disabled (can edit all)
+    if (rolesState.manager === true) {
+      return false;
+    }
+
+    // Default: disabled if no valid role
+    return true;
+  };
 
   return (
     <div>
@@ -83,6 +146,7 @@ const BlogsOprations = () => {
             });
             const authorId = getAuthorId(el.author);
             const isAuthorMatch = activeAuthor === authorId;
+            const isDisabled = getDisabledState(authorId);
 
             return (
               <div key={el._id} className="block w-full m-3 text-left">
@@ -112,10 +176,10 @@ const BlogsOprations = () => {
                       <div className="flex  justify-evenly">
                         <NavLink to={`/EditLoginBLog/%${el._id}`}>
                           <button
-                            disabled={!isAuthorMatch}
+                            disabled={isDisabled}
                             onClick={() => HandleActive(el._id, authorId)}
                             className={`px-4 py-2 m-4 rounded-lg text-white transition-all duration-300 ${
-                              !isAuthorMatch
+                              isDisabled
                                 ? "bg-green-200 cursor-not-allowed"
                                 : "bg-green-400 hover:bg-green-600"
                             }`}
@@ -124,13 +188,13 @@ const BlogsOprations = () => {
                           </button>
                         </NavLink>
                         <button
-                          disabled={!isAuthorMatch}
+                          disabled={isDisabled}
                           onClick={() => {
                             setActiveId(el._id);
                             handleModal();
                           }}
                           className={`px-4 py-2 m-4 rounded-lg text-white transition-all duration-300 ${
-                            !isAuthorMatch
+                            isDisabled
                               ? "bg-red-200 cursor-not-allowed"
                               : "bg-red-400 hover:bg-red-600"
                           }`}

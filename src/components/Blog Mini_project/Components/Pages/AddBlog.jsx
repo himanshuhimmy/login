@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import BlogsContext from "../../Store-Context/BlogsContext";
 import { useForm, Controller } from "react-hook-form";
-import { z } from "zod";
+import { string, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import RichTextEditor from "./RichTextEditor";
 import { NavLink } from "react-router-dom";
@@ -29,8 +29,9 @@ const BlogSchema = z.object({
 });
 
 const AddBlog = () => {
-  const { activeAuthor, loginStstus } = useContext(BlogsContext);
+  const { activeAuthor, loginStstus, authorsList } = useContext(BlogsContext);
   const [file, setFile] = useState(null);
+  let [author, setauthor] = useState(``);
 
   const {
     register,
@@ -51,6 +52,9 @@ const AddBlog = () => {
       setFetchAuthor(response.data);
     };
     data();
+    if (authorsList !== null) {
+      setauthor(authorsList.filter((el) => el._id.toString() === activeAuthor));
+    }
   }, []);
 
   const InputClass = "rounded-xl mx-4 p-1";
@@ -102,7 +106,11 @@ const AddBlog = () => {
   return (
     <div className="bg-gray-200 m-4 rounded-lg p-5">
       <h1 className="p-3 font-semibold text-xl text-center">
-        {activeAuthor} Add Your Blog
+        {author !== `` &&
+          author.map((el) => (
+            <span className="mr-2 text-red-500">{el.name}</span>
+          ))}{" "}
+        Add Your Blog
       </h1>
       <form
         onSubmit={handleSubmit(onSubmit)}

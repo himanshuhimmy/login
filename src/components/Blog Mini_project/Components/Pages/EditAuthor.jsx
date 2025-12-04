@@ -128,7 +128,7 @@ const EditAuthor = () => {
               <button className="bg-teal-100 p-3 rounded-xl text-green-950 mx-3">
                 Done
               </button>
-              <NavLink to={".."}>
+              <NavLink to={"/OperationAuthors"}>
                 <button className="p-3 hover:text-red-500 transition-all">
                   Back
                 </button>
